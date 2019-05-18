@@ -23,6 +23,6 @@ defmodule DscrumWeb.Router do
   scope "/api", DscrumWeb do
     pipe_through :api
 
-    get "auth", AuthController, :check
+    post "signup", SignupController, :signup
   end
 end

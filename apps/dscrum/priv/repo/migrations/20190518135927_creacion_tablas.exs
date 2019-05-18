@@ -4,7 +4,7 @@ defmodule Dscrum.Repo.Migrations.CreacionTablas do
   def change do
 
     create table(:team) do
-      add :nombre, :string, size: 100
+      add :name, :string, size: 100
       add :logotype, :string, size: 200
       timestamps()
     end
@@ -16,7 +16,7 @@ defmodule Dscrum.Repo.Migrations.CreacionTablas do
       add :name, :string, size: 100
       add :surname, :string, size: 100
       add :password, :string, size: 500
-      add :foto, :string, size: 200
+      add :image, :string, size: 200
 
       add :team_id, references(:team)
       timestamps()
