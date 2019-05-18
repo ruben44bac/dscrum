@@ -1,4 +1,4 @@
-defmodule Dscrum.UsuarioSchema do
+defmodule Dscrum.UserSchema do
   use Ecto.Schema
   import Ecto.Changeset
 
