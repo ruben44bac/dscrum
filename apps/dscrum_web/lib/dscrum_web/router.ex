@@ -24,5 +24,6 @@ defmodule DscrumWeb.Router do
     pipe_through :api
 
     post "signup", SignupController, :signup
+    post "auth", AuthController, :login
   end
 end

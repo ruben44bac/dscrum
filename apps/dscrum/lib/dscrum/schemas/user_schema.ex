@@ -21,7 +21,14 @@ defmodule Dscrum.UserSchema do
       |> validate_required([:username, :phone, :mail, :name, :surname, :password],
         message: "El valor es requerido"
       )
-      |> foreign_key_constraint(:team_id, name: :user_team_id_fkey, message: "")
+      |> validate_length(:username, max: 150)
+      |> validate_length(:phone, max: 20)
+      |> validate_length(:mail, max: 120)
+      |> validate_length(:name, max: 100)
+      |> validate_length(:surname, max: 100)
+      |> validate_length(:password, max: 500)
+      |> validate_length(:image, max: 200)
+      |> foreign_key_constraint(:team_id, name: :user_team_id_fkey, message: "No hay equipo")
   end
 
 end

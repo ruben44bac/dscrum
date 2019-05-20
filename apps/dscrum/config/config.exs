@@ -8,3 +8,7 @@ config :dscrum,
   ecto_repos: [Dscrum.Repo]
 
 import_config "#{Mix.env()}.exs"
+
+config :dscrum, Dscrum.Guardian,
+       issuer: "dscrum",
+       secret_key: "Secret key. Use `mix guardian.gen.secret` to generate one"
