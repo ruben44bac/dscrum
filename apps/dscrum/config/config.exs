@@ -11,4 +11,4 @@ import_config "#{Mix.env()}.exs"
 
 config :dscrum, Dscrum.Guardian,
        issuer: "dscrum",
-       secret_key: "Secret key. Use `mix guardian.gen.secret` to generate one"
+       secret_key: "/Iucv/EHJJCBXZ89L4Z24Lffmingww8PXBTXT7C1fU1nSXwkzhVUddzBE7jcUEWJ"

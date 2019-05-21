@@ -2,7 +2,7 @@ defmodule DscrumWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:*", DscrumWeb.RoomChannel
+  channel "history:*", DscrumWeb.HistoryChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -15,9 +15,19 @@ defmodule DscrumWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket, _connect_info) do
+  def connect(%{"token" => token}, socket) do
+    case Guardian.Phoenix.Socket.authenticate(socket, Dscrum.Guardian, token) do
+      {:ok, authed_socket} ->
+        {:ok, authed_socket}
+      {:error, _} -> :error
+    end
+  end
+
+  # This function will be called when there was no authentication information
+  def connect(_params, socket) do
     {:ok, socket}
   end
+
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #

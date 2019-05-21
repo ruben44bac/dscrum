@@ -1,6 +1,8 @@
 defmodule DscrumWeb.Router do
   use DscrumWeb, :router
 
+  alias Dscrum.Guardian
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -13,6 +15,10 @@ defmodule DscrumWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :jwt_authenticated do
+    plug Guardian.AuthPipeline
+  end
+
   scope "/", DscrumWeb do
     pipe_through :browser
 
@@ -23,7 +29,13 @@ defmodule DscrumWeb.Router do
   scope "/api", DscrumWeb do
     pipe_through :api
 
-    post "signup", SignupController, :signup
-    post "auth", AuthController, :login
+    post "/signup", UserController, :signup
+    post "/auth", UserController, :login
+  end
+
+  scope "/api", DscrumWeb do
+    pipe_through [:api, :jwt_authenticated]
+
+    get "/user", UserController, :show
   end
 end

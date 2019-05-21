@@ -46,7 +46,8 @@ defmodule DscrumWeb.MixProject do
       {:dscrum, in_umbrella: true},
       {:jason, "~> 1.0"},
       {:cors_plug, "~> 1.5"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:exjsx, "~> 4.0.0"}
     ]
   end
 
