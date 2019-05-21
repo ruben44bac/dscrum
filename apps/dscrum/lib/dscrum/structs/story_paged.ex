@@ -1,6 +1,5 @@
 defmodule Dscrum.StoryPagedStruct do
-  @derive {Jason.Encoder, only: [:stories,
-  :total]}
+  @derive {Jason.Encoder, except: []}
   defstruct [
     :stories,
     :total

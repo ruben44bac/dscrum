@@ -9,8 +9,7 @@ defmodule Dscrum.HistoryHandler do
   }
 
   def list(%PagedCommand{} = command, socket) do
-
-    story_list = StoryQuery.paged_list(command.size, command.index, socket.assigns.team_id)
+    story_list = StoryQuery.paged_list(command.size, (command.size * command.index), socket.assigns.team_id)
       |> Repo.all
       |> Enum.map(fn(res) -> StoryStruct.new(res) end)
 
