@@ -3,7 +3,10 @@ defmodule DscrumWeb.HistoryChannel do
   alias DscrumWeb.Presence
   alias Dscrum.Repo
   alias Dscrum.UserSchema
-  alias Dscrum.PagedCommand
+  alias Dscrum.{
+    PagedCommand,
+    HistoryCommand
+  }
   alias Dscrum.HistoryHandler
 
   def join("history:" <> team_id, _params, socket) do
@@ -19,22 +22,23 @@ defmodule DscrumWeb.HistoryChannel do
       user_id: user.id,
       username: user.username
     })
-
     {:noreply, socket}
   end
-
 
   def handle_in("list", params, socket) do
     respuesta = params
       |> PagedCommand.new
       |> HistoryHandler.list(socket)
+    {:reply, {:ok, %{data: respuesta}}, socket}
+  end
 
+  def handle_in("add", params, socket) do
+    respuesta = params
+      |> HistoryCommand.new
+      |> HistoryHandler.new
 
-      IO.puts("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-      IO.inspect(respuesta)
-      IO.puts("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-
-      {:reply, {:ok, %{data: respuesta}}, socket}
+    broadcast!(socket, "new_story", respuesta)
+    {:reply, {:ok, %{data: "Registro exitoso de " <> respuesta.name }}, socket}
   end
 
 end

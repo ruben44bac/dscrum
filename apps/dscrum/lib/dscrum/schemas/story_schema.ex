@@ -14,7 +14,7 @@ defmodule Dscrum.StorySchema do
 
   def changeset(story, attrs) do
     story
-      |> cast(attrs, [:name, :date_start, :date_end, :difficulty_id])
+      |> cast(attrs, [:name, :date_start, :date_end, :difficulty_id, :team_id])
       |> validate_required([:name], message: "Valor requerido")
   end
 

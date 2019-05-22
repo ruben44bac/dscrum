@@ -10,7 +10,13 @@ defmodule Dscrum.UserHandler do
   end
 
   def get_user!(id) do
-    Repo.get!(UserSchema, id)
+
+    user = Repo.get!(UserSchema, id)
+    {:ok, file} = File.read(user.image)
+
+    user
+     |> Map.put(:image, Base.encode64(file))
+
   end
 
   def login(%AuthCommand{} = command) do
@@ -39,9 +45,18 @@ defmodule Dscrum.UserHandler do
       |> Repo.all()
 
     case (match == []) do
-      true -> Repo.insert(user)
+      true -> add(user)
       false -> {:error, "El usuario ya existe"}
     end
+  end
+
+  def add(user) do
+    {:ok, data} = Base.decode64(user.changes.image)
+    image_path = "C:/Users/ruben.baeza/Desktop/"<>user.changes.username<>".jpg"
+    File.write(image_path, data, [:binary])
+    user
+      |> Ecto.Changeset.put_change(:image, image_path)
+      |> Repo.insert
   end
 
 end

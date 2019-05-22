@@ -1,7 +1,10 @@
 defmodule Dscrum.HistoryHandler do
   alias Dscrum.Repo
-  #alias Dscrum.StorySchema
-  alias Dscrum.PagedCommand
+  alias Dscrum.StorySchema
+  alias Dscrum.{
+    PagedCommand,
+    HistoryCommand
+  }
   alias Dscrum.StoryQuery
   alias Dscrum.{
     StoryStruct,
@@ -19,7 +22,19 @@ defmodule Dscrum.HistoryHandler do
       |> StoryPagedStruct.new
       |> Map.put(:stories, story_list)
 
-      %{attributes: result}
+    %{attributes: result}
+  end
+
+  def new(%HistoryCommand{} = command) do
+
+    result = %StorySchema{}
+      |> StorySchema.changeset(Map.from_struct(command))
+      |> Repo.insert
+    case result do
+      {:ok, res} -> res
+        |> StoryStruct.new
+      {:error, res} -> %{error: res}
+    end
   end
 
 end

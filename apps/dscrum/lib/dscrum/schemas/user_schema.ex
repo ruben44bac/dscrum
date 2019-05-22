@@ -27,7 +27,6 @@ defmodule Dscrum.UserSchema do
       |> validate_length(:name, max: 100)
       |> validate_length(:surname, max: 100)
       |> validate_length(:password, max: 500)
-      |> validate_length(:image, max: 200)
       |> foreign_key_constraint(:team_id, name: :user_team_id_fkey, message: "No hay equipo")
   end
 
