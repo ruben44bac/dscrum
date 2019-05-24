@@ -2,7 +2,8 @@ defmodule DscrumWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "history:*", DscrumWeb.HistoryChannel
+  channel "history:*", DscrumWeb.StoryChannel
+  channel "story_detail:*", DscrumWeb.StoryDetailChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

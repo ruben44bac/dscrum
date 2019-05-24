@@ -16,7 +16,7 @@ defmodule Dscrum.Repo.Migrations.CreacionTablas do
       add :name, :string, size: 100
       add :surname, :string, size: 100
       add :password, :string, size: 500
-      add :image, :string, size: 200
+      add :image, :string, size: 500
 
       add :team_id, references(:team)
       timestamps()
@@ -39,12 +39,20 @@ defmodule Dscrum.Repo.Migrations.CreacionTablas do
       timestamps()
     end
 
-    create table(:user_story) do
+    create table(:story_iteration) do
+      add :iteration, :integer
+      add :difficulty_id, :integer
+
+      add :story_id, references(:story)
+      timestamps()
+    end
+
+    create table(:user_story_iteration) do
       add :difficulty_id, :integer
       add :description, :string, size: 300
 
       add :user_id, references(:user)
-      add :story_id, references(:story)
+      add :story_iteration_id, references(:story_iteration)
       timestamps()
     end
 

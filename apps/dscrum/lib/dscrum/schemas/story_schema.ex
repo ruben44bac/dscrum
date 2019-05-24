@@ -7,6 +7,7 @@ defmodule Dscrum.StorySchema do
     field :date_start, :naive_datetime
     field :date_end, :naive_datetime
     field :difficulty_id, :integer
+    field :complete, :boolean
 
     belongs_to :team, Dscrum.TeamSchema
     timestamps()
@@ -14,7 +15,7 @@ defmodule Dscrum.StorySchema do
 
   def changeset(story, attrs) do
     story
-      |> cast(attrs, [:name, :date_start, :date_end, :difficulty_id, :team_id])
+      |> cast(attrs, [:name, :date_start, :date_end, :difficulty_id, :team_id, :complete])
       |> validate_required([:name], message: "Valor requerido")
   end
 

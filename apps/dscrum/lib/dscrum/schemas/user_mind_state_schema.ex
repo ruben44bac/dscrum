@@ -11,7 +11,7 @@ defmodule Dscrum.UserMindStateSchema do
 
   def changeset(user_mind_state, attrs) do
     user_mind_state
-      |> cast(attrs, [:note])
+      |> cast(attrs, [:note, :user_id, :mind_state_id])
       |> validate_required([:note], message: "El valor es requerido")
   end
 

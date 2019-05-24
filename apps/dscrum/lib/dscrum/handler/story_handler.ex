@@ -1,9 +1,9 @@
-defmodule Dscrum.HistoryHandler do
+defmodule Dscrum.StoryHandler do
   alias Dscrum.Repo
   alias Dscrum.StorySchema
   alias Dscrum.{
     PagedCommand,
-    HistoryCommand
+    StoryCommand
   }
   alias Dscrum.StoryQuery
   alias Dscrum.{
@@ -25,10 +25,11 @@ defmodule Dscrum.HistoryHandler do
     %{attributes: result}
   end
 
-  def new(%HistoryCommand{} = command) do
-
+  def new(%StoryCommand{} = command) do
     result = %StorySchema{}
-      |> StorySchema.changeset(Map.from_struct(command))
+      |> StorySchema.changeset(Map.from_struct(
+        command
+          |> Map.put(:complete, false)))
       |> Repo.insert
     case result do
       {:ok, res} -> res
