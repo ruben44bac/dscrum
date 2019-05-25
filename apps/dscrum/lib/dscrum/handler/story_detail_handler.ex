@@ -1,13 +1,21 @@
 defmodule Dscrum.StoryDetailHandler do
   alias Dscrum.Repo
-  alias Dscrum.StoryQuery
-  alias Dscrum.StoryDetailStruct
+  alias Dscrum.{
+    StoryQuery,
+    StoryIterationQuery
+  }
+  alias Dscrum.{
+    StoryDetailStruct,
+    StoryUserStruct
+  }
 
   def index(socket) do
     users = StoryQuery.detail_story_user(socket.assigns.story_id, socket.assigns.guardian_default_resource.id)
       |> Repo.all
-
-    last_difficulty(users)
+      |> Enum.map(fn(res) ->
+          StoryUserStruct.new(res)
+            |> last_difficulty(socket.assigns.story_id)
+        end)
     socket.assigns.story_id
       |> StoryQuery.detail
       |> Repo.one
@@ -15,11 +23,14 @@ defmodule Dscrum.StoryDetailHandler do
       |> Map.put(:users, users)
   end
 
-  def last_difficulty([head | tail]) do
-    IO.puts("*/-/-*/*/*-/-/-/-*/-*/-*/*/***/-*/-*/-*/-*/*")
-    IO.inspect(head)
-    IO.puts("*/-/-*/*/*-/-/-/-*/-*/-*/*/***/-*/-*/-*/-*/*")
-    last_difficulty(tail)
+  def last_difficulty(%StoryUserStruct{} = command, story_id) do
+    difficulty = StoryIterationQuery.last_iteration_story(command.id, story_id)
+      |> Repo.one
+
+    command
+      |> Map.put(:online, false)
+      |> Map.put(:difficulty_name, difficulty.difficulty_name)
+      |> Map.put(:difficulty_id, difficulty.difficulty_id)
+
   end
-  def last_difficulty([]), do: nil
 end

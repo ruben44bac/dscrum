@@ -37,5 +37,6 @@ defmodule DscrumWeb.Router do
     pipe_through [:api, :jwt_authenticated]
 
     get "/user", UserController, :show
+    get "/user-image", UserController, :image
   end
 end

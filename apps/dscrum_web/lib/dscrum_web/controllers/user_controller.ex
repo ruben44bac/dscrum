@@ -22,10 +22,16 @@ defmodule DscrumWeb.UserController do
     end
   end
 
-  def show(conn, _params) do
+  def show(conn, _attrs) do
     user = Guardian.Plug.current_resource(conn)
     conn |> render("user.json", user: user)
- end
+  end
 
+  def image(conn, attrs) do
+    user = UserHandler.get_user(attrs["id"])
+    {:ok, file} = File.read(user.image)
+    conn
+    |> send_download({:binary, file}, filename: "user.jpg")
+  end
 
 end
