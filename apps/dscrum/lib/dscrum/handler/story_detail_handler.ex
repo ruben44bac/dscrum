@@ -48,7 +48,7 @@ defmodule Dscrum.StoryDetailHandler do
       |> Enum.map(fn(res) -> DifficultyStruct.new(res) end)
   end
 
-  def calificate(params, socket) do
+  def qualify(params, socket) do
     status = StoryQuery.status(socket.assigns.story_id)
               |> Repo.one
     case status do
