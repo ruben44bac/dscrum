@@ -14,5 +14,10 @@ defmodule Dscrum.UserQuery do
       u.username == ^username
   end
 
-
+  def user_team(team_id) do
+    from u in UserSchema,
+    where: u.team_id == ^team_id,
+    select: u.id,
+    order_by: [asc: u.id]
+  end
 end

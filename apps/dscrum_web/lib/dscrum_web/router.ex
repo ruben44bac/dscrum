@@ -31,12 +31,13 @@ defmodule DscrumWeb.Router do
 
     post "/signup", UserController, :signup
     post "/auth", UserController, :login
+    get "/user-image", UserController, :image
   end
 
   scope "/api", DscrumWeb do
     pipe_through [:api, :jwt_authenticated]
 
     get "/user", UserController, :show
-    get "/user-image", UserController, :image
+
   end
 end

@@ -25,5 +25,29 @@ defmodule Dscrum.StoryIterationQuery do
     limit: 1
   end
 
+  def last_iteration_story_detail(story_id) do
+    from si in StoryIterationSchema,
+    where: si.story_id == ^story_id,
+    order_by: [desc: si.id],
+    limit: 1
+  end
+
+  def user_actualy_iteration(user_id, story_iteration_id) do
+    from usi in UserStoryIterationSchema,
+    where: usi.story_iteration_id == ^story_iteration_id and usi.user_id == ^user_id
+  end
+
+  def user_iteration(story_iteration_id) do
+    from usi in UserStoryIterationSchema,
+    where: usi.story_iteration_id == ^story_iteration_id,
+    select: usi.user_id,
+    order_by: [asc: usi.user_id]
+  end
+
+  def calification_user(story_iteration_id) do
+    from usi in UserStoryIterationSchema,
+    where: usi.story_iteration_id == ^story_iteration_id,
+    select: usi.difficulty_id
+  end
 
 end

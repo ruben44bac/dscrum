@@ -23,4 +23,14 @@ defmodule DscrumWeb.StoryDetailChannel  do
     response = StoryDetailHandler.index(socket)
     {:reply, {:ok, %{data: response }}, socket}
   end
+
+  def handle_in("difficulty_list", _params, socket) do
+    {:reply, {:ok, %{data: StoryDetailHandler.difficulty_list }}, socket}
+  end
+
+  def handle_in("calificate", params, socket) do
+    response = StoryDetailHandler.calificate(params, socket)
+    {:reply, {:ok, %{data: response }}, socket}
+  end
+
 end

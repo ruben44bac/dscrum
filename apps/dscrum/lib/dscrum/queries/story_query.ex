@@ -51,4 +51,10 @@ defmodule Dscrum.StoryQuery do
     }
   end
 
+  def status(story_id) do
+    from s in StorySchema,
+    where: s.id == ^story_id,
+    select: s.complete
+  end
+
 end

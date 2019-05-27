@@ -14,6 +14,7 @@ defmodule Dscrum.StoryIterationSchema do
   def changeset(story_iteration, attrs) do
     story_iteration
       |> cast(attrs, [:iteration, :difficulty_id, :story_id])
+      |> unique_constraint(:id, name: "story_iteration_pkey", message: "Es requerido")
   end
 
 end

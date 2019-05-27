@@ -15,7 +15,6 @@ defmodule Dscrum.UserStoryIterationSchema do
   def changeset(user_story_iteration, attrs) do
     user_story_iteration
       |> cast(attrs, [:difficulty_id, :description, :user_id, :story_iteration_id])
-      |> validate_required([:difficulty_id], message: "El valor es requerido")
   end
 
 end
