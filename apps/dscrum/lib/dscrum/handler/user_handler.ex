@@ -32,7 +32,7 @@ defmodule Dscrum.UserHandler do
   def check_password(user, password) do
     case Pbkdf2.verify_pass(password, user.password) do
       true -> Guardian.encode_and_sign(user, %{}, ttl: {60, :minute})
-      false -> {:error, "El usurio o la contraseña son incorrectos"}
+      false -> {:error, "El usuario o la contraseña son incorrectos"}
     end
   end
 

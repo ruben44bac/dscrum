@@ -6,6 +6,9 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "@angular/animations": "^8.0.0",
+    "@angular/cdk": "^8.0.0",
+    "@angular/material": "^8.0.0",
     "phoenix": "file:../../../deps/phoenix",
     "phoenix_html": "file:../../../deps/phoenix_html"
   },
