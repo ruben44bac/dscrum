@@ -7,7 +7,7 @@ use Mix.Config
 # Configure your database
 config :dscrum, Dscrum.Repo,
   username: "postgres",
-  password: "",
+  password: "postgres",
   database: "dscrum_dev",
   hostname: "localhost",
   pool_size: 10

@@ -1,0 +1,115 @@
+<div class="registro-logo col-lg-2 col-offset-5" align="center">
+  <img src="/images/logo.png" />
+</div>
+<div class="clearfix"></div>
+<div class="registro-titulo col-lg-12" align="center">
+  Proveedor
+</div>
+<div class="clearfix"></div>
+<br>
+<div class="col-lg-6 col-offset-3">
+  <div class="card registro-card">
+
+    <p class="col-lg-10 col-offset-1 registro-card-titulo">Regístrate</p>
+    <form [formGroup]="formulario" (submit)="registrar()">
+
+      <div class="col-lg-6">
+        <mat-form-field class="col-lg-10 col-offset-1" appearance="fill">
+          <mat-label>RFC</mat-label>
+          <input formControlName="rfc" matInput placeholder="RFC" maxlength="13" minlength="12" autocomplete="off" required>
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf=" formulario.get('rfc').hasError('required')">
+            El RFC es
+            <b>requerido</b>
+          </mat-error>
+          <mat-error *ngIf=" formulario.get('rfc').hasError('minlength')">
+              El RFC tiene 
+              <b>estructura inválida</b>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-lg-10 col-offset-1" appearance="fill">
+          <mat-label>Número Proveedor</mat-label>
+          <input formControlName="numeroProveedor" type="text" matInput placeholder="Número de proveedor" maxlength="6" autocomplete="off"
+            required>
+          <mat-icon matSuffix>person</mat-icon>
+          <mat-error *ngIf=" formulario.get('numeroProveedor').hasError('required')">
+            El número de proveedor es
+            <b>requerido</b>
+          </mat-error>
+          <mat-error *ngIf=" formulario.get('numeroProveedor').hasError('pattern')">
+            El número de proveedor debe ser
+            <b>numérico</b>
+          </mat-error>
+          <mat-error *ngIf=" formulario.get('numeroProveedor').hasError('minlength')">
+            El número de proveedor es de
+            <b>6 dígitos</b>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-lg-10 col-offset-1" appearance="fill">
+          <mat-label>Correo</mat-label>
+          <input formControlName="correo" type="email" matInput placeholder="Correo" autocomplete="off" required>
+          <mat-icon matSuffix>mail</mat-icon>
+          <mat-error *ngIf=" formulario.get('correo').hasError('required')">
+            El correo es
+            <b>requerido</b>
+          </mat-error>
+          <mat-error *ngIf=" formulario.get('correo').hasError('email')">
+            El correo es
+            <b>inválido</b>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field class="col-lg-10 col-offset-1" appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input formControlName="nombre" type="text" matInput placeholder="Nombre" autocomplete="off" required>
+          <mat-icon matSuffix>perm_identity</mat-icon>
+          <mat-error *ngIf=" formulario.get('nombre').hasError('required')">
+            El nombre es
+            <b>requerido</b>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-lg-10 col-offset-1" appearance="fill">
+          <mat-label>Primer Apellido</mat-label>
+          <input formControlName="apellido1" type="text" matInput placeholder="Primer Apellido" autocomplete="off" required>
+          <mat-icon matSuffix>perm_identity</mat-icon>
+          <mat-error *ngIf=" formulario.get('apellido1').hasError('required')">
+            El primer apellido es
+            <b>requerido</b>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-lg-10 col-offset-1" appearance="fill">
+          <mat-label>Segundo Apellido</mat-label>
+          <input formControlName="apellido2" type="text" matInput placeholder="Segundo Apellido" autocomplete="off">
+          <mat-icon matSuffix>perm_identity</mat-icon>
+          <mat-error *ngIf=" formulario.get('apellido2').hasError('required')">
+            El segundo apellido es
+            <b>requerido</b>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="clearfix"></div>
+      <br>
+      <div class="col-lg-10 col-offset-1">
+        <button class="col-lg-2" [disabled]="!formulario.valid || cargando" mat-raised-button color="warn">Registrar
+            <mat-progress-bar *ngIf="cargando" mode="indeterminate" color="warn" value="40"></mat-progress-bar>
+        </button>
+      </div>
+      <div class="clearfix"></div>
+      <br>
+      <br>
+    </form>
+    <div class="clearfix"></div>
+    <br>
+    <div class="col-lg-10 col-offset-1">
+      <button class="col-lg-12" routerLink="/acceso" mat-raised-button>Ya tengo usuario</button>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<div class="clearfix"></div>

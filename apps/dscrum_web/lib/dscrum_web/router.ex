@@ -22,7 +22,8 @@ defmodule DscrumWeb.Router do
   scope "/", DscrumWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    # get "/", PageController, :index
+    get "/", LoginController, :index
   end
 
   # Other scopes may use custom stacks.
