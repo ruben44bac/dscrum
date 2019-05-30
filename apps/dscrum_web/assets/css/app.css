@@ -9,12 +9,12 @@
 html, body { min-height: 100vh; }
 body { margin: 0; 
     font-family: 'Roboto', sans-serif;
-    background: #ECEFF1; }
+    background: #000000; }
     
 /* login */
 .acceso-logo img{
     margin-top: 0;
-    width: 50%;
+    width: 30%;
     animation-name: animation-in;
     animation-duration: 3s;
 }
@@ -25,20 +25,32 @@ body { margin: 0;
     font-size: 30px;
 }
 .acceso-card{
+
+    
+    position: relative;
+    margin: .5rem 0 1rem 0;
+    background-color: #212121;
+    transition: box-shadow .25s;
+    border-radius: 20px;
+
     padding-top: 4%;
     padding-bottom: 4%;
+    box-shadow: 0 13px 203px -4px rgba(255, 255, 255, 0.75) !important;
     animation-name: animation-in;
     animation-duration: 3s;
 }
 .acceso-card-titulo {
     text-align: center;
-    color: #212121;
+    color: white;
     font-size: 25px;
 }
 mat-form-field {
     margin-top: 2%;
 }
 
+.fondo-primario{
+    background: #212121;
+}
 /* cabecera */
 
 .container {
@@ -57,8 +69,14 @@ mat-form-field {
     left: 0;
     z-index: 1;
     animation-name: animation-color;
-    animation-duration: 4s;
+    animation-duration: 0.5s;
     background: #FF9800;
+    box-shadow: 0 13px 23px -4px rgba(255, 255, 255, 0.75) !important;
+}
+
+.card {
+    background: #fff;
+    box-shadow: 0 13px 23px -4px rgba(0,0,0,.75) !important;
 }
 
 /* animation */
@@ -92,23 +110,22 @@ mat-form-field {
     color: white;
 }
 
-
-.btn-aceptar {
-    background-color: rgb(10, 70, 233);
-    color: white;
+.input-field .prefix {
+    color: #ffffff !important;
 }
 
 .input-field .prefix.active {
-    color: #0d47a1 !important;
-}
-.input-field .prefix .form-control {
-    color: #0d47a1 !important;
+    color: #ffffff !important;
 }
 
-.btn, .btn-large {
-    background-color: #0d47a1 !important;
+.btn-acceso {
+    background-color: #FF9800 !important;
+    text-transform: none !important;
 }
 
+.color-text-input{
+    color: #fff;
+}
 /* naranja 500
 negro 212121
 negro 0000 */

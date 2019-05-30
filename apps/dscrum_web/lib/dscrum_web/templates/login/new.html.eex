@@ -1,4 +1,4 @@
-<div class="acceso-logo col s2 offset-s5" align="center">
+<div class="acceso-logo" align="center">
   <img src="/images/logo.png" />
 </div>
 <!--<div class="row">
@@ -36,24 +36,26 @@
 <div class="acceso-titulo col s12" align="center">
   <%# <b>DSCRUM</b> %>
 </div>
+
+<br>
 <div class="row">
-  <div class="col s6 offset-s3 scale-transition">
-      <div class="card acceso-card">
+  <div class="col s4 offset-s4 scale-transition">
+      <div class="acceso-card">
 
           <div class="row">
-              <b class="col s4 offset-s4 acceso-card-titulo">DSCRUM</b>
+              <b class="col s10 offset-s1 acceso-card-titulo">DSCRUM</b>
           </div>
             <%= form_for @conn, Routes.login_path(@conn, :create), fn f -> %>
 
               <div class="row">
-                <div class="input-field col s10 offset-s1">
+                <div class="input-field col s10 offset-s1 color-text-input">
                   <i class="material-icons prefix">account_circle</i>
                   <%= text_input f, :username, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Username" %>
                 </div>
               </div>
 
               <div class="row">
-                <div class="input-field col s10 offset-s1">
+                <div class="input-field col s10 offset-s1 color-text-input">
                   <i class="material-icons prefix">security</i>
                   <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Contraseña" %>
                 </div>
@@ -61,8 +63,8 @@
 
               
               <div class="row">
-                <div class="col s4 offset-s4">
-                  <%= submit "Ingresar", class: "waves-effect waves-light btn-large" %>
+                <div class="col s8 offset-s3">
+                  <b><%= submit "Ingresar", class: "btn btn-acceso waves-effect waves-light" %></b>
                 </div>
               </div>
 
