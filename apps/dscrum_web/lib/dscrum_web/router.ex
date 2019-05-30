@@ -24,8 +24,8 @@ defmodule DscrumWeb.Router do
 
     # get "/", PageController, :index
     get "/", PageController, :index
-    get "/login", LoginController, :new
-    post "/login", LoginController, :create
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
   end
 
   # Other scopes may use custom stacks.
