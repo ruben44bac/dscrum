@@ -32,10 +32,10 @@ select {
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 4px;
   text-align: center;
   height: 40px;
-  font-size: 25px;
+  font-size: 20px;
 }
 .alert-info {
   color: #31708f;
