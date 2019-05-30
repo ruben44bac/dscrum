@@ -1,3 +1,114 @@
 /* This file is for your main application css. */
 
 @import "./phoenix.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
+
+html, body { min-height: 100vh; }
+body { margin: 0; 
+    font-family: 'Roboto', sans-serif;
+    background: #ECEFF1; }
+    
+/* login */
+.acceso-logo img{
+    margin-top: 0;
+    width: 50%;
+    animation-name: animation-in;
+    animation-duration: 3s;
+}
+
+.acceso-titulo {
+    color: white;
+    padding-bottom: 1.5%;
+    font-size: 30px;
+}
+.acceso-card{
+    padding-top: 4%;
+    padding-bottom: 4%;
+    animation-name: animation-in;
+    animation-duration: 3s;
+}
+.acceso-card-titulo {
+    text-align: center;
+    color: #212121;
+    font-size: 25px;
+}
+mat-form-field {
+    margin-top: 2%;
+}
+
+/* cabecera */
+
+.container {
+    margin-top: 8vh;
+    width: 100%;
+    min-height: 90vh;
+    position: relative;
+    z-index: 900;
+    padding-bottom: 5%;
+}
+.fondo {
+    min-height: 30vh;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    animation-name: animation-color;
+    animation-duration: 4s;
+    background: #FF9800;
+}
+
+/* animation */
+
+/* The animation code */
+@keyframes animation-color {
+    from {background: white;}
+    to {background: #FF9800;}
+}
+
+/* The animation code */
+@keyframes animation-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.btn-primary-color{
+    
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 2rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+
+    background-color: #0d47a1;
+    border: 0.1rem solid #0d47a1;
+    color: white;
+}
+
+
+.btn-aceptar {
+    background-color: rgb(10, 70, 233);
+    color: white;
+}
+
+.input-field .prefix.active {
+    color: #0d47a1 !important;
+}
+.input-field .prefix .form-control {
+    color: #0d47a1 !important;
+}
+
+.btn, .btn-large {
+    background-color: #0d47a1 !important;
+}
+
+/* naranja 500
+negro 212121
+negro 0000 */
