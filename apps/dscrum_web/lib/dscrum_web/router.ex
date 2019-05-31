@@ -23,9 +23,11 @@ defmodule DscrumWeb.Router do
     pipe_through :browser
 
     # get "/", PageController, :index
-    get "/", PageController, :index
+    get "/", UserController, :index
     get "/login", SessionController, :new
     post "/login", SessionController, :create
+
+    resources "/user", UserController, only: [:index, :show, :new, :create]
   end
 
   # Other scopes may use custom stacks.

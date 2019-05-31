@@ -1,9 +1,16 @@
 defmodule Dscrum.UserHandler do
+
+  import Ecto.Query, warn: false
+
   alias Dscrum.Repo
   alias Dscrum.UserSchema
   alias Dscrum.AuthCommand
   alias Dscrum.UserQuery
   alias Dscrum.Guardian
+
+  def list_user() do
+    Repo.all(UserSchema)
+  end
 
   def get_user(id) do
     Repo.get(UserSchema, id)
@@ -52,7 +59,7 @@ defmodule Dscrum.UserHandler do
 
   def add(user) do
     {:ok, data} = Base.decode64(user.changes.image)
-    image_path = "C:/Users/ruben.baeza/Desktop/"<>user.changes.username<>".jpg"
+    image_path = "C:/Users/luis.moreno/Desktop/"<>user.changes.username<>".jpg"
     File.write(image_path, data, [:binary])
     user
       |> Ecto.Changeset.put_change(:image, image_path)

@@ -27,6 +27,14 @@ select {
   width: auto;
 } */
 
+
+.contenido {
+  position: relative;
+  /* overflow-y: scroll; */
+  overflow-x: hidden;
+  height: 100vh;
+}
+
 /* Alerts and form errors */
 .alert {
   padding: 15px;
@@ -35,6 +43,9 @@ select {
   border-radius: 4px;
   text-align: center;
   height: 40px;
+  position: absolute;
+  bottom: 10vh;
+  z-index: 1;
   font-size: 20px;
 }
 .alert-info {

@@ -15,7 +15,7 @@ defmodule DscrumWeb.PageController do
       |> assign(:current_user, current_user)
     else
       conn
-      |> put_flash(:error, "You need to be signed in to access that page.")
+      |> put_flash(:error, "Inicia sesion para continuar.")
       |> redirect(to: "/login")
       |> halt()
     end

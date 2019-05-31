@@ -5,33 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dscrum · Phoenix Framework</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
-    <!--<header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-          </ul>
-        </nav>
-        <a href="http://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
-    </header>!-->
-    <main role="main" class="container" style="margin-top: 2%">
-      <div class="row">
-        <p class="alert alert-info col s4 offset-s4" role="alert"><%= get_flash(@conn, :info) %></p>
-        <p class="alert alert-danger col s4 offset-s4" role="alert"><%= get_flash(@conn, :error) %></p>
-      </div>
-      <%= render @view_module, @view_template, assigns %>
-    </main>
-    <div class="fondo"></div>
+    <header>
+    </header>
+    <div class="fondo">
+      <main role="main" class="contenido">
+        <div class="row">
+          <p class="col s8 offset-s2 m4 offset-m4 l4 offset-l4 alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <p class="col s8 offset-s2 m4 offset-m4 l4 offset-l4 alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        </div>
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+    </div>
+    <div class="menu">
+      <div class="label">Follow Me</div>
+      <div class="spacer"></div>
+      <div class="item"><span>Twitter</span></div>
+      <div class="item"><span>Instagram</span></div>
+      <div class="item"><span>Flickr</span></div>
+      <div class="item"><span>Behance</span></div>
+      <div class="item"><span>MixCloud</span></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

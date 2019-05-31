@@ -1,6 +1,7 @@
 defmodule DscrumWeb.UserView do
   use DscrumWeb, :view
   alias DscrumWeb.UserView
+  alias Dscrum.UserSchema
 
   def render("signin.json", %{users: users}) do
     %{data: render_many(users, UserView, "user.json")}
@@ -23,5 +24,12 @@ defmodule DscrumWeb.UserView do
   def render("jwt.json", %{jwt: jwt}) do
     %{token: jwt}
   end
+
+
+	def primer_nombre(%UserSchema{name: name}) do
+		name
+			|> String.split(" ")
+			|> Enum.at(0)
+	end
 
 end
