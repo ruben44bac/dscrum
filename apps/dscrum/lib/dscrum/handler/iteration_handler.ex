@@ -86,7 +86,6 @@ defmodule Dscrum.IterationHandler do
     count = Enum.count(difficulty_users)
     difficulty = Float.round(sum / count, 0)
                   |> Kernel.trunc
-    IO.inspect(difficulty)
     iteration = Repo.get(StoryIterationSchema, iteration_id)
       |> StoryIterationSchema.changeset(%{
         difficulty_id: difficulty

@@ -10,13 +10,10 @@ defmodule Dscrum.UserHandler do
   end
 
   def get_user!(id) do
-
     user = Repo.get!(UserSchema, id)
     {:ok, file} = File.read(user.image)
-
     user
      |> Map.put(:image, Base.encode64(file))
-
   end
 
   def login(%AuthCommand{} = command) do
