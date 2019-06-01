@@ -30,6 +30,15 @@ body { margin: 0;
     height: 100vh;
 }
 
+.btn-menu{
+  background: black;
+  border-radius: 50%;
+  height: 45px;
+  width: auto;
+  padding: 10px;
+  margin: 10px;
+}
+
 .btn-nuevo{
     position: fixed;
     z-index: 999;
@@ -51,6 +60,13 @@ body { margin: 0;
     width: 30%;
     animation-name: animation-in;
     animation-duration: 3s;
+}
+
+.titulo {
+    color: white;
+    padding-bottom: 1.5%;
+    font-size: 30px;
+    padding-top: 10vh;
 }
 
 .acceso-titulo {
@@ -196,7 +212,7 @@ negro 0000 */
   cursor: pointer;
   pointer-events: none;
   position: absolute;
-  bottom: 20px;
+  top: 20px;
   left: 20px;
 }
 .menu:hover {

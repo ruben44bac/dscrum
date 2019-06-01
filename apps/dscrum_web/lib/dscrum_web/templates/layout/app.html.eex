@@ -22,7 +22,7 @@
       </main>
     </div>
     <div class="menu">
-      <div class="label">Follow Me</div>
+      <div class="label btn-menu"><i class="material-icons">menu</i></div>
       <div class="spacer"></div>
       <div class="item"><span>Twitter</span></div>
       <div class="item"><span>Instagram</span></div>

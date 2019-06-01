@@ -26,7 +26,7 @@ defmodule DscrumWeb.SessionController do
         conn
         |> put_session(:token, token)
         |> put_session(:current_user_id, user.id)
-        |> put_flash(:info, "Sesión iniciada correctamente.")
+        # |> put_flash(:info, "Sesión iniciada correctamente.")
         |> redirect(to: "/")
       {:error, mensaje} ->
         conn
