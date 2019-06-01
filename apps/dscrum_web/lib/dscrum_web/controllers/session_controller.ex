@@ -35,4 +35,12 @@ defmodule DscrumWeb.SessionController do
     end
   end
 
+  def delete(conn, _params) do
+    conn
+    |> delete_session(:token)
+    |> delete_session(:current_user_id)
+    # |> put_flash(:info, "Signed out successfully.")
+    |> redirect(to: "/")
+  end
+
 end

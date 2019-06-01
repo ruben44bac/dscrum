@@ -26,6 +26,7 @@ defmodule DscrumWeb.Router do
     get "/", UserController, :index
     get "/login", SessionController, :new
     post "/login", SessionController, :create
+    get "/logout", SessionController, :delete
 
     resources "/user", UserController, only: [:index, :show, :new, :create]
   end

@@ -41,6 +41,7 @@ defmodule DscrumWeb do
       import DscrumWeb.ErrorHelpers
       import DscrumWeb.Gettext
       alias DscrumWeb.Router.Helpers, as: Routes
+      import DscrumWeb.Helpers.Auth, only: [signed_in?: 1]
     end
   end
 

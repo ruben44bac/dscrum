@@ -1,7 +1,7 @@
 
 
 <div class="titulo col s12" align="center">
-  Listado Usuarios
+  <h1>Listado Usuarios</h1>
 </div>
 <div class="row">
 	<div class="col s12 m8 offset-m2 l6 offset-l3 listado color-text-input">

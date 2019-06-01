@@ -21,15 +21,24 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
     </div>
-    <div class="menu">
-      <div class="label btn-menu"><i class="material-icons">menu</i></div>
-      <div class="spacer"></div>
-      <div class="item"><span>Twitter</span></div>
-      <div class="item"><span>Instagram</span></div>
-      <div class="item"><span>Flickr</span></div>
-      <div class="item"><span>Behance</span></div>
-      <div class="item"><span>MixCloud</span></div>
-    </div>
+    <%= if signed_in?(@conn) do %>
+      <div class="menu">
+        <div class="label btn-menu"><i class="material-icons">menu</i></div>
+        <div class="spacer"></div>
+        <a class="item" style="text-align: center;" href="<%= Routes.user_path(@conn, :index) %>">
+          <span><i class="material-icons">account_circle</i> <br>Usuarios</span>
+        </a>
+        <a class="item" style="text-align: center;">
+          <span><i class="material-icons">supervised_user_circle</i> <br>Equipos</span>
+        </a>
+        <a class="item" style="text-align: center;">
+          <span><i class="material-icons">file_copy</i> <br>Historias</span>
+        </a>
+        <a class="item" style="text-align: center;" href="<%= Routes.session_path(@conn, :delete) %>">
+          <span><i class="material-icons">exit_to_app</i> <br>Cerrar Sesión</span>
+        </a>
+      </div>
+    <% end %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
