@@ -1,50 +1,21 @@
-<!--<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [multipart: true],fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= label f, :username, class: "control-label" %>
-    <%= text_input f, :username, class: "form-control" %>
-    <%= error_tag f, :username %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :email, class: "control-label" %>
-    <%= email_input f, :email, class: "form-control" %>
-    <%= error_tag f, :email %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :password, class: "control-label" %>
-    <%= password_input f, :password, class: "form-control" %>
-    <%= error_tag f, :password %>
-  </div>
-
-  <div class="form-group">
-    <%= label f, :password_confirmation, class: "control-label" %>
-    <%= password_input f, :password_confirmation, class: "form-control" %>
-    <%= error_tag f, :password_confirmation %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
-<% end %>!-->
-
-
-<%= form_for @changeset, @action, [multipart: true],fn f -> %>
-
   <div class="row">
 
     <div class="col s12 m12 l4" style="text-align: center">
       <div class="form-group">
         <label class="label-foto">
           <%= file_input f, :foto, class: "form-control"  %>
-          <img class="radius-img img-load" id="blah" src="<%= Routes.static_path(@conn, "/images/account.png") %>" alt="Seleccionar Foto"/>
           <!--<%= img_tag(Routes.static_path(@conn, "/images/account.png"), class: "radius-img img-load") %>!-->
+          <%= if assigns[:user] do %>
+            <img class="radius-img img-load" id="blah" src="http://localhost:4000/api/user-image?id=<%= @user.id %>" alt="Seleccionar Foto"/>
+          <% else %>
+            <img class="radius-img img-load" id="blah" src="<%= Routes.static_path(@conn, "/images/account.png") %>" alt="Seleccionar Foto"/>
+          <% end %>
         </label>
       </div>
       <br>
@@ -94,8 +65,13 @@
 
         <div class="form-group input-field color-text-input">
           <%# <div class="input-field col s10 offset-s1 color-text-input"> %>
-            <%= label f, :contraseña, class: "control-label" %>
-            <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Contraseña" %>
+            <%= label f, :password, class: "control-label" %>
+            
+            <%= if assigns[:user] do %>
+              <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "password", value: "***********" %>
+            <% else %>
+              <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "password" %>
+            <% end %>
           <%# </div> %>
         </div>
     </div>

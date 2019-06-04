@@ -1,6 +1,7 @@
 defmodule Dscrum.UserHandler do
 
   import Ecto.Query, warn: false
+  import Ecto.Changeset
 
   alias Dscrum.Repo
   alias Dscrum.UserSchema
@@ -9,7 +10,9 @@ defmodule Dscrum.UserHandler do
   alias Dscrum.Guardian
 
   def list_user() do
-    Repo.all(UserSchema)
+    UserSchema
+    |> order_by([c], asc: c.inserted_at)
+    |> Repo.all()
   end
 
   def get_user(id) do
@@ -43,7 +46,33 @@ defmodule Dscrum.UserHandler do
     end
   end
 
-  def validate(attrs) do
+  def update_validate(%UserSchema{} = user, attrs) do
+
+    user = user
+    |> UserSchema.changeset(attrs)
+
+    user =
+      if Map.get(attrs, "password") == "***********" do
+        user
+        |> Ecto.Changeset.delete_change(:password)
+      else
+        user
+        |> Ecto.Changeset.put_change(:password, Pbkdf2.hash_pwd_salt(Map.get(attrs, "password")))
+      end
+
+    id = get_field(user, :id)
+    match = UserQuery.validate(user.params["username"], user.params["mail"], id)
+      |> Repo.all()
+
+    case (match == []) do
+      true -> edit(user)
+      false -> {:error, "El usuario ya existe"}
+    end
+
+    # |> Repo.update()
+  end
+
+  def create_validate(attrs) do
     user = %UserSchema{}
       |> UserSchema.changeset(attrs)
       |> Ecto.Changeset.put_change(:password, Pbkdf2.hash_pwd_salt(Map.get(attrs, "password")))
@@ -61,9 +90,30 @@ defmodule Dscrum.UserHandler do
     {:ok, data} = Base.decode64(user.changes.image)
     image_path = "C:/Users/luis.moreno/Desktop/"<>user.changes.username<>".jpg"
     File.write(image_path, data, [:binary])
+
     user
-      |> Ecto.Changeset.put_change(:image, image_path)
-      |> Repo.insert
+    |> Ecto.Changeset.put_change(:image, image_path)
+    |> Repo.insert()
+
+  end
+
+  def edit(user) do
+    user =
+      if not is_nil(user.changes.image) do
+        {:ok, data} = Base.decode64(user.changes.image)
+        image_path = "C:/Users/luis.moreno/Desktop/"<>user.params["username"]<>".jpg"
+        File.write(image_path, data, [:binary])
+
+        user
+        |> Ecto.Changeset.put_change(:image, image_path)
+      else
+        user
+        |> Ecto.Changeset.delete_change(:image)
+      end
+
+    IO.inspect(user)
+    Repo.update(user)
+
   end
 
 end

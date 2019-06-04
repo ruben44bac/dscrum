@@ -57,3 +57,16 @@ function readURL(input) {
 $("#user_schema_foto").change(function(){
     readURL(this);
 });
+
+
+// modal
+$(document).ready(function(){
+    $('.modal').modal();
+  });
+
+
+$("#send-button").click(function(){
+    $('.modal').modal('close');
+});
+
+// fin modal

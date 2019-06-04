@@ -8,6 +8,12 @@ defmodule Dscrum.UserQuery do
       u.username == ^username or u.mail == ^mail
   end
 
+  def validate(username, mail, id) do
+    from u in UserSchema,
+    where:
+      (u.username == ^username or u.mail == ^mail) and u.id != ^id
+  end
+
   def user_username(username) do
     from u in UserSchema,
     where:

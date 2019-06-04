@@ -27,31 +27,10 @@ defmodule DscrumWeb.UserController do
       render(conn, "index.html", users: users)
   end
 
-  # def show(conn, %{"id" => id}) do
-  #   id_entero = String.to_integer(id)
-  #   usuario = Cuentas.get_usuario(id_entero)
-  #   render(conn, "show.html", usuario: usuario)
-  # end
-
   def new(conn, _params) do
     changeset = UserSchema.changeset(%UserSchema{}, %{})
     render(conn, "new.html", changeset: changeset)
   end
-
-  # def create(conn, %{"usuario" => parametros}) do
-  #   IO.inspect(parametros)
-  #   case Cuentas.registro_usuario(parametros) do
-  #     {:ok, usuario} ->
-  #       conn
-  #         |> Autentificacion.acceso(usuario)
-  #         |> put_flash(:info, "#{usuario.nombre} ha sido creado, amigo")
-  #         |> redirect(to: Routes.usuario_path(conn, :index))
-
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       render(conn, "new.html", changeset: changeset)
-
-  #   end
-  # end
 
 
   def login(conn, attrs) do
@@ -85,7 +64,7 @@ defmodule DscrumWeb.UserController do
         |> Map.put("image", nil)
       end
 
-    case UserHandler.validate(user_schema) do
+    case UserHandler.create_validate(user_schema) do
       {:ok, _} ->
         conn
         # |> put_flash(:info, "Picture created successfully.")
@@ -96,7 +75,7 @@ defmodule DscrumWeb.UserController do
   end
 
   def signup(conn, attrs) do
-    case UserHandler.validate(attrs) do
+    case UserHandler.create_validate(attrs) do
       {:ok, _} -> json conn, %{data: "Usuario creado con éxito"}
       {:error, mensaje} -> json conn, %{error: mensaje}
     end
@@ -105,6 +84,42 @@ defmodule DscrumWeb.UserController do
   def show(conn, _attrs) do
     user = Guardian.Plug.current_resource(conn)
     conn |> render("user.json", user: user)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    user = UserHandler.get_user!(id)
+    changeset = UserSchema.changeset(user, %{})
+    render(conn, "edit.html", user: user, changeset: changeset)
+  end
+
+  def update(conn, %{"id" => id, "user_schema" => user_params}) do
+    user = UserHandler.get_user!(id)
+
+    user_params =
+      if upload = user_params["foto"] do
+
+        with File.exists?(upload.path) do
+          file = File.read!(upload.path)
+          conve_base64 = Base.encode64(file)
+
+          user_params
+          |> Map.put("image", conve_base64)
+        end
+
+      else
+
+        user_params
+        |> Map.put("image", nil)
+      end
+
+    case UserHandler.update_validate(user, user_params) do
+      {:ok, _user} ->
+        conn
+        # |> put_flash(:info, "Movie updated successfully.")
+        |> redirect(to: Routes.user_path(conn, :index))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", user: user, changeset: changeset)
+    end
   end
 
   def image(conn, attrs) do

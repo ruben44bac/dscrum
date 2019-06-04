@@ -6,12 +6,18 @@
 <div class="row">
 	<div class="col s12 m8 offset-m2 l6 offset-l3 listado color-text-input">
 		<table>
-			<%= for user <- @users do %>
+			<%= for {user, i} <- Enum.with_index(@users) do %>
 				<tr>
+					<!--<td>
+						<%= length(@users) %>
+					</td>
+					<td>
+						<%= i %>
+					</td>!-->
 					<td>
 						<div class="row ">
 							<div class="col s4 m4 l3">
-								<img class="radius-img" src="http://localhost:4000/api/user-image?id=<%= user.id %>" alt="Phoenix Framework Logo"/>
+								<img class="radius-img" src="http://localhost:4000/api/user-image?id=<%= user.id %>"/>
 							</div>
 
 							<div class="col s6 m6 l5 card-info-user">
@@ -22,18 +28,44 @@
 								<b>Teléfono: </b> <%= user.phone %> <br>
 							</div>
 							<div class="col s2 m2 l4">
-								<a class="btn-floating btn-small waves-effect waves-light purple"><i class="material-icons">visibility</i></a>
-								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon"><i class="material-icons">edit</i></a>
-								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon"><i class="material-icons">delete</i></a>
+								<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modal<%= i %>"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
+								
+								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon" href="<%= Routes.user_path(@conn, :edit, user) %>">
+									<i class="material-icons">edit</i>
+								</a>&nbsp;&nbsp;
+								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon">
+									<i class="material-icons">delete</i>
+								</a>
 							</div>
 						</div>
-						<hr>
-					</td>
-					<%# <td>
-						<div class="row">
-							
+	
+						<!-- Modal Structure -->
+						<div id="modal<%= i %>" class="modal modal-me modal-user">
+							<div class="modal-content">
+								<div class="row">
+									<div class="col s12 m12 l3" style="text-align: center;">
+										<img class="radius-img" src="http://localhost:4000/api/user-image?id=<%= user.id %>"/>
+									</div>
+
+									<div class="col s12 m12 l7 offset-l2 card-info-user">
+										<b>Username: </b> <%= user.username %> <br>
+										<b>Nombre: </b> <%= user.name %> <br>
+										<b>Apellido: </b> <%= user.surname %> <br>
+										<b>Email: </b> <%= user.mail %> <br>
+										<b>Teléfono: </b> <%= user.phone %> <br>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer modal-footer-me">
+								<a id="send-button" class="modal-close waves-effect waves-green btn-flat btn-aceptar-modal">Aceptar</a>
+							</div>
 						</div>
-					</td> %>
+						<!-- Fin Modal -->
+
+						<%= if (i+1) < length(@users) do %>
+							<hr>
+						<% end %>
+					</td>
 				</tr>
 			<% end %>
 		</table>
@@ -43,4 +75,6 @@
 <div class="btn-nuevo">
 	<%= link "+", to: Routes.user_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light btn-add" %>
 </div>
+
+
 

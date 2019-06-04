@@ -28,7 +28,7 @@ defmodule DscrumWeb.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
 
-    resources "/user", UserController, only: [:index, :show, :new, :create]
+    resources "/user", UserController, only: [:index, :show, :new, :create, :edit, :update]
   end
 
   # Other scopes may use custom stacks.
