@@ -32,7 +32,6 @@ defmodule DscrumWeb.UserController do
     render(conn, "new.html", changeset: changeset)
   end
 
-
   def login(conn, attrs) do
     resp = attrs
       |> AuthCommand.new
@@ -127,6 +126,15 @@ defmodule DscrumWeb.UserController do
     {:ok, file} = File.read(user.image)
     conn
     |> send_download({:binary, file}, filename: "user.jpg")
+  end
+
+  def delete(conn, %{"id" => id}) do
+    user = user = UserHandler.get_user!(id)
+    {:ok, _user} = UserHandler.delete_user(user)
+
+    conn
+    # |> put_flash(:info, "Movie deleted successfully.")
+    |> redirect(to: Routes.user_path(conn, :index))
   end
 
 end

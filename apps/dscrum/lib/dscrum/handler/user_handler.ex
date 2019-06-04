@@ -116,4 +116,7 @@ defmodule Dscrum.UserHandler do
 
   end
 
+  def delete_user(%UserSchema{} = user) do
+    Repo.delete(user)
+  end
 end

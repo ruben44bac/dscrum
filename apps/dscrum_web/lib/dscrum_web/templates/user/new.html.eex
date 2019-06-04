@@ -16,3 +16,6 @@
       </div>
   </div>
 </div>
+
+
+<span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>

@@ -30,16 +30,20 @@
 							<div class="col s2 m2 l4">
 								<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modal<%= i %>"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
 								
-								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon" href="<%= Routes.user_path(@conn, :edit, user) %>">
+								
+								<%= link to: Routes.user_path(@conn, :edit, user), class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
 									<i class="material-icons">edit</i>
-								</a>&nbsp;&nbsp;
-								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon">
+								<% end %>&nbsp;&nbsp;
+
+								<!-- <%= link to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "¿Realmente deseas eliminar?"], class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
 									<i class="material-icons">delete</i>
-								</a>
+								<% end %> -->
+								<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modaldelete<%= i %>"><i class="material-icons">delete</i></button> &nbsp;&nbsp;
+								
 							</div>
 						</div>
 	
-						<!-- Modal Structure -->
+						<!-- Modal Show -->
 						<div id="modal<%= i %>" class="modal modal-me modal-user">
 							<div class="modal-content">
 								<div class="row">
@@ -58,6 +62,32 @@
 							</div>
 							<div class="modal-footer modal-footer-me">
 								<a id="send-button" class="modal-close waves-effect waves-green btn-flat btn-aceptar-modal">Aceptar</a>
+							</div>
+						</div>
+						<!-- Fin Modal -->
+						<!-- Modal Delete -->
+						<div id="modaldelete<%= i %>" class="modal modal-me modal-user">
+							<div class="modal-content">
+								<div class="row">
+									<div class="col s12" style="text-align: center; font-size: 25px;">
+										¿Realmente deseas eliminar al usuario: <%= user.name %> ? 
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer modal-footer-me">
+								<%# <div class="row"> %>
+									<div class="col s2 offset-s3">
+										<%= link to: Routes.user_path(@conn, :delete, user), method: :delete, class: "btn-floating btn-small waves-effect waves-light purple btn-confirmar-modal space-top-icon" do %>
+											<i class="material-icons">check</i>
+										<% end %>
+									</div>
+									<div class="col s2 offset-s2">
+										<a id="send-button" class="modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal">
+											<i class="material-icons">clear</i>
+										</a> 
+									</div>
+								<%# </div> %>
+								
 							</div>
 						</div>
 						<!-- Fin Modal -->

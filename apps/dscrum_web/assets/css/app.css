@@ -414,4 +414,14 @@ input[type="file"] {
   background: #FF9800 !important;
 }
 
+.btn-confirmar-modal{
+  color: white;
+  float: none !important;
+  background: green !important;
+}
+.btn-cancelar-modal{
+  color: white;
+  float: none !important;
+  background: red !important;
+}
 /* fin css modal */
