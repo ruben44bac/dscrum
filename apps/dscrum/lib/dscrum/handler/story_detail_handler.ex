@@ -33,10 +33,17 @@ defmodule Dscrum.StoryDetailHandler do
     case Presence.list(socket)["user_story:" <> Integer.to_string(command.id)] do
       nil -> command
             |> Map.put(:online, false)
-            |> Map.put(:difficulty_name, difficulty.difficulty_name)
-            |> Map.put(:difficulty_id, difficulty.difficulty_id)
+
       _ -> command
             |> Map.put(:online, true)
+    end
+    validate_dif_nil(command, difficulty)
+  end
+
+  def validate_dif_nil(command, difficulty) do
+    case difficulty do
+      nil -> command
+      _ -> command
             |> Map.put(:difficulty_name, difficulty.difficulty_name)
             |> Map.put(:difficulty_id, difficulty.difficulty_id)
     end
