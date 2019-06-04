@@ -20,8 +20,10 @@ body { margin: 0;
     left: 0;
     animation-name: animation-color;
     animation-duration: 0.5s;
-    background: #FF9800;
-    box-shadow: 0 13px 23px -4px rgba(255, 255, 255, 0.75) !important;
+    /* background: #FF9800; */
+    background: #212121;
+    /* box-shadow: 0 13px 23px -4px rgba(255, 255, 255, 0.75) !important; */
+    box-shadow: 0px 0px 9px 4px rgba(255, 255, 255, 0.75) !important;
 }
 
 .contenido {
@@ -31,12 +33,15 @@ body { margin: 0;
 }
 
 .btn-menu{
-  background: black;
+  background: #FF9800;
   border-radius: 50%;
   height: 45px;
   width: auto;
   padding: 10px;
   margin: 10px;
+}
+.btn-add{
+  background: #FF9800;
 }
 
 .btn-nuevo{
@@ -56,8 +61,8 @@ body { margin: 0;
 }
 /* login */
 .acceso-logo img{
-    margin-top: 0;
-    width: 30%;
+    margin-top: 8vh;
+    width: 300px;
     animation-name: animation-in;
     animation-duration: 3s;
 }
@@ -85,7 +90,8 @@ body { margin: 0;
 
     padding-top: 4%;
     padding-bottom: 4%;
-    box-shadow: 0 13px 203px -4px rgba(255, 255, 255, 0.75) !important;
+    /* box-shadow: 0 13px 23px -4px rgba(255, 255, 255, 0.75) !important; */
+    box-shadow: 0px 0px 9px 4px rgba(255, 255, 255, 0.75) !important;
     animation-name: animation-in;
     animation-duration: 3s;
 }
@@ -113,8 +119,8 @@ mat-form-field {
 
 /* The animation code */
 @keyframes animation-color {
-    from {background: white;}
-    to {background: #FF9800;}
+    from {background: #000000;}
+    to {background: #212121;}
 }
 
 /* The animation code */
@@ -141,11 +147,27 @@ mat-form-field {
 }
 
 .input-field .prefix {
-    color: #ffffff !important;
+    color: #FF9800 !important;
 }
 
 .input-field .prefix.active {
-    color: #ffffff !important;
+    color: #FF9800 !important;
+}
+
+ /* label underline focus color */
+ .input-field input[type=text]:focus {
+  border-bottom: 1px solid #FF9800 !important;
+  box-shadow: 0 1px 0 0 #FF9800 !important;
+}
+/* label underline focus color */
+.input-field input[type=password]:focus {
+ border-bottom: 1px solid #FF9800 !important;
+ box-shadow: 0 1px 0 0 #FF9800 !important;
+}
+/* label underline focus color */
+.input-field input[type=email]:focus {
+ border-bottom: 1px solid #FF9800 !important;
+ box-shadow: 0 1px 0 0 #FF9800 !important;
 }
 
 .btn-acceso {
@@ -168,7 +190,8 @@ negro 0000 */
     border-radius: 20px;
 
     padding: 10%;
-    box-shadow: 0 13px 203px -4px rgba(255, 255, 255, 0.75) !important;
+    /* box-shadow: 0 13px 203px -4px rgba(255, 255, 255, 0.75) !important; */
+    box-shadow: 0px 0px 9px 4px rgba(255, 255, 255, 0.75) !important;
     animation-name: animation-in;
     animation-duration: 3s;
 }
@@ -182,10 +205,10 @@ negro 0000 */
 }
 
 .card-info-user{
-    background: #FF9800;
+    /* background: #FF9800; */
     border-radius: 20px;
     height: 140px;
-    padding-top: 18px;
+    padding-top: 12px !important;
 }
 
 .fixed-action-btn {
@@ -215,6 +238,10 @@ negro 0000 */
   top: 20px;
   left: 20px;
   width: 97%;
+}
+.opciones{
+  top: 0px;
+  left: 0px;
 }
 .menu:hover {
   pointer-events: all;
@@ -256,7 +283,7 @@ span {
   transition: color 0.5s ease;
 }
 .item:hover span {
-  color: purple;
+  color: rgb(212, 0, 255);
 }
 .menu:hover .spacer:before {
   width: 100%;
@@ -328,3 +355,32 @@ span {
 }
 
 /* fin menu */
+
+.quitar-margin-top-inputs{
+  margin-top: -100px;
+}
+
+
+/* foto label */
+
+
+input[type="file"] {
+  display: none;
+}
+
+.img-load{
+  width: 200px;
+  height: 200px;
+  transition: border 300ms ease;
+  cursor: pointer;
+  text-align: center;
+  border: 3px dashed #fff;
+}
+.img-load:hover{
+  border: 3px dashed #FF9800;
+}
+
+.label-foto .title {
+  color: grey;
+  transition: 200ms color;
+}

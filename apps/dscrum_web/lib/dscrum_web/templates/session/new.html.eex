@@ -34,7 +34,7 @@
               </div>
 
               
-              <div class="row">
+              <div class="row" style="text-align: center;">
                 <div class="col s4 offset-s4">
                   <b><%= submit "Ingresar", class: "btn btn-acceso waves-effect waves-light" %></b>
                 </div>

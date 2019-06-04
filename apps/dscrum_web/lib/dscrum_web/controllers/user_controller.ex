@@ -66,6 +66,35 @@ defmodule DscrumWeb.UserController do
     end
   end
 
+  def create(conn, %{"user_schema" => user_schema}) do
+
+    user_schema =
+      if upload = user_schema["foto"] do
+
+        with File.exists?(upload.path) do
+          file = File.read!(upload.path)
+          conve_base64 = Base.encode64(file)
+
+          user_schema
+          |> Map.put("image", conve_base64)
+        end
+
+      else
+
+        user_schema
+        |> Map.put("image", nil)
+      end
+
+    case UserHandler.validate(user_schema) do
+      {:ok, _} ->
+        conn
+        # |> put_flash(:info, "Picture created successfully.")
+        |> redirect(to: Routes.user_path(conn, :index))
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
   def signup(conn, attrs) do
     case UserHandler.validate(attrs) do
       {:ok, _} -> json conn, %{data: "Usuario creado con éxito"}

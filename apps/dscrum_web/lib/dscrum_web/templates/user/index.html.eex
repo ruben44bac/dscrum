@@ -14,19 +14,20 @@
 								<img class="radius-img" src="http://localhost:4000/api/user-image?id=<%= user.id %>" alt="Phoenix Framework Logo"/>
 							</div>
 
-							<div class="col s6 m6 l8 card-info-user">
+							<div class="col s6 m6 l5 card-info-user">
 								<b>Username: </b> <%= user.username %> <br>
 								<b>Nombre: </b> <%= user.name %> <br>
 								<b>Apellido: </b> <%= user.surname %> <br>
 								<b>Email: </b> <%= user.mail %> <br>
 								<b>Teléfono: </b> <%= user.phone %> <br>
 							</div>
-							<div class="col s2 m2 l1">
+							<div class="col s2 m2 l4">
 								<a class="btn-floating btn-small waves-effect waves-light purple"><i class="material-icons">visibility</i></a>
 								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon"><i class="material-icons">edit</i></a>
 								<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon"><i class="material-icons">delete</i></a>
 							</div>
 						</div>
+						<hr>
 					</td>
 					<%# <td>
 						<div class="row">
@@ -40,6 +41,6 @@
 	
 </div>
 <div class="btn-nuevo">
-	<%= link "+", to: Routes.user_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light purple" %>
+	<%= link "+", to: Routes.user_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light btn-add" %>
 </div>
 
