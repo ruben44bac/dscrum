@@ -9,7 +9,7 @@ defmodule Dscrum.StoryQuery do
   def paged_list(size, index, team_id) do
     from s in StorySchema,
     where: s.team_id == ^team_id,
-    order_by: [desc: s.date_start],
+    order_by: [desc: s.id],
     limit: ^size,
     offset: ^index
   end
