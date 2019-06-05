@@ -23,12 +23,16 @@ defmodule DscrumWeb.Router do
     pipe_through :browser
 
     # get "/", PageController, :index
-    get "/", UserController, :index
+    get "/", TeamController, :index
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
 
+
+    put "/add_user_team", TeamController, :add_user_team
+
     resources "/user", UserController, only: [:index, :show, :new, :create, :edit, :update, :delete]
+    resources "/team", TeamController, only: [:index, :show, :new, :create, :edit, :update, :delete]
   end
 
   # Other scopes may use custom stacks.
@@ -38,6 +42,7 @@ defmodule DscrumWeb.Router do
     post "/signup", UserController, :signup
     post "/auth", UserController, :login
     get "/user-image", UserController, :image
+    get "/team-image", TeamController, :image
   end
 
   scope "/api", DscrumWeb do

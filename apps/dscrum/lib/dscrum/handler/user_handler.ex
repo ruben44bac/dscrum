@@ -111,12 +111,18 @@ defmodule Dscrum.UserHandler do
         |> Ecto.Changeset.delete_change(:image)
       end
 
-    IO.inspect(user)
     Repo.update(user)
 
   end
 
   def delete_user(%UserSchema{} = user) do
     Repo.delete(user)
+  end
+
+  def update_team(%UserSchema{} = user, attrs) do
+    user
+    |> UserSchema.changeset(attrs)
+    |> IO.inspect()
+    |> Repo.update()
   end
 end

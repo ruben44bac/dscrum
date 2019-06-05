@@ -25,11 +25,11 @@
       <div class="menu">
         <div class="label btn-menu"><i class="material-icons">menu</i></div>
         <div class="spacer"></div>
+        <a class="item" style="text-align: center;" href="<%= Routes.team_path(@conn, :index) %>">
+          <span><i class="material-icons">supervised_user_circle</i> <br>Teams</span>
+        </a>
         <a class="item" style="text-align: center;" href="<%= Routes.user_path(@conn, :index) %>">
           <span><i class="material-icons">account_circle</i> <br>Usuarios</span>
-        </a>
-        <a class="item" style="text-align: center;">
-          <span><i class="material-icons">supervised_user_circle</i> <br>Equipos</span>
         </a>
         <a class="item" style="text-align: center;">
           <span><i class="material-icons">file_copy</i> <br>Historias</span>

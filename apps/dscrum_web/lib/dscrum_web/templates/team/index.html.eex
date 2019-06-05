@@ -1,41 +1,37 @@
 
 
 <div class="titulo col s12" align="center">
-  <h1>Usuarios</h1>
+  <h1>Teams</h1>
 </div>
 <div class="row">
 	<div class="col s12 m8 offset-m2 l6 offset-l3 listado color-text-input">
 		<table>
-			<%= for {user, i} <- Enum.with_index(@users) do %>
+			<%= for {team, i} <- Enum.with_index(@teams) do %>
 				<tr>
 					<!--<td>
-						<%= length(@users) %>
+						<%= length(@teams) %>
 					</td>
 					<td>
 						<%= i %>
 					</td>!-->
 					<td>
 						<div class="row ">
-							<div class="col s4 m4 l3 div-img">
-								<img class="radius-img" src="http://localhost:4000/api/user-image?id=<%= user.id %>"/>
+							<div class="col s4 m4 l3">
+								<img class="radius-img" src="http://localhost:4000/api/team-image?id=<%= team.id %>"/>
 							</div>
 
-							<div class="col s6 m6 l5 card-info-user">
-								<b><%= user.username %></b> <br>
-								<!--<b>Nombre: </b> <%= user.name %> <br>
-								<b>Apellido: </b> <%= user.surname %> <br>-->
-								<b>Email: </b> <%= user.mail %> <br>
-								<b>Teléfono: </b> <%= user.phone %> <br>
+							<div class="col s6 m6 l5 card-info-team">
+								<h5> <%= team.name %> </h5><br>
 							</div>
 							<div class="col s2 m2 l4">
 								<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modal<%= i %>"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
 								
 								
-								<%= link to: Routes.user_path(@conn, :edit, user), class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
+								<%= link to: Routes.team_path(@conn, :edit, team), class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
 									<i class="material-icons">edit</i>
 								<% end %>&nbsp;&nbsp;
 
-								<!-- <%= link to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "¿Realmente deseas eliminar?"], class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
+								<!-- <%= link to: Routes.team_path(@conn, :delete, team), method: :delete, data: [confirm: "¿Realmente deseas eliminar?"], class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
 									<i class="material-icons">delete</i>
 								<% end %> -->
 								<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modaldelete<%= i %>"><i class="material-icons">delete</i></button> &nbsp;&nbsp;
@@ -44,19 +40,15 @@
 						</div>
 	
 						<!-- Modal Show -->
-						<div id="modal<%= i %>" class="modal modal-me modal-user">
+						<div id="modal<%= i %>" class="modal modal-me modal-team">
 							<div class="modal-content">
 								<div class="row">
 									<div class="col s12 m12 l3" style="text-align: center;">
-										<img class="radius-img" src="http://localhost:4000/api/user-image?id=<%= user.id %>"/>
+										<img class="radius-img" src="http://localhost:4000/api/team-image?id=<%= team.id %>"/>
 									</div>
 
-									<div class="col s12 m12 l7 offset-l2 card-info-user">
-										<b>Username: </b> <%= user.username %> <br>
-										<b>Nombre: </b> <%= user.name %> <br>
-										<b>Apellido: </b> <%= user.surname %> <br>
-										<b>Email: </b> <%= user.mail %> <br>
-										<b>Teléfono: </b> <%= user.phone %> <br>
+									<div class="col s12 m12 l7 offset-l2 card-info-team">
+										<h5> <%= team.name %> </h5><br>
 									</div>
 								</div>
 							</div>
@@ -68,18 +60,18 @@
 						</div>
 						<!-- Fin Modal -->
 						<!-- Modal Delete -->
-						<div id="modaldelete<%= i %>" class="modal modal-me modal-user">
+						<div id="modaldelete<%= i %>" class="modal modal-me modal-team">
 							<div class="modal-content">
 								<div class="row">
 									<div class="col s12" style="text-align: center; font-size: 25px;">
-										¿Realmente deseas eliminar al usuario: <%= user.name %> ? 
+										¿Realmente deseas eliminar al equipo: <%= team.name %> ? 
 									</div>
 								</div>
 							</div>
 							<div class="modal-footer modal-footer-me">
 								<%# <div class="row"> %>
 									<div class="col s2 offset-s3">
-										<%= link to: Routes.user_path(@conn, :delete, user), method: :delete, class: "btn-floating btn-small waves-effect waves-light purple btn-confirmar-modal space-top-icon" do %>
+										<%= link to: Routes.team_path(@conn, :delete, team), method: :delete, class: "btn-floating btn-small waves-effect waves-light purple btn-confirmar-modal space-top-icon" do %>
 											<i class="material-icons">check</i>
 										<% end %>
 									</div>
@@ -94,7 +86,7 @@
 						</div>
 						<!-- Fin Modal -->
 
-						<%= if (i+1) < length(@users) do %>
+						<%= if (i+1) < length(@teams) do %>
 							<hr>
 						<% end %>
 					</td>
@@ -105,7 +97,7 @@
 	
 </div>
 <div class="btn-nuevo">
-	<%= link "+", to: Routes.user_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light btn-add" %>
+	<%= link "+", to: Routes.team_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light btn-add" %>
 </div>
 
 

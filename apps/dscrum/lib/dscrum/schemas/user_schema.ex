@@ -17,7 +17,7 @@ defmodule Dscrum.UserSchema do
 
   def changeset(user, attrs) do
     user
-      |> cast(attrs, [:username, :phone, :mail, :name, :surname, :password, :image])
+      |> cast(attrs, [:username, :phone, :mail, :name, :surname, :password, :image, :team_id])
       |> validate_required([:username, :phone, :mail, :name, :surname, :password],
         message: "El valor es requerido"
       )

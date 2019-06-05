@@ -42,6 +42,7 @@ import "phoenix_html"
 //   reader.readAsBinaryString(f);
 // }
 
+// cargar foto preview
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -58,6 +59,11 @@ $("#user_schema_foto").change(function(){
     readURL(this);
 });
 
+$("#team_schema_foto").change(function(){
+    readURL(this);
+});
+
+// fin cargar foto preview
 
 // modal
 $(document).ready(function(){

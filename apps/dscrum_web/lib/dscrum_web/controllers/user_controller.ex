@@ -4,7 +4,7 @@ defmodule DscrumWeb.UserController do
   alias Dscrum.UserHandler
   alias Dscrum.UserSchema
 
-  plug :check_auth when action in [:index]
+  plug :check_auth when action in [:index, :show, :new, :create, :edit, :update, :delete]
 
 
 
