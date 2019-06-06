@@ -106,7 +106,7 @@
               <div class="col s10">
                 <div class="row color-text-input">
                   
-                  <%= for {user, i} <- Enum.with_index(@users_sin_equipo) do %>
+                  <%= for {user, _i} <- Enum.with_index(@users_sin_equipo) do %>
                         <div class="col s12 m3 div-img" style="text-align: center;">
                           
                             <label class="container-check check-new">
