@@ -30,6 +30,9 @@ defmodule DscrumWeb.Router do
 
 
     put "/add_user_team", TeamController, :add_user_team
+    post "/add_user_team", TeamController, :add_user_team
+    put "/delete_user_team", TeamController, :delete_user_team
+    put "/team", TeamController, :create
 
     resources "/user", UserController, only: [:index, :show, :new, :create, :edit, :update, :delete]
     resources "/team", TeamController, only: [:index, :show, :new, :create, :edit, :update, :delete]

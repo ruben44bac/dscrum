@@ -9,9 +9,24 @@ defmodule Dscrum.UserHandler do
   alias Dscrum.UserQuery
   alias Dscrum.Guardian
 
+
   def list_user() do
     UserSchema
     |> order_by([c], asc: c.inserted_at)
+    |> Repo.all()
+  end
+
+  def list_user_sin_equipo() do
+    UserSchema
+    |> where([u], is_nil(u.team_id))
+    |> order_by([u], asc: u.inserted_at)
+    |> Repo.all()
+  end
+
+  def list_user_by_equipo(team_id) do
+    UserSchema
+    |> where([u], u.team_id == ^team_id)
+    |> order_by([u], asc: u.inserted_at)
     |> Repo.all()
   end
 
@@ -122,7 +137,6 @@ defmodule Dscrum.UserHandler do
   def update_team(%UserSchema{} = user, attrs) do
     user
     |> UserSchema.changeset(attrs)
-    |> IO.inspect()
     |> Repo.update()
   end
 end

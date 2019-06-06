@@ -176,4 +176,10 @@ defmodule Dscrum.TeamHandler do
     end)
   end
 
+  def delete_user_team(team_id, user_id) do
+    user = UserHandler.get_user!(user_id)
+    attrs = %{"team_id" => nil}
+    UserHandler.update_team(user, attrs)
+  end
+
 end

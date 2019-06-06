@@ -447,7 +447,7 @@ input[type="file"] {
 
 /* Customize the label (the container-check) */
 .container-check {
-  /* display: block; */
+  display: block;
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
@@ -477,8 +477,12 @@ input[type="file"] {
   width: 25px;
   background-color: #eee;
   border-radius: 50%;
+  border: 1px solid rgb(143, 139, 139);
 }
-
+.check-new{
+  left: 0px;
+  top: 12px;
+}
 /* On mouse-over, add a grey background color */
 .container-check:hover input ~ .checkmark {
   background-color: #ccc;
@@ -488,6 +492,7 @@ input[type="file"] {
 /* When the checkbox is checked, add a blue background */
 .container-check input:checked ~ .checkmark {
   background-color: purple;
+  border: 0px solid rgb(143, 139, 139);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -516,3 +521,33 @@ input[type="file"] {
 }
 
 /* fin checkbox */
+
+/* delete-icon-image */
+.img-wraps {
+  position: relative;
+  display: inline-block;
+ 
+  font-size: 0;
+}
+.img-wraps .closes {
+  position: absolute;
+  top: 5px;
+  right: -10px;
+  z-index: 100;
+  background-color: #FFF;
+  padding: 4px 3px;
+  
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+ 
+  text-align: center;
+  font-size: 22px;
+  line-height: 10px;
+  border-radius: 50%;
+  border:1px solid red;
+}
+.img-wraps:hover .closes {
+  opacity: 1;
+}
+/* fin delete-icon-image */

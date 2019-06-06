@@ -30,13 +30,12 @@ defmodule DscrumWeb.TeamController do
   end
 
   def new(conn, _params) do
-    users_sin_equipo = UserHandler.list_user()
+    users_sin_equipo = UserHandler.list_user_sin_equipo()
     changeset = TeamHandler.change_team(%TeamSchema{})
     render(conn, "new.html", changeset: changeset, users_sin_equipo: users_sin_equipo)
   end
 
-  def create(conn, %{"team_schema" => team_params}) do
-
+  def create(conn, %{"users" => users, "team_schema" => team_params}) do
     team_params =
       if upload = team_params["foto"] do
 
@@ -55,7 +54,9 @@ defmodule DscrumWeb.TeamController do
       end
 
     case TeamHandler.create_team(team_params) do
-      {:ok, _team} ->
+      {:ok, team} ->
+
+        TeamHandler.add_user_team(team.id, users)
         conn
         # |> put_flash(:info, "Team created successfully.")
         |> redirect(to: Routes.team_path(conn, :index))
@@ -71,10 +72,11 @@ defmodule DscrumWeb.TeamController do
   end
 
   def edit(conn, %{"id" => id}) do
-    users_sin_equipo = UserHandler.list_user()
+    users_sin_equipo = UserHandler.list_user_sin_equipo()
+    users_by_equipo = UserHandler.list_user_by_equipo(id)
     team = TeamHandler.get_team!(id)
     changeset = TeamHandler.change_team(team)
-    render(conn, "edit.html", team: team, changeset: changeset, users_sin_equipo: users_sin_equipo)
+    render(conn, "edit.html", team: team, changeset: changeset, users_sin_equipo: users_sin_equipo, users_by_equipo: users_by_equipo)
   end
 
   def update(conn, %{"id" => id, "team_schema" => team_params}) do
@@ -126,10 +128,28 @@ defmodule DscrumWeb.TeamController do
 
   def add_user_team(conn, %{"users" => users, "team" => team}) do
 
+    if team != "0" do
+      TeamHandler.add_user_team(team, users)
 
-    TeamHandler.add_user_team(team, users)
+      team = TeamHandler.get_team!(team)
+      conn
+      # |> put_flash(:info, "Team deleted successfully.")
+      |> redirect(to: Routes.team_path(conn, :edit, team))
+    else
+      users_sin_equipo = UserHandler.list_user_sin_equipo()
+      users_by_equipo = UserHandler.list_user_sin_equipo()
+      changeset = TeamHandler.change_team(%TeamSchema{})
+      render(conn, "new.html", changeset: changeset, users_sin_equipo: users_sin_equipo, users_by_equipo: users_by_equipo)
+    end
 
-    team = TeamHandler.get_team!(team)
+
+  end
+
+  def delete_user_team(conn, %{"user" => user_id, "team" => team_id}) do
+
+    TeamHandler.delete_user_team(team_id, user_id)
+
+    team = TeamHandler.get_team!(team_id)
     conn
     # |> put_flash(:info, "Team deleted successfully.")
     |> redirect(to: Routes.team_path(conn, :edit, team))
