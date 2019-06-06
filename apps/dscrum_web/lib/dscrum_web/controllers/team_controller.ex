@@ -26,6 +26,7 @@ defmodule DscrumWeb.TeamController do
 
   def index(conn, _params) do
     teams = TeamHandler.list_teams()
+    IO.inspect(teams)
     render(conn, "index.html", teams: teams)
   end
 

@@ -394,6 +394,16 @@ input[type="file"] {
   text-align: center;
   border: 3px dashed #fff;
 }
+
+.img-show-team{
+  width: 200px;
+  height: 200px;
+  transition: border 300ms ease;
+  cursor: pointer;
+  text-align: center;
+  border: 3px solid #fff;
+}
+
 .img-load:hover{
   border: 3px dashed #FF9800;
 }

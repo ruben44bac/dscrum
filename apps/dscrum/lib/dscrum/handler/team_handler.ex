@@ -21,7 +21,15 @@ defmodule Dscrum.TeamHandler do
 
   """
   def list_teams do
-    Repo.all(TeamSchema)
+    TeamSchema
+    |> order_by([t], asc: t.inserted_at)
+    |> Repo.all()
+    |> Enum.map(fn result ->
+      users_team = UserHandler.list_user_by_equipo(result.id)
+
+      result
+      |> Map.put(:users, users_team)
+    end)
   end
 
   @doc """
@@ -176,7 +184,7 @@ defmodule Dscrum.TeamHandler do
     end)
   end
 
-  def delete_user_team(team_id, user_id) do
+  def delete_user_team(_team_id, user_id) do
     user = UserHandler.get_user!(user_id)
     attrs = %{"team_id" => nil}
     UserHandler.update_team(user, attrs)
