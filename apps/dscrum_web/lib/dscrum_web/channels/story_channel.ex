@@ -16,6 +16,8 @@ defmodule DscrumWeb.StoryChannel do
 
   def handle_info(:after_join, socket) do
     push socket, "presence_state", Presence.list(socket)
+    IO.inspect(socket)
+    IO.puts("**************************************")
     user = Repo.get(UserSchema, socket.assigns.guardian_default_resource.id)
 
     {:ok, _} = Presence.track(socket, "user:#{user.id}", %{

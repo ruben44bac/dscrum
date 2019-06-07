@@ -3,6 +3,9 @@ defmodule DscrumWeb.UserController do
   alias Dscrum.AuthCommand
   alias Dscrum.UserHandler
   alias Dscrum.UserSchema
+  alias Dscrum.PagedCommand
+  alias DscrumWeb.Helpers.PageList
+
 
   plug :check_auth when action in [:index, :show, :new, :create, :edit, :update, :delete]
 
@@ -22,9 +25,28 @@ defmodule DscrumWeb.UserController do
     end
   end
 
-	def index(conn, _params) do
-      users = UserHandler.list_user()
-      render(conn, "index.html", users: users)
+  def index(conn, params) do
+    params =
+      params
+      |> PagedCommand.new
+
+    respuesta = UserHandler.list_user(params)
+
+    {number_size, _} = Integer.parse(params.size)
+    {number_index, _} = Integer.parse(params.index)
+
+    paginado = PageList.get_page_list(respuesta.total_pages, number_index, 7)
+
+    result = %{
+      records: respuesta.records,
+      total_records: respuesta.total_records,
+      total_pages: respuesta.total_pages,
+      page_number: number_index,
+      page_size: number_size,
+      paginado: paginado
+    }
+    IO.inspect(result)
+    render(conn, "index.html", result: result)
   end
 
   def new(conn, _params) do
@@ -67,7 +89,7 @@ defmodule DscrumWeb.UserController do
       {:ok, _} ->
         conn
         # |> put_flash(:info, "Picture created successfully.")
-        |> redirect(to: Routes.user_path(conn, :index))
+        |> redirect(to: Routes.user_path(conn, :index, %{"index" => 0, "size" => 5}))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -115,7 +137,7 @@ defmodule DscrumWeb.UserController do
       {:ok, _user} ->
         conn
         # |> put_flash(:info, "Movie updated successfully.")
-        |> redirect(to: Routes.user_path(conn, :index))
+        |> redirect(to: Routes.user_path(conn, :index, %{"index" => 0, "size" => 5}))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
     end

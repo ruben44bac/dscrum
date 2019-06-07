@@ -26,4 +26,18 @@ defmodule Dscrum.UserQuery do
     select: u.id,
     order_by: [asc: u.id]
   end
+
+
+  def paged_list(size, index) do
+    from u in UserSchema,
+    order_by: [asc: u.inserted_at],
+    limit: ^size,
+    offset: ^index
+  end
+
+  def total_list() do
+    from u in UserSchema,
+    select: count(u.id)
+  end
+
 end

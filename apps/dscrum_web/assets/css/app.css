@@ -561,3 +561,12 @@ input[type="file"] {
   opacity: 1;
 }
 /* fin delete-icon-image */
+
+/* pagination */
+.pagination li a {
+  color: #ff9800;
+}
+.pagination li.active {
+  background-color: rgb(156, 39, 176);
+}
+/* fin pagination */

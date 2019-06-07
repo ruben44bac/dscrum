@@ -8,12 +8,37 @@ defmodule Dscrum.UserHandler do
   alias Dscrum.AuthCommand
   alias Dscrum.UserQuery
   alias Dscrum.Guardian
-
+  alias Dscrum.PagedCommand
+  alias Dscrum.{UserStruct, PagedStruct}
 
   def list_user() do
     UserSchema
     |> order_by([c], asc: c.inserted_at)
     |> Repo.all()
+  end
+
+  def list_user(%PagedCommand{} = command) do
+    {number_size, _} = Integer.parse(command.size)
+    {number_index, _} = Integer.parse(command.index)
+
+
+    user_list =
+      UserQuery.paged_list(number_size, number_size * number_index)
+      |> Repo.all
+      |> Enum.map(fn(res) -> UserStruct.new(res) end)
+
+    total_records =
+      UserQuery.total_list()
+      |> Repo.one
+
+    total_pages = total_paginas(total_records, 5)
+
+    %{}
+    |> Map.put(:records, user_list)
+    |> Map.put(:total_pages, total_pages)
+    |> Map.put(:total_records, total_records)
+    |> PagedStruct.new()
+    # %{attributes: result}
   end
 
   def list_user_sin_equipo() do
@@ -139,4 +164,24 @@ defmodule Dscrum.UserHandler do
     |> UserSchema.changeset(attrs)
     |> Repo.update()
   end
+
+  defp ceiling(float) do
+    t = trunc(float)
+
+    case float - t do
+      neg when neg < 0 ->
+        t
+
+      pos when pos > 0 ->
+        t + 1
+
+      _ ->
+        t
+    end
+  end
+
+  defp total_paginas(count, numero_elementos) do
+    ceiling(count / numero_elementos)
+  end
+
 end
