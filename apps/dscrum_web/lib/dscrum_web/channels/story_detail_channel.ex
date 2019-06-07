@@ -33,4 +33,10 @@ defmodule DscrumWeb.StoryDetailChannel  do
     {:reply, {:ok, %{data: response }}, socket}
   end
 
+  def handle_in("leave", _params, socket) do
+    user_map =  StoryDetailHandler.user(socket)
+    broadcast!(socket, "left", user_map)
+    {:noreply,socket}
+  end
+
 end

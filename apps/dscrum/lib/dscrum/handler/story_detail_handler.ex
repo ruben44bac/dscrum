@@ -65,8 +65,15 @@ defmodule Dscrum.StoryDetailHandler do
     end
   end
 
+  def user(socket) do
+    StoryQuery.user(socket.assigns.guardian_default_resource.id)
+     |> Repo.one
+  end
+
+
   def get_difficulty(id) do
     Repo.get(Dscrum.DifficultySchema, id)
   end
+
 
 end
