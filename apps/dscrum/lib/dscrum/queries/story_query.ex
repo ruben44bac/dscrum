@@ -57,4 +57,14 @@ defmodule Dscrum.StoryQuery do
     select: s.complete
   end
 
+  def user(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    select: %{
+      user_id: u.id,
+      username: u.username,
+      name: u.name 
+    }
+  end
+
 end
