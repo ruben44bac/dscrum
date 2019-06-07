@@ -65,6 +65,8 @@ defmodule Dscrum.StoryDetailHandler do
     end
   end
 
-
+  def get_difficulty(id) do
+    Repo.get(Dscrum.DifficultySchema, id)
+  end
 
 end
