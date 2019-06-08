@@ -4,6 +4,8 @@ defmodule DscrumWeb.TeamController do
   alias Dscrum.TeamHandler
   alias Dscrum.TeamSchema
   alias Dscrum.UserHandler
+  alias Dscrum.PagedCommand
+  alias DscrumWeb.Helpers.PageList
 
   plug :check_auth when action in [:index, :show, :new, :create, :edit, :update, :delete]
 
@@ -24,9 +26,34 @@ defmodule DscrumWeb.TeamController do
   end
 
 
-  def index(conn, _params) do
-    teams = TeamHandler.list_teams()
-    render(conn, "index.html", teams: teams)
+  def index(conn, params) do
+    params =
+      if Map.get(params, "index") == nil or Map.get(params, "size") == nil do
+        %{"index" => "0", "size" => "5"}
+      else
+        params
+      end
+
+    params =
+      params
+      |> PagedCommand.new
+
+    respuesta = TeamHandler.list_teams(params)
+
+    {number_size, _} = Integer.parse(params.size)
+    {number_index, _} = Integer.parse(params.index)
+
+    paginado = PageList.get_page_list(respuesta.total_pages, number_index, 7)
+
+    result = %{
+      records: respuesta.records,
+      total_records: respuesta.total_records,
+      total_pages: respuesta.total_pages,
+      page_number: number_index,
+      page_size: number_size,
+      paginado: paginado
+    }
+    render(conn, "index.html", result: result)
   end
 
   def new(conn, _params) do

@@ -25,18 +25,19 @@
       <div class="menu">
         <div class="label btn-menu"><i class="material-icons">menu</i></div>
         <div class="spacer"></div>
-        <a class="item" style="text-align: center;" href="<%= Routes.team_path(@conn, :index) %>">
-          <span><i class="material-icons">supervised_user_circle</i> <br>Teams</span>
-        </a>
 
+        <%= link to: Routes.team_path(@conn, :index, %{"index" => 0, "size" => 5}), class: "item" do %>
+          <span><i class="material-icons">supervised_user_circle</i> <br>Teams</span>
+        <% end %>
+        
         <%= link to: Routes.user_path(@conn, :index, %{"index" => 0, "size" => 5}), class: "item" do %>
           <span><i class="material-icons">account_circle</i> <br>Usuarios</span>
         <% end %>
 
-        <a class="item" style="text-align: center;">
+        <a class="item">
           <span><i class="material-icons">file_copy</i> <br>Historias</span>
         </a>
-        <a class="item" style="text-align: center;" href="<%= Routes.session_path(@conn, :delete) %>">
+        <a class="item" href="<%= Routes.session_path(@conn, :delete) %>">
           <span><i class="material-icons">exit_to_app</i> <br>Cerrar Sesión</span>
         </a>
       </div>

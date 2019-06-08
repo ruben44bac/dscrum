@@ -10,6 +10,7 @@ defmodule Dscrum.UserHandler do
   alias Dscrum.Guardian
   alias Dscrum.PagedCommand
   alias Dscrum.{UserStruct, PagedStruct}
+  alias Dscrum.Helpers.TotalPaginas
 
   def list_user() do
     UserSchema
@@ -31,7 +32,7 @@ defmodule Dscrum.UserHandler do
       UserQuery.total_list()
       |> Repo.one
 
-    total_pages = total_paginas(total_records, 5)
+    total_pages = TotalPaginas.total_paginas(total_records, 5)
 
     %{}
     |> Map.put(:records, user_list)
@@ -163,25 +164,6 @@ defmodule Dscrum.UserHandler do
     user
     |> UserSchema.changeset(attrs)
     |> Repo.update()
-  end
-
-  defp ceiling(float) do
-    t = trunc(float)
-
-    case float - t do
-      neg when neg < 0 ->
-        t
-
-      pos when pos > 0 ->
-        t + 1
-
-      _ ->
-        t
-    end
-  end
-
-  defp total_paginas(count, numero_elementos) do
-    ceiling(count / numero_elementos)
   end
 
 end

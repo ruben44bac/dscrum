@@ -27,6 +27,14 @@ defmodule DscrumWeb.UserController do
 
   def index(conn, params) do
     params =
+      if Map.get(params, "index") == nil or Map.get(params, "size") == nil do
+        %{"index" => "0", "size" => "5"}
+      else
+        params
+      end
+
+
+    params =
       params
       |> PagedCommand.new
 
@@ -45,7 +53,6 @@ defmodule DscrumWeb.UserController do
       page_size: number_size,
       paginado: paginado
     }
-    IO.inspect(result)
     render(conn, "index.html", result: result)
   end
 

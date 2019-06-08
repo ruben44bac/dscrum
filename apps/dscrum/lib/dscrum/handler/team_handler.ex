@@ -7,10 +7,12 @@ defmodule Dscrum.TeamHandler do
   import Ecto.Changeset
   alias Dscrum.Repo
 
+  alias Dscrum.PagedCommand
   alias Dscrum.TeamSchema
   alias Dscrum.TeamQuery
   alias Dscrum.UserHandler
-
+  alias Dscrum.Helpers.TotalPaginas
+  alias Dscrum.{TeamStruct, PagedStruct}
   @doc """
   Returns the list of teams.
 
@@ -30,6 +32,35 @@ defmodule Dscrum.TeamHandler do
       result
       |> Map.put(:users, users_team)
     end)
+  end
+
+  def list_teams(%PagedCommand{} = command) do
+    {number_size, _} = Integer.parse(command.size)
+    {number_index, _} = Integer.parse(command.index)
+
+
+    team_list =
+      TeamQuery.paged_list(number_size, number_size * number_index)
+      |> Repo.all
+      |> Enum.map(fn(res) ->
+        users_team = UserHandler.list_user_by_equipo(res.id)
+
+        TeamStruct.new(res)
+        |> Map.put(:users, users_team)
+      end)
+
+    total_records =
+      TeamQuery.total_list()
+      |> Repo.one
+
+    total_pages = TotalPaginas.total_paginas(total_records, 5)
+
+    %{}
+    |> Map.put(:records, team_list)
+    |> Map.put(:total_pages, total_pages)
+    |> Map.put(:total_records, total_records)
+    |> PagedStruct.new()
+    # %{attributes: result}
   end
 
   @doc """
