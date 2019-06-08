@@ -30,6 +30,7 @@ defmodule DscrumWeb.StoryDetailChannel  do
 
   def handle_in("qualify", params, socket) do
     response = StoryDetailHandler.qualify(params, socket)
+                |> check_status
     {:reply, {:ok, %{data: response }}, socket}
   end
 
@@ -37,6 +38,14 @@ defmodule DscrumWeb.StoryDetailChannel  do
     user_map =  StoryDetailHandler.user(socket)
     broadcast!(socket, "left", user_map)
     {:noreply,socket}
+  end
+
+  def check_status(params) do
+    case params.close do
+      nil -> IO.inspect(params)
+      _ -> IO.puts("////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*****************************")
+    end
+    params
   end
 
 end

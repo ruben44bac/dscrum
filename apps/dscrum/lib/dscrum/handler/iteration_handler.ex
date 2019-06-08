@@ -93,7 +93,7 @@ defmodule Dscrum.IterationHandler do
       |> Repo.update
 
     case iteration do
-      {:ok, _} -> %{message: "Se ha registrado tu calificación y cerrado la iteración"}
+      {:ok, _} -> %{message: "Se ha registrado tu calificación y cerrado la iteración", close: "ok"}
       {:error, detail} -> %{error: detail}
     end
 
