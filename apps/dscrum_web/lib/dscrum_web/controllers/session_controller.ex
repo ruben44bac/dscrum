@@ -8,7 +8,15 @@ defmodule DscrumWeb.SessionController do
 
   def new(conn, _params) do
     if get_session(conn, :current_user_id) do
-      render conn, "/"
+      case Dscrum.Guardian.decode_and_verify(get_session(conn, :token)) do
+        {:ok, _claims} ->
+          current_user = UserHandler.get_user!(get_session(conn, :current_user_id))
+          conn
+          |> assign(:current_user, current_user)
+          |> redirect(to: "/")
+        {:error, _invalid} ->
+          render conn, "new.html"
+      end
     end
     render conn, "new.html"
   end

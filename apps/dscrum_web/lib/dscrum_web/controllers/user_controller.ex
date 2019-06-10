@@ -12,11 +12,21 @@ defmodule DscrumWeb.UserController do
 
 
   defp check_auth(conn, _args) do
-    if user_id = get_session(conn, :current_user_id) do
-      current_user = UserHandler.get_user!(user_id)
 
-      conn
-      |> assign(:current_user, current_user)
+    if user_id = get_session(conn, :current_user_id) do
+
+      case Dscrum.Guardian.decode_and_verify(get_session(conn, :token)) do
+        {:ok, _claims} ->
+          current_user = UserHandler.get_user!(user_id)
+          conn
+          |> assign(:current_user, current_user)
+        {:error, _invalid} ->
+          conn
+          # |> put_flash(:error, "Inicia sesion para continuar.")
+          |> redirect(to: "/login")
+          |> halt()
+      end
+
     else
       conn
       # |> put_flash(:error, "Inicia sesion para continuar.")
