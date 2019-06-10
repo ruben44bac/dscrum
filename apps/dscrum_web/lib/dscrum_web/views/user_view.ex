@@ -3,6 +3,11 @@ defmodule DscrumWeb.UserView do
   alias DscrumWeb.UserView
   alias Dscrum.UserSchema
 
+
+  def render("index.json", %{user: user}) do
+    %{data: render_many(user, UserView, "user.json")}
+  end
+
   def render("signin.json", %{users: users}) do
     %{data: render_many(users, UserView, "user.json")}
   end

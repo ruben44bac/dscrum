@@ -166,4 +166,10 @@ defmodule DscrumWeb.UserController do
     |> redirect(to: Routes.user_path(conn, :index))
   end
 
+
+  def get_users_without_team(conn, _attrs) do
+    user = UserHandler.list_user_sin_equipo()
+    conn |> render("index.json", user: user)
+  end
+
 end

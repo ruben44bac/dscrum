@@ -164,7 +164,7 @@ defmodule DscrumWeb.TeamController do
       |> redirect(to: Routes.team_path(conn, :edit, team))
     else
       users_sin_equipo = UserHandler.list_user_sin_equipo()
-      users_by_equipo = UserHandler.list_user_sin_equipo()
+      users_by_equipo = UserHandler.list_user_by_equipo(team)
       changeset = TeamHandler.change_team(%TeamSchema{})
       render(conn, "new.html", changeset: changeset, users_sin_equipo: users_sin_equipo, users_by_equipo: users_by_equipo)
     end

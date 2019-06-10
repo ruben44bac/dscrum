@@ -28,7 +28,7 @@ defmodule DscrumWeb.Router do
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete
 
-
+    get "/get_user_without_team", UserController, :get_users_without_team
     put "/add_user_team", TeamController, :add_user_team
     post "/add_user_team", TeamController, :add_user_team
     put "/delete_user_team", TeamController, :delete_user_team
