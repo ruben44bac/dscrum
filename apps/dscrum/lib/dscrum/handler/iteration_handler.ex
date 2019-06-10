@@ -51,7 +51,7 @@ defmodule Dscrum.IterationHandler do
 
       case new_user_iteration do
         {:ok, _} -> validate_other_user_iteration(socket, iteration_id)
-        _ ->  %{error: "Error fatal."}
+        _ ->  %{error: "Error fatal.", close: true}
       end
 
   end
@@ -63,7 +63,7 @@ defmodule Dscrum.IterationHandler do
       |> Repo.all
     case user_team == user_iteration do
       true -> create_iteration(params, socket, iteration.iteration)
-      false -> %{error: "Espera a que el resto del equipo califique."}
+      false -> %{error: "Espera a que el resto del equipo califique.", close: false}
     end
   end
 
@@ -75,7 +75,7 @@ defmodule Dscrum.IterationHandler do
 
     case user_team == user_iteration do
       true -> close_iteration(iteration_id)
-      false -> %{message: "Se ha registrado tu calificación"}
+      false -> %{message: "Se ha registrado tu calificación", close: false}
     end
   end
 
@@ -93,7 +93,7 @@ defmodule Dscrum.IterationHandler do
       |> Repo.update
 
     case iteration do
-      {:ok, _} -> %{message: "Se ha registrado tu calificación y cerrado la iteración", close: "ok"}
+      {:ok, _} -> %{message: "Se ha registrado tu calificación y cerrado la iteración", close: true, difficulty: difficulty}
       {:error, detail} -> %{error: detail}
     end
 
