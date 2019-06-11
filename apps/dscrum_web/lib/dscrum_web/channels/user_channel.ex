@@ -5,8 +5,12 @@ defmodule DscrumWeb.UserChannel do
   alias Dscrum.PagedCommand
   alias DscrumWeb.Helpers.PageList
 
-  def join("user:lobby", _payload, socket) do
+  def join("user:account", _params, socket) do
     {:ok, socket}
+  end
+
+  def handle_in("dashboard", _payload, socket) do
+    {:reply, {:ok, %{data: UserHandler.dashboard(socket.assigns.guardian_default_resource.id)}}, socket}
   end
 
   def handle_in("list", params, socket) do
@@ -38,14 +42,6 @@ defmodule DscrumWeb.UserChannel do
     }
 
     {:reply, {:ok, result}, socket}
-  end
-
-  def join("user:account", _params, socket) do
-    {:ok, socket}
-  end
-
-  def handle_in("dashboard", _payload, socket) do
-    {:reply, {:ok, %{data: UserHandler.dashboard(socket.assigns.guardian_default_resource.id)}}, socket}
   end
 
 end

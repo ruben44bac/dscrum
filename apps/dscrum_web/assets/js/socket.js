@@ -56,7 +56,7 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 
 // // Now that you are connected, you can join channels with a topic:
 // // let channel = socket.channel("topic:subtopic", {})
-// let channel = socket.channel("user:lobby", {})
+// let channel = socket.channel("user:account", {})
 // channel.join()
 //   .receive("ok", resp => { console.log("Joined successfully", resp) })
 //   .receive("error", resp => { console.log("Unable to join", resp) })

@@ -10,7 +10,7 @@ let User = {
         let tableContainer    =   document.getElementById("records-user")
         let paginationContainer    =   document.getElementById("pagination-user")
 
-        let user_channel = socket.channel("user:lobby", {})
+        let user_channel = socket.channel("user:account", {})
         
 
         user_channel.on("list", (resp) => {
