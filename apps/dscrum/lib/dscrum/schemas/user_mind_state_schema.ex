@@ -7,12 +7,13 @@ defmodule Dscrum.UserMindStateSchema do
 
     belongs_to :user, Dscrum.UserSchema
     belongs_to :mind_state, Dscrum.MindStateSchema
+
+    timestamps()
   end
 
   def changeset(user_mind_state, attrs) do
     user_mind_state
       |> cast(attrs, [:note, :user_id, :mind_state_id])
-      |> validate_required([:note], message: "El valor es requerido")
   end
 
 end

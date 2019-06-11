@@ -6,11 +6,16 @@ defmodule Dscrum.UserHandler do
   alias Dscrum.Repo
   alias Dscrum.UserSchema
   alias Dscrum.AuthCommand
-  alias Dscrum.UserQuery
+  alias Dscrum.{
+    UserQuery,
+    TeamSchema,
+    StoryQuery
+  }
   alias Dscrum.Guardian
   alias Dscrum.PagedCommand
   alias Dscrum.{UserStruct, PagedStruct}
   alias Dscrum.Helpers.TotalPaginas
+  alias Dscrum.DashboardStruct
 
   def list_user() do
     UserSchema
@@ -61,13 +66,11 @@ defmodule Dscrum.UserHandler do
   end
 
   def get_user!(id) do
+    Repo.get!(UserSchema, id)
+  end
 
-    user = Repo.get!(UserSchema, id)
-    {:ok, file} = File.read(user.image)
-
-    user
-     |> Map.put(:image, Base.encode64(file))
-
+  def get_team(id) do
+    Repo.get(TeamSchema, id)
   end
 
   def login(%AuthCommand{} = command) do
@@ -164,6 +167,33 @@ defmodule Dscrum.UserHandler do
     user
     |> UserSchema.changeset(attrs)
     |> Repo.update()
+  end
+
+  def dashboard(id) do
+    StoryQuery.open_count(id)
+      |> Repo.one
+      |> dashboard(id)
+  end
+
+  def dashboard(attrs, id) do
+    StoryQuery.close_count(id)
+      |> Repo.one
+      |> Map.merge(attrs)
+      |> dashboard(id, 0)
+  end
+
+  def dashboard(attrs, id, _params) do
+    UserQuery.team_name(id)
+      |> Repo.one
+      |> Map.merge(attrs)
+      |> dashboard_command(id)
+  end
+
+  def dashboard_command(attrs, id) do
+    StoryQuery.last_story(id)
+      |> Repo.one
+      |> Map.merge(attrs)
+      |> DashboardStruct.new
   end
 
 end

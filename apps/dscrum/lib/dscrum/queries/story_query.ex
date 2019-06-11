@@ -9,7 +9,7 @@ defmodule Dscrum.StoryQuery do
   def paged_list(size, index, team_id) do
     from s in StorySchema,
     where: s.team_id == ^team_id,
-    order_by: [desc: s.date_start],
+    order_by: [desc: s.id],
     limit: ^size,
     offset: ^index
   end
@@ -55,6 +55,51 @@ defmodule Dscrum.StoryQuery do
     from s in StorySchema,
     where: s.id == ^story_id,
     select: s.complete
+  end
+
+  def user(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    select: %{
+      user_id: u.id,
+      username: u.username,
+      name: u.name
+    }
+  end
+
+  def open_count(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    join: s in StorySchema,
+    on: s.team_id == u.team_id,
+    where: s.complete != true or is_nil(s.complete),
+    select: %{
+      story_open: count(s.id)
+    }
+  end
+
+  def close_count(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    join: s in StorySchema,
+    on: s.team_id == u.team_id,
+    where: s.complete == true,
+    select: %{
+      story_close: count(s.id)
+    }
+  end
+
+  def last_story(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    join: s in StorySchema,
+    on: s.team_id == u.team_id,
+    select: %{
+      last_story_name: s.name
+    },
+    order_by: [desc: s.id],
+    limit: 1,
+    offset: 0
   end
 
 end

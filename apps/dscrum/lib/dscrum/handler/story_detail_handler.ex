@@ -12,7 +12,6 @@ defmodule Dscrum.StoryDetailHandler do
   }
   alias DscrumWeb.Presence
 
-
   def index(socket) do
     users = StoryQuery.detail_story_user(socket.assigns.story_id, socket.assigns.guardian_default_resource.id)
       |> Repo.all
@@ -33,10 +32,18 @@ defmodule Dscrum.StoryDetailHandler do
     case Presence.list(socket)["user_story:" <> Integer.to_string(command.id)] do
       nil -> command
             |> Map.put(:online, false)
-            |> Map.put(:difficulty_name, difficulty.difficulty_name)
-            |> Map.put(:difficulty_id, difficulty.difficulty_id)
+            |> validate_dif_nil(difficulty)
+
       _ -> command
             |> Map.put(:online, true)
+            |> validate_dif_nil(difficulty)
+    end
+  end
+
+  def validate_dif_nil(command, difficulty) do
+    case difficulty do
+      nil -> command
+      _ -> command
             |> Map.put(:difficulty_name, difficulty.difficulty_name)
             |> Map.put(:difficulty_id, difficulty.difficulty_id)
     end
@@ -58,6 +65,15 @@ defmodule Dscrum.StoryDetailHandler do
     end
   end
 
+  def user(socket) do
+    StoryQuery.user(socket.assigns.guardian_default_resource.id)
+     |> Repo.one
+  end
+
+
+  def get_difficulty(id) do
+    Repo.get(Dscrum.DifficultySchema, id)
+  end
 
 
 end

@@ -40,4 +40,12 @@ defmodule DscrumWeb.UserChannel do
     {:reply, {:ok, result}, socket}
   end
 
+  def join("user:account", _params, socket) do
+    {:ok, socket}
+  end
+
+  def handle_in("dashboard", _payload, socket) do
+    {:reply, {:ok, %{data: UserHandler.dashboard(socket.assigns.guardian_default_resource.id)}}, socket}
+  end
+
 end

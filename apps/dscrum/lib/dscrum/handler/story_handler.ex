@@ -12,11 +12,13 @@ defmodule Dscrum.StoryHandler do
   }
 
   def list(%PagedCommand{} = command, socket) do
-    story_list = StoryQuery.paged_list(command.size, (command.size * command.index), socket.assigns.team_id)
+    StoryQuery.paged_list(command.size, (command.size * command.index), socket.assigns.team_id)
       |> Repo.all
       |> Enum.map(fn(res) -> StoryStruct.new(res) end)
+      |> list(socket)
+  end
 
-
+  def list(story_list, socket) do
     result = StoryQuery.total_list(socket.assigns.team_id)
       |> Repo.one
       |> StoryPagedStruct.new

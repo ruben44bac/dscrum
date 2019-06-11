@@ -30,7 +30,20 @@ defmodule DscrumWeb.StoryDetailChannel  do
 
   def handle_in("qualify", params, socket) do
     response = StoryDetailHandler.qualify(params, socket)
+                |> check_status(socket)
     {:reply, {:ok, %{data: response }}, socket}
+  end
+
+  def handle_in("leave", _params, socket) do
+    broadcast!(socket, "left", StoryDetailHandler.user(socket))
+    {:noreply,socket}
+  end
+
+  def check_status(params, socket) do
+    if(params.close == true) do
+      broadcast!(socket, "close", %{difficulty: params.difficulty})
+    end
+    params
   end
 
 end

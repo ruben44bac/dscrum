@@ -46,7 +46,10 @@ defmodule DscrumWeb.Router do
     post "/signup", UserController, :signup
     post "/auth", UserController, :login
     get "/user-image", UserController, :image
-    get "/team-image", TeamController, :image
+    # get "/team-image", TeamController, :image
+    get "/team-image", UserController, :image_team
+    get "/difficulty-image", DifficultyController, :image
+    get "/mind-state-image", MindStateController, :image
   end
 
   scope "/api", DscrumWeb do
