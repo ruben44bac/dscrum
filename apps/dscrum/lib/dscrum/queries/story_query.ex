@@ -63,8 +63,43 @@ defmodule Dscrum.StoryQuery do
     select: %{
       user_id: u.id,
       username: u.username,
-      name: u.name 
+      name: u.name
     }
+  end
+
+  def open_count(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    join: s in StorySchema,
+    on: s.team_id == u.team_id,
+    where: s.complete != true or is_nil(s.complete),
+    select: %{
+      story_open: count(s.id)
+    }
+  end
+
+  def close_count(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    join: s in StorySchema,
+    on: s.team_id == u.team_id,
+    where: s.complete == true,
+    select: %{
+      story_close: count(s.id)
+    }
+  end
+
+  def last_story(user_id) do
+    from u in UserSchema,
+    where: u.id == ^user_id,
+    join: s in StorySchema,
+    on: s.team_id == u.team_id,
+    select: %{
+      last_story_name: s.name
+    },
+    order_by: [desc: s.id],
+    limit: 1,
+    offset: 0
   end
 
 end

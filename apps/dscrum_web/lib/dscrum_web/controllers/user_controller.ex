@@ -34,4 +34,11 @@ defmodule DscrumWeb.UserController do
     |> send_download({:binary, file}, filename: "user.jpg")
   end
 
+  def image_team(conn, attrs) do
+    team = UserHandler.get_team(attrs["id"])
+    {:ok, file} = File.read(team.logotype)
+    conn
+    |> send_download({:binary, file}, filename: "team.jpg")
+  end
+
 end
