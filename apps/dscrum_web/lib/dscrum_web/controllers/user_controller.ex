@@ -3,8 +3,8 @@ defmodule DscrumWeb.UserController do
   alias Dscrum.AuthCommand
   alias Dscrum.UserHandler
   alias Dscrum.UserSchema
-  alias Dscrum.PagedCommand
-  alias DscrumWeb.Helpers.PageList
+  # alias Dscrum.PagedCommand
+  # alias DscrumWeb.Helpers.PageList
 
 
   plug :check_auth when action in [:index, :show, :new, :create, :edit, :update, :delete]
@@ -35,35 +35,36 @@ defmodule DscrumWeb.UserController do
     end
   end
 
-  def index(conn, params) do
-    params =
-      if Map.get(params, "index") == nil or Map.get(params, "size") == nil do
-        %{"index" => "0", "size" => "5"}
-      else
-        params
-      end
+  def index(conn, _params) do
+    # params =
+    #   if Map.get(params, "index") == nil or Map.get(params, "size") == nil do
+    #     %{"index" => "0", "size" => "5"}
+    #   else
+    #     params
+    #   end
 
 
-    params =
-      params
-      |> PagedCommand.new
+    # params =
+    #   params
+    #   |> PagedCommand.new
 
-    respuesta = UserHandler.list_user(params)
+    # respuesta = UserHandler.list_user(params)
 
-    {number_size, _} = Integer.parse(params.size)
-    {number_index, _} = Integer.parse(params.index)
+    # {number_size, _} = Integer.parse(params.size)
+    # {number_index, _} = Integer.parse(params.index)
 
-    paginado = PageList.get_page_list(respuesta.total_pages, number_index, 7)
+    # paginado = PageList.get_page_list(respuesta.total_pages, number_index, 7)
 
-    result = %{
-      records: respuesta.records,
-      total_records: respuesta.total_records,
-      total_pages: respuesta.total_pages,
-      page_number: number_index,
-      page_size: number_size,
-      paginado: paginado
-    }
-    render(conn, "index.html", result: result)
+    # result = %{
+    #   records: respuesta.records,
+    #   total_records: respuesta.total_records,
+    #   total_pages: respuesta.total_pages,
+    #   page_number: number_index,
+    #   page_size: number_size,
+    #   paginado: paginado
+    # }
+    # render(conn, "index_socket.html", result: result)
+    render(conn, "index_socket.html", csrf_token: get_csrf_token())
   end
 
   def new(conn, _params) do

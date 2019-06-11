@@ -9,6 +9,7 @@ defmodule DscrumWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_token
   end
 
   pipeline :api do
@@ -53,5 +54,10 @@ defmodule DscrumWeb.Router do
 
     get "/user", UserController, :show
 
+  end
+
+  def fetch_token(conn, _) do
+    conn
+    |> assign(:token, get_session(conn, :token))
   end
 end

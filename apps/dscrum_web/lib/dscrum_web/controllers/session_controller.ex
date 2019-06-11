@@ -13,6 +13,8 @@ defmodule DscrumWeb.SessionController do
           current_user = UserHandler.get_user!(get_session(conn, :current_user_id))
           conn
           |> assign(:current_user, current_user)
+          |> assign(:token, get_session(conn, :token))
+          |> configure_session(renew: true)
           |> redirect(to: "/")
         {:error, _invalid} ->
           render conn, "new.html"
@@ -32,9 +34,11 @@ defmodule DscrumWeb.SessionController do
     case resp do
       {:ok, token, _claims} ->
         conn
+        |> assign(:token, token)
         |> put_session(:token, token)
         |> put_session(:current_user_id, user.id)
         # |> put_flash(:info, "Sesión iniciada correctamente.")
+        |> configure_session(renew: true)
         |> redirect(to: "/")
       {:error, mensaje} ->
         conn

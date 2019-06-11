@@ -30,7 +30,7 @@
           <span><i class="material-icons">supervised_user_circle</i> <br>Teams</span>
         <% end %>
         
-        <%= link to: Routes.user_path(@conn, :index, %{"index" => 0, "size" => 5}), class: "item" do %>
+        <%= link to: Routes.user_path(@conn, :index), class: "item" do %>
           <span><i class="material-icons">account_circle</i> <br>Usuarios</span>
         <% end %>
 
@@ -44,6 +44,7 @@
     <% end %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script>window.userToken = "<%= assigns[:token] %>"</script>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

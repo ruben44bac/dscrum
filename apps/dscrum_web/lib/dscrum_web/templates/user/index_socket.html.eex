@@ -1,0 +1,31 @@
+
+
+<div class="titulo col s12" align="center">
+  <h1>Usuarios</h1>
+</div>
+<input type="hidden" value="<%= @csrf_token %>" id="csrf-token"/>
+<div class="row">
+	<div class="col s12 m8 offset-m2 l6 offset-l3 listado color-text-input">
+		
+		<table id="records-user">
+
+		</table>
+		
+		<ul class="pagination" id="pagination-user">
+				<li class="waves-effect" id="chevron-left-list-user" value="0">
+					<a>
+						<i class="material-icons">chevron_left</i>
+					</a>
+				</li>
+				<li class="waves-effect" id="chevron-right-list-user" value="0">
+					<a><i class="material-icons">chevron_right</i></a>
+				</li>
+		</ul>
+
+		
+	</div>
+	
+</div>
+<div class="btn-nuevo">
+	<%= link "+", to: Routes.user_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light btn-add" %>
+</div>

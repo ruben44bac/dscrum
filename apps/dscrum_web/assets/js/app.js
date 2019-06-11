@@ -14,7 +14,8 @@ import "phoenix_html"
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
+import socket from "./socket"
+import User from "./user"
 // Demo by http://creative-punch.net
 
 // // Check for the File API support.
@@ -76,3 +77,5 @@ $("#send-button").click(function(){
 });
 
 // fin modal
+
+User.init(socket, document.getElementById("records-user"))
