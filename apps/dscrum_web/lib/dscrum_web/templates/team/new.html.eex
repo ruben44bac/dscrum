@@ -7,7 +7,7 @@
       <div class="acceso-card">
         <div class="row">
           <div class="col s12">
-            <%= render "form.html", Map.put(assigns, :action, Routes.team_path(@conn, :create)) %>
+            <%= render "form_pagination.html", Map.put(assigns, :action, Routes.team_path(@conn, :create)) %>
           </div>
         </div>
       </div>
