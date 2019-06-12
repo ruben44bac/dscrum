@@ -92,7 +92,7 @@ let UserWithoutTeam = {
     construirPaginado(pageContainer, {page_number, page_size, paginado, records, total_pages, total_records}){
         
         let divUsuarios = document.createElement("div")
-        divUsuarios.className = "row color-text-input page"
+        divUsuarios.className = "col s12 color-text-input page"
         divUsuarios.id = "page-container-" + (page_number + 1)
 
         if(records.length > 0){
@@ -102,7 +102,7 @@ let UserWithoutTeam = {
                 })
 
             let ulPaginator = document.createElement("ul")
-            ulPaginator.className = "col s12 pagination"
+            ulPaginator.className = "col s12 pagination page-user-team"
     
             let templateChevronLeft = document.createElement("li")
                 templateChevronLeft.id = "chevron-left-list-user";
@@ -158,8 +158,6 @@ let UserWithoutTeam = {
                 
                 templateChevronRight.addEventListener("click", e => {
                     if (templateChevronRight.value >= 0){
-                        console.log("Entro");
-                        console.log(templateChevronRight.value);
                         $('.page-active').removeClass('page-active');
                         $('#page-container-'+ (templateChevronRight.value + 2)).addClass('page-active');
                     }

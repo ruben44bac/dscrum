@@ -155,15 +155,13 @@
       <div class="titulo col s12" align="center">
         <h4>Añadir Usuario</h4>
       </div>
+      <%= if assigns[:team] do %>
+        <input style="display: none;" class="form-control" name="team" type="text" value="<%= @team.id %>">
+      <% else %>
+        <input style="display: none;" class="form-control" name="team" type="text" value="0">
+      <% end %>
       <div class="row" id="pagination-user-without-team">
-        <%= if assigns[:team] do %>
-          <input style="display: none;" class="form-control" name="team" type="text" value="<%= @team.id %>">
-        <% else %>
-          <input style="display: none;" class="form-control" name="team" type="text" value="0">
-        <% end %>
-
-          
-
+        
       </div>
     </div>
     <div class="modal-footer modal-footer-me">

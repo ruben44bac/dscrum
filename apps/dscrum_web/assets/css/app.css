@@ -576,4 +576,8 @@ input[type="file"] {
 .page-active {
   display: block;
 }
+.page-user-team {
+  margin-top: 35px;
+  margin-bottom: -20px;
+}
 /* fin pagination */
