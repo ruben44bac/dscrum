@@ -185,7 +185,7 @@ let UserWithoutTeam = {
         
         <img class="radius-img" src="http://localhost:4000/api/user-image?id=${id}"/>
         <br>
-        ${username}
+        ${name}
         `
 
         return template

@@ -139,7 +139,7 @@ let User = {
                 </div>
 
                 <div class="col s6 m6 l5 card-info-user">
-                    <b>${username}</b> <br>
+                    <b>${name}</b> <br>
                     <!--<b>Nombre: </b> <%= user.name %> <br>
                     <b>Apellido: </b> ${surname} <br>-->
                     <b>Email: </b> ${mail} <br>
