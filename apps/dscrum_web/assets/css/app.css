@@ -570,4 +570,10 @@ input[type="file"] {
 .pagination li.active {
   background-color: rgb(156, 39, 176);
 }
+.page {
+  display: none;
+}
+.page-active {
+  display: block;
+}
 /* fin pagination */

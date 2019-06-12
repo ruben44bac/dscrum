@@ -16,6 +16,7 @@ import css from "../css/app.css"
 // Local files can be imported directly using relative paths, for example:
 import socket from "./socket"
 import User from "./user"
+import UserWithoutTeam from "./user_without_team"
 // Demo by http://creative-punch.net
 
 // // Check for the File API support.
@@ -79,3 +80,4 @@ $("#send-button").click(function(){
 // fin modal
 
 User.init(socket, document.getElementById("records-user"))
+UserWithoutTeam.init(socket, document.getElementById("pagination-user-without-team"))

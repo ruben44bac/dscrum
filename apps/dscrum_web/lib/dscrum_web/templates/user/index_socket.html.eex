@@ -12,14 +12,7 @@
 		</table>
 		
 		<ul class="pagination" id="pagination-user">
-				<li class="waves-effect" id="chevron-left-list-user" value="0">
-					<a>
-						<i class="material-icons">chevron_left</i>
-					</a>
-				</li>
-				<li class="waves-effect" id="chevron-right-list-user" value="0">
-					<a><i class="material-icons">chevron_right</i></a>
-				</li>
+		
 		</ul>
 
 		

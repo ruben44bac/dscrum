@@ -44,4 +44,9 @@ defmodule DscrumWeb.UserChannel do
     {:reply, {:ok, result}, socket}
   end
 
+  def handle_in("list_user_sin_equipo", _params, socket) do
+    listado = UserHandler.list_user_sin_equipo()
+    {:reply, {:ok, %{data: listado}}, socket}
+  end
+
 end
