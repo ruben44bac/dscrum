@@ -24,6 +24,33 @@
         <div class="row">
           <div class="col s12">
 		  
+			<div class="row">
+				<div class="col s12">
+				<div class="form-group input-field color-text-input">
+					<label class="control-label label-input" for="story_schema_name">Nombre</label><br>
+					<input autocomplete="{+}" autofocus="on" class="form-control" id="story_name"  placeholder="Nombre" type="text" value="<%= @story.name %>">
+				</div>
+				<div class="form-group input-field color-text-input">
+					<label class="control-label label-input" for="story_schema_date_start">Fecha Inicio</label><br>
+					<input autocomplete="off" autofocus="on" class="form-control" id="story_date_start"  placeholder="Fecha Inicio" type="date" value="<%= @story.date_start %>">
+				</div>
+				</div>
+			</div>
+
+			<br>
+
+			<div class="row">
+				<div class="col s4 offset-s4" style="text-align: center;">
+				<div class="form-group color-text-input">
+					<%# <div class="col s4 offset-s4"> %>
+					<button id="msg-submit-story" onclick="window.location.href='/story?team_id=<%= @team.id %>'" class="btn btn-acceso waves-effect waves-light"><b>Aceptar</b></button>
+					<%# </div> %>
+				</div>
+				</div>
+			</div>
+			
+			<input type="hidden" value="<%= @team.id %>" id="team-id"/>
+
           </div>
         </div>
 

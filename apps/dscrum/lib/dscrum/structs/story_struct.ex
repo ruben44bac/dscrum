@@ -6,7 +6,8 @@ defmodule Dscrum.StoryStruct do
     :date_start,
     :date_end,
     :difficulty_id,
-    :team_id
+    :team_id,
+    :complete
   ]
   use ExConstructor
 end

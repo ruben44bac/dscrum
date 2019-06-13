@@ -58,6 +58,19 @@ defmodule Dscrum.StoryHandler do
     Repo.get!(StorySchema, id)
   end
 
+  def get_story(id) do
+    Repo.get(StorySchema, id)
+    |> case do
+      nil -> {:error, %{"#{inspect(__ENV__.function)}" => ["no records found"]}}
+      result ->
+          res =
+            StoryStruct.new(result)
+            |> Map.put(:date_start, DateTime.to_date(result.date_start))
+            |> Map.put(:date_end, DateTime.to_date(result.date_end))
+        {:ok, res}
+    end
+  end
+
   def new(%StoryCommand{} = command) do
     result = %StorySchema{}
       |> StorySchema.changeset(Map.from_struct(

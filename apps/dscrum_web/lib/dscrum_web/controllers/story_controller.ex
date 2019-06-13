@@ -51,10 +51,10 @@ defmodule DscrumWeb.StoryController do
 
 
   def edit(conn, %{"id" => id}) do
-    story = StoryHandler.get_story!(id)
+    {:ok, story} = StoryHandler.get_story(id)
     team = TeamHandler.get_team!(story.team_id)
-    changeset = StorySchema.changeset(story, %{})
-    render(conn, "edit.html", story: story, changeset: changeset, team: team)
+    # changeset = StorySchema.changeset(story, %{})
+    render(conn, "edit.html", story: story,  team: team)
   end
 
 

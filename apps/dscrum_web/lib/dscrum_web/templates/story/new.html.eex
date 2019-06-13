@@ -43,7 +43,7 @@
 				<div class="col s4 offset-s4" style="text-align: center;">
 				<div class="form-group color-text-input">
 					<%# <div class="col s4 offset-s4"> %>
-					<button id="msg-submit-story" class="btn btn-acceso waves-effect waves-light"><b>Aceptar</b></button>
+					<button id="msg-submit-story" onclick="window.location.href='/story?team_id=<%= @team.id %>'" class="btn btn-acceso waves-effect waves-light"><b>Aceptar</b></button>
 					<%# </div> %>
 				</div>
 				</div>

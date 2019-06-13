@@ -190,7 +190,7 @@ mat-form-field {
 }
 .subtitulo{
   text-align: center; 
-  font-size: 40px;
+  font-size: 30px;
   margin-top: -40px;
 }
 /* naranja 500
@@ -592,7 +592,6 @@ input[type="file"] {
 
 /* css story team */
 .story-team-img{
-  margin-top: 50px;
   height: 180px;
   width: 180px;
 }
@@ -618,3 +617,15 @@ input[type="file"] {
 }
 
 /* fin input date */
+
+.list-story-name{
+  text-align: left;
+  vertical-align: middle;
+  font-size: 20px;
+  line-height: 40px;  
+}
+
+.difficulty-img{
+  width: 40px;
+  height: 40px;
+}

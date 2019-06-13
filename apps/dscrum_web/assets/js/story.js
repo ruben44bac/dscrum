@@ -89,7 +89,7 @@ let Story = {
             templateChevronLeft.addEventListener("click", e => {
                 if (templateChevronLeft.value >= 0) {
                     let payload = {index: "" + (templateChevronLeft.value - 1), size: "" + 5}
-                    story_channel.push("list", payload)
+                    story_channel.push("list_paginado", payload)
                         .receive("ok", e => 
                             this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
                             // templateChevronRight.value = templateChevronRight.value - 1
@@ -103,7 +103,7 @@ let Story = {
             templateChevronRight.addEventListener("click", e => {
                 if (templateChevronRight.value >= 0) {
                     let payload = {index: "" + (templateChevronRight.value + 1), size: "" + 5}
-                    story_channel.push("list", payload)
+                    story_channel.push("list_paginado", payload)
                         .receive("ok", e => 
                             this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
                             // templateChevronRight.value = templateChevronRight.value + 1
@@ -130,25 +130,32 @@ let Story = {
         // fin modal
         
     },
-    templateStory({id, name, date_start, date_end, difficulty_id, team_id}){
+    templateStory({id, name, date_start, date_end, difficulty_id, team_id, complete}){
 
         let csrfToken = document.getElementById("csrf-token")
         let template = document.createElement("tr")
-        template.innerHTML = `
+        let inicio = ``
+        inicio = `
         <td>
             <div class="row ">
 
-                <div class="col s6 m6 l5 card-info-story">
-                    <b>${name}</b> <br>
+                <div class="col s12 m4 l3 div-img">
+                    <img class="difficulty-img" src="http://localhost:4000/api/difficulty-image?id=1"/> `
+                    
+        if (!complete) {
+            inicio = inicio + ` <i class="material-icons" style="font-size: 20px;">priority_high</i> `
+        }
+        template.innerHTML = inicio +  ` 
                 </div>
-                <div class="col s2 m2 l4">
-                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modal${id}"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
+                <div class="col s12 m2 l5 list-story-name">
+                     ${name}
+                </div>
+                <div class="col s12 m6 l4" style="text-align: end;">
+                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" data-target="modal${id}"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
                     
-                    <a href="/story/${id}/edit" class="btn-floating btn-small waves-effect waves-light purple space-top-icon">
-                        <i class="material-icons">edit</i>
-                    </a>&nbsp;&nbsp;
-                    
-                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modaldelete${id}"><i class="material-icons">delete</i></button> &nbsp;&nbsp;
+                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Cerrar" data-target="modal${id}"><i class="material-icons">timeline</i></button> &nbsp;&nbsp;
+
+                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Eliminar" data-target="modaldelete${id}"><i class="material-icons">delete</i></button> &nbsp;&nbsp;
                     
                 </div>
             </div>
@@ -237,7 +244,7 @@ let Story = {
         templatePageNumber.addEventListener("click", e => {
             if (templatePageNumber.value >= 0){
                 let payload = {index: "" + templatePageNumber.value, size: "" + 5}
-                story_channel.push("list", payload)
+                story_channel.push("list_paginado", payload)
                     .receive("ok", e => 
                         this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
                         // templateChevronRight.value = templateChevronRight.value + 1

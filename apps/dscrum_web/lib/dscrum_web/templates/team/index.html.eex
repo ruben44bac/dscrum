@@ -20,21 +20,17 @@
 								</div>
 								<div class="col s2 m3 l5">
 
-									<%= link to: Routes.story_path(@conn, :index, %{"team_id" => team.id}), class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
+									<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" href="/story?team_id=<%= team.id%>" data-tooltip="Historias">		
 										<i class="material-icons">style</i>
-									<% end %>&nbsp;&nbsp;
+									</a>&nbsp;&nbsp;
 
-									<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modal<%= i %>"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
+									<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" data-target="modal<%= i %>"><i class="material-icons">visibility</i></button>&nbsp;&nbsp;
 									
-									
-									<%= link to: Routes.team_path(@conn, :edit, team), class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
+									<a class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" href="/team/<%= team.id%>/edit" data-tooltip="Editar">		
 										<i class="material-icons">edit</i>
-									<% end %>&nbsp;&nbsp;
+									</a>&nbsp;&nbsp;
 
-									<!-- <%= link to: Routes.team_path(@conn, :delete, team), method: :delete, data: [confirm: "¿Realmente deseas eliminar?"], class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
-										<i class="material-icons">delete</i>
-									<% end %> -->
-									<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modaldelete<%= i %>"><i class="material-icons">delete</i></button> &nbsp;&nbsp;
+									<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Eliminar" data-target="modaldelete<%= i %>"><i class="material-icons">delete</i></button> &nbsp;&nbsp;
 									
 								</div>
 							</div>
@@ -176,7 +172,7 @@
 	</div>
 </div>
 <div class="btn-nuevo">
-	<%= link "+", to: Routes.team_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light btn-add" %>
+	<a class="waves-effect btn-floating btn-large waves-effect waves-light btn-add tooltipped" data-position="left" data-tooltip="Agregar" href="/team/new" title="Agregar">+</a>
 </div>
 
 
