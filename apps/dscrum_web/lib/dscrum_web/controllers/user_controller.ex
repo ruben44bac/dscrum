@@ -7,7 +7,7 @@ defmodule DscrumWeb.UserController do
   # alias DscrumWeb.Helpers.PageList
 
 
-  plug :check_auth when action in [:index, :show, :new, :create, :edit, :update, :delete]
+  plug :check_auth when action in [:index, :new, :create, :edit, :update, :delete]
 
 
 
