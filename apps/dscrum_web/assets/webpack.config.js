@@ -12,9 +12,10 @@ module.exports = (env, options) => ({
       new OptimizeCSSAssetsPlugin({})
     ]
   },
-  entry: {
-      './js/app.js': ['./js/app.js'].concat(glob.sync('./vendor/**/*.js'))
-  },
+  entry: [
+      './js/app.js',
+      './js/jquery.growl.js'
+  ],
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, '../priv/static/js')

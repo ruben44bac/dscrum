@@ -16,7 +16,10 @@ import css from "../css/app.css"
 // Local files can be imported directly using relative paths, for example:
 import socket from "./socket"
 import User from "./user"
+import Story from "./story"
 import UserWithoutTeam from "./user_without_team"
+import StoryForm from "./story_form"
+
 // Demo by http://creative-punch.net
 
 // // Check for the File API support.
@@ -81,3 +84,5 @@ $("#send-button").click(function(){
 
 User.init(socket, document.getElementById("records-user"))
 UserWithoutTeam.init(socket, document.getElementById("pagination-user-without-team"))
+Story.init(socket, document.getElementById("records-story"))
+StoryForm.init(socket, document.getElementById("msg-submit-story"))

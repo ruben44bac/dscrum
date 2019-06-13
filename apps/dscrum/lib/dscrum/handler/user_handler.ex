@@ -36,6 +36,7 @@ defmodule Dscrum.UserHandler do
     total_records =
       UserQuery.total_list()
       |> Repo.one
+      |> Map.get(:total)
 
     total_pages = TotalPaginas.total_paginas(total_records, 5)
 

@@ -39,7 +39,9 @@ defmodule Dscrum.UserQuery do
 
   def total_list() do
     from u in UserSchema,
-    select: count(u.id)
+    select: %{
+      total: count(u.id)
+    }
   end
 
   def team_name(user_id) do

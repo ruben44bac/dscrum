@@ -3,7 +3,7 @@
 @import "./phoenix.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-
+@import "./jquery.growl.css";
 
 
 html, body { min-height: 100vh; }
@@ -58,6 +58,9 @@ body { margin: 0;
   opacity: 0.8 !important;
 }
 
+.label-input{
+  font-size: .8rem !important;
+}
 .info-card{
     color: white;
     background: #000000;
@@ -184,6 +187,11 @@ mat-form-field {
 
 .color-text-input{
     color: #fff;
+}
+.subtitulo{
+  text-align: center; 
+  font-size: 40px;
+  margin-top: -40px;
 }
 /* naranja 500
 negro 212121
@@ -581,3 +589,32 @@ input[type="file"] {
   margin-bottom: -20px;
 }
 /* fin pagination */
+
+/* css story team */
+.story-team-img{
+  margin-top: 50px;
+  height: 180px;
+  width: 180px;
+}
+
+/* fin css story team */
+
+/* input date  */
+
+[type="date"] {
+  font-size: 18px;
+  background:#fff url(https://www.industriambiente.com/media/imagenes/calendar-color-16.png)  97% 50% no-repeat ;
+  color: white;
+}
+[type="date"]::-webkit-inner-spin-button {
+  display: none;
+}
+[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 50px;
+}
+[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
+/* fin input date */

@@ -37,6 +37,7 @@ defmodule DscrumWeb.Router do
 
     resources "/user", UserController, only: [:index, :show, :new, :create, :edit, :update, :delete]
     resources "/team", TeamController, only: [:index, :show, :new, :create, :edit, :update, :delete]
+    resources "/story", StoryController, only: [:index, :show, :new, :create, :edit, :update, :delete]
   end
 
   # Other scopes may use custom stacks.

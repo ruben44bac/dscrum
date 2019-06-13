@@ -15,10 +15,15 @@
 									<img class="radius-img" src="http://localhost:4000/api/team-image?id=<%= team.id %>"/>
 								</div>
 
-								<div class="col s6 m6 l5 card-info-team">
+								<div class="col s6 m5 l4 card-info-team">
 									<h5> <%= team.name %> </h5><br>
 								</div>
-								<div class="col s2 m2 l4">
+								<div class="col s2 m3 l5">
+
+									<%= link to: Routes.story_path(@conn, :index, %{"team_id" => team.id}), class: "btn-floating btn-small waves-effect waves-light purple space-top-icon" do %>
+										<i class="material-icons">style</i>
+									<% end %>&nbsp;&nbsp;
+
 									<button class="btn-floating btn-small waves-effect waves-light purple space-top-icon" data-target="modal<%= i %>"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
 									
 									
