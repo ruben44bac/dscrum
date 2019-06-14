@@ -39,7 +39,112 @@ let Story = {
             records.forEach(
                 historia => {
                     tableContainer.appendChild(this.templateStory(historia))
+                    if(document.getElementById(`button-modal-${historia.id}`)){
+                        let modal = document.getElementById(`button-modal-${historia.id}`)
+                        modal.addEventListener("click", e => {
+
+                            let detail_channel = socket.channel(`story_detail:${historia.id}`, {})
+                            detail_channel.join()
+                                .receive("ok", resp => { 
+                                    detail_channel.push("index", {})
+                                        .receive("ok", e => {
+                                            
+                                            let story_detail = e.data
+                                            let contenidoModal = document.getElementById("modalstory")
+                        
+                                            contenidoModal.innerHTML = ``
+
+                                            let templateModalContent = document.createElement("div")
+                                            templateModalContent.id = "modalcontent"
+                                            templateModalContent.className = "modal-content"
+
+                                                                                    
+                                            let dificultad_detalle = ``
+                                            let finalizada = ``
+                                            let detalle_historia = ``
+                                            let list_users = ``
+
+                                            dificultad_detalle = `
+                                            
+                                            <div class="row">
+                                                <div class="col s12 m12 l3" style="text-align: center;">`
+
+                                                if (story_detail.difficulty_id != null) {
+                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=${story_detail.difficulty_id}"/> <br> ${story_detail.difficulty_name}`
+                                                }else{
+                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 110px; height: 110px;" src="/images/pokemon.png"/> `
+                                                }
+
+                                                finalizada = dificultad_detalle + `
+                                                </div>
+
+                                                <div class="col s12 m12 l7 offset-l2 card-info-user">
+                                                    <b>Nombre: </b> ${story_detail.name} <br>
+                                                    <b>Inicio: </b> ${story_detail.date_start.substring(10,0)} <br>
+                                                    `
+
+                                                if (e.status) {
+                                                    finalizada = finalizada +  ` <b>Fin: </b> ${story_detail.date_start.substring(10,0)} <br> 
+                                                                                <b>Finalizada: </b> SI <br> `
+                                                }else{
+                                                    finalizada = finalizada +  `  <b>Finalizada: </b> NO <br> `
+                                                }                    
+                                                                
+                                                detalle_historia = finalizada + `
+                                                </div>
+                                            </div> <br>`
+
+
+                                                story_detail.users.forEach(
+                                                    usuario => {
+                                                         list_users = list_users +  this.templateUser(usuario)
+                                                    })
+
+                                                templateModalContent.innerHTML = detalle_historia + list_users 
+
+                                            contenidoModal.appendChild(templateModalContent)
+
+                                            let templateModalFooter = document.createElement("div")
+                                            templateModalFooter.id = "modalfooter"
+                                            templateModalFooter.className = "modal-footer modal-footer-me"
+
+                                            let aClear = document.createElement("a")
+                                            aClear.id = "close-modal"
+                                            aClear.className = "modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal"
+
+                                            aClear.innerHTML = `<i class="material-icons">clear</i>`
+                                            templateModalFooter.appendChild(aClear)
+
+                                            contenidoModal.appendChild(templateModalFooter)
+                                            
+                                            // modal
+                                            $(document).ready(function(){
+                                                $('.modal').modal();
+                                            });
+
+
+                                            $("#close-modal").click(function(){
+                                                $('.modal').modal('close');
+                                            });
+
+                                            // fin modal
+                                        })
+                                        .receive("error", e => console.log(e))
+                                })
+                                .receive("error", resp => { console.log("Unable to Joined Channel Story", resp) })
+
+                        })
+                    }
                 })
+
+            let templateModal = document.createElement("div")
+            templateModal.id = "modalstory"
+            templateModal.className = "modal modal-me modal-user"
+            
+
+    
+            paginationContainer.appendChild(templateModal)
+
     
             let templateChevronLeft = document.createElement("li")
             templateChevronLeft.id = "chevron-left-list-story";
@@ -84,6 +189,7 @@ let Story = {
             }
     
             paginationContainer.appendChild(templateChevronRight)
+
     
     
             templateChevronLeft.addEventListener("click", e => {
@@ -113,6 +219,16 @@ let Story = {
                 }
                 
             })
+
+            if(document.getElementById("button-modal")){
+                let modal = document.getElementById("button-modal")
+                modal.addEventListener("click", e => {
+                    console.log("llego button modal");
+                    
+                })
+            }
+            
+
         }else{
             tableContainer.innerHTML = '<h3>No existen registros<h3>'
         }
@@ -128,15 +244,12 @@ let Story = {
         });
 
         // fin modal
-        
     },
     templateStory({id, name, date_start, date_end, difficulty, difficulty_id, team_id, complete}){
 
         let csrfToken = document.getElementById("csrf-token")
         let template = document.createElement("tr")
         let dificultad_listado = ``
-        let dificultad_detalle = ``
-        let finalizada = ``
 
         dificultad_listado = `
         <td>
@@ -146,17 +259,17 @@ let Story = {
                     <div class="list-story-name"> ${name}</div>
                     <div> ${date_start} <br> ${date_end}</div>
                 </div>
-                <div class="col s12 m2 l3 div-img" style="text-align: end; margin-top: 10px;">`
+                <div class="col s12 m2 l2 div-img" style="text-align: end; margin-top: 10px;">`
                 
 
         if (difficulty_id != null) {
-            dificultad_listado = dificultad_listado +  `<img class="difficulty-img tooltipped" data-position="bottom" data-tooltip="${difficulty.name}" src="http://localhost:4000/api/difficulty-image?id=1"/>`
+            dificultad_listado = dificultad_listado +  `<img class="difficulty-img tooltipped" data-position="bottom" data-tooltip="${difficulty.name}" src="http://localhost:4000/api/difficulty-image?id=${difficulty.id}"/>`
         }
                     
-        dificultad_detalle = dificultad_listado +  ` 
+        template.innerHTML = dificultad_listado +  ` 
                 </div>
-                <div class="col s12 m4 l3" style="text-align: end;">
-                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" data-target="modal${id}"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
+                <div class="col s12 m4 l4" style="text-align: end;">
+                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" id="button-modal-${id}" data-target="modalstory"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
                     
                     <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Cerrar" data-target="modal${id}"><i class="material-icons">timeline</i></button> &nbsp;&nbsp;
 
@@ -164,44 +277,6 @@ let Story = {
                     
                 </div>
             </div>
-		
-            <!-- Modal Show -->
-            <div id="modal${id}" class="modal modal-me modal-story">
-                <div class="modal-content">
-                    <div class="row">
-                        <div class="col s12 m12 l3" style="text-align: center;">`
-
-        if (difficulty_id != null) {
-            dificultad_detalle = dificultad_detalle +  `<img class="radius-img" style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=1"/> <br> ${difficulty.name}`
-        }else{
-            dificultad_detalle = dificultad_detalle +  `<img class="radius-img" style="width: 110px; height: 110px;" src="/images/pokemon.png"/> `
-        }
-
-        finalizada = dificultad_detalle + `
-                        </div>
-
-                        <div class="col s12 m12 l7 offset-l2 card-info-user">
-                            <b>Nombre: </b> ${name} <br>
-                            <b>Fecha Inicio: </b> ${date_start} <br>
-                            <b>Fecha Fin: </b> ${date_start} <br> `
-
-        if (complete) {
-            finalizada = finalizada +  ` <b>Finalizada: </b> SI <br> `
-        }else{
-            finalizada = finalizada +  `  <b>Finalizada: </b> NO <br> `
-        }                    
-                           
-        template.innerHTML = finalizada + `
-                         </div>
-                    </div>
-                </div>
-                <div class="modal-footer modal-footer-me">
-                    <a id="send-button" class="modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal">
-                        <i class="material-icons">clear</i>
-                    </a> 
-                </div>
-            </div>
-            <!-- Fin Modal -->
             <!-- Modal Delete -->
             <div id="modaldelete${id}" class="modal modal-me modal-story">
                 <div class="modal-content">
@@ -232,9 +307,6 @@ let Story = {
             <hr>
         </td>
         `
-       
-        
-
 
         return template
     },
@@ -279,8 +351,39 @@ let Story = {
                     .receive("error", e => console.log(e))
             }
         })
-
+        
         return templatePageNumber
-    }
+    },
+    templateUser({id, name, difficulty_id, difficulty_name, online, surname, username}){
+
+        let templateUser = ``
+
+        templateUser = `
+            <div class="row ">
+
+                <div class="col s12 m12 l3" style="text-align: center;">
+                    <img class="radius-img" src="http://localhost:4000/api/user-image?id=${id}"/>
+                </div>
+
+                <div class="col s12 m12 l7 offset-l2 card-info-user">
+                    <b>Nombre: </b> ${name} <br>`
+                    if(difficulty_id != null){
+                        templateUser = templateUser + `<b>Dificultad: </b> ${difficulty_name} <br>`
+                    }else{
+                        templateUser = templateUser + `<b>Dificultad: </b>  <br>`
+                    }
+                    if(online){
+                        templateUser = templateUser + `<b class="online-status">Online</b><br>`
+                    }else{
+                        templateUser = templateUser + `<b class="offline-status">Offline</b><br>`
+                    }
+                    templateUser = templateUser +
+                    `
+                </div>
+            </div>
+        `
+
+        return templateUser
+    },
 }
 export default Story
