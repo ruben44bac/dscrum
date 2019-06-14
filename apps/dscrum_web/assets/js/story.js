@@ -39,6 +39,7 @@ let Story = {
             records.forEach(
                 historia => {
                     tableContainer.appendChild(this.templateStory(historia))
+                    
                     if(document.getElementById(`button-modal-${historia.id}`)){
                         let modal = document.getElementById(`button-modal-${historia.id}`)
                         modal.addEventListener("click", e => {
@@ -70,24 +71,25 @@ let Story = {
                                                 <div class="col s12 m12 l3" style="text-align: center;">`
 
                                                 if (story_detail.difficulty_id != null) {
-                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=${story_detail.difficulty_id}"/> <br> ${story_detail.difficulty_name}`
+                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=${story_detail.difficulty_id}"/>`
                                                 }else{
-                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 110px; height: 110px;" src="/images/pokemon.png"/> `
+                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 130px; height: 130px;" src="/images/pokemon.png"/> `
                                                 }
 
                                                 finalizada = dificultad_detalle + `
                                                 </div>
 
                                                 <div class="col s12 m12 l7 offset-l2 card-info-user">
-                                                    <b>Nombre: </b> ${story_detail.name} <br>
-                                                    <b>Inicio: </b> ${story_detail.date_start.substring(10,0)} <br>
+                                                    <b style="font-size: 20px;">${story_detail.name}</b> <br>
+                                                    Dificultad: <b>${story_detail.difficulty_name}</b> <br>
+                                                    Inicio: <b>${story_detail.date_start.substring(10,0)}</b>  <br>
                                                     `
 
                                                 if (e.status) {
-                                                    finalizada = finalizada +  ` <b>Fin: </b> ${story_detail.date_start.substring(10,0)} <br> 
-                                                                                <b>Finalizada: </b> SI <br> `
+                                                    finalizada = finalizada +  ` Fin: <b>${story_detail.date_start.substring(10,0)} </b><br> 
+                                                                                Finalizada: <b>SI </b> <br> `
                                                 }else{
-                                                    finalizada = finalizada +  `  <b>Finalizada: </b> NO <br> `
+                                                    finalizada = finalizada +  `  Finalizada: <b>NO </b> <br>`
                                                 }                    
                                                                 
                                                 detalle_historia = finalizada + `
@@ -100,7 +102,7 @@ let Story = {
                                                          list_users = list_users +  this.templateUser(usuario)
                                                     })
 
-                                                templateModalContent.innerHTML = detalle_historia + list_users 
+                                                templateModalContent.innerHTML = detalle_historia + `<div class="row ">` + list_users + `</div>`
 
                                             contenidoModal.appendChild(templateModalContent)
 
@@ -359,18 +361,14 @@ let Story = {
         let templateUser = ``
 
         templateUser = `
-            <div class="row ">
+            
 
-                <div class="col s12 m12 l3" style="text-align: center;">
-                    <img class="radius-img" src="http://localhost:4000/api/user-image?id=${id}"/>
-                </div>
+                <div class="col s12 m6 l3" style="text-align: center;padding-top: 15px;">
+                    <img class="radius-img" src="http://localhost:4000/api/user-image?id=${id}"/> <br>
 
-                <div class="col s12 m12 l7 offset-l2 card-info-user">
-                    <b>Nombre: </b> ${name} <br>`
+                    <b>${name} </b> <br>`
                     if(difficulty_id != null){
-                        templateUser = templateUser + `<b>Dificultad: </b> ${difficulty_name} <br>`
-                    }else{
-                        templateUser = templateUser + `<b>Dificultad: </b>  <br>`
+                        templateUser = templateUser + `<b>${difficulty_name}</b>  <br>`
                     }
                     if(online){
                         templateUser = templateUser + `<b class="online-status">Online</b><br>`
@@ -380,7 +378,6 @@ let Story = {
                     templateUser = templateUser +
                     `
                 </div>
-            </div>
         `
 
         return templateUser
