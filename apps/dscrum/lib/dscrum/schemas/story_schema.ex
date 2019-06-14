@@ -6,9 +6,10 @@ defmodule Dscrum.StorySchema do
     field :name, :string
     field :date_start, :naive_datetime
     field :date_end, :naive_datetime
-    field :difficulty_id, :integer
+    # field :difficulty_id, :integer
     field :complete, :boolean
 
+    belongs_to :difficulty, Dscrum.DifficultySchema
     belongs_to :team, Dscrum.TeamSchema
     timestamps()
   end

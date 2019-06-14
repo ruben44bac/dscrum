@@ -130,27 +130,32 @@ let Story = {
         // fin modal
         
     },
-    templateStory({id, name, date_start, date_end, difficulty_id, team_id, complete}){
+    templateStory({id, name, date_start, date_end, difficulty, difficulty_id, team_id, complete}){
 
         let csrfToken = document.getElementById("csrf-token")
         let template = document.createElement("tr")
-        let inicio = ``
-        inicio = `
-        <td>
-            <div class="row ">
+        let dificultad_listado = ``
+        let dificultad_detalle = ``
+        let finalizada = ``
 
-                <div class="col s12 m4 l3 div-img">
-                    <img class="difficulty-img" src="http://localhost:4000/api/difficulty-image?id=1"/> `
-                    
-        if (!complete) {
-            inicio = inicio + ` <i class="material-icons" style="font-size: 20px;">priority_high</i> `
+        dificultad_listado = `
+        <td>
+            <div class="row " style="margin-bottom: 5px !important;">
+
+                <div class="col s12 m6 l6">
+                    <div class="list-story-name"> ${name}</div>
+                    <div> ${date_start} <br> ${date_end}</div>
+                </div>
+                <div class="col s12 m2 l3 div-img" style="text-align: end; margin-top: 10px;">`
+                
+
+        if (difficulty_id != null) {
+            dificultad_listado = dificultad_listado +  `<img class="difficulty-img" src="http://localhost:4000/api/difficulty-image?id=1"/> `
         }
-        template.innerHTML = inicio +  ` 
+                    
+        dificultad_detalle = dificultad_listado +  ` 
                 </div>
-                <div class="col s12 m2 l5 list-story-name">
-                     ${name}
-                </div>
-                <div class="col s12 m6 l4" style="text-align: end;">
+                <div class="col s12 m4 l3" style="text-align: end;">
                     <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" data-target="modal${id}"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
                     
                     <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Cerrar" data-target="modal${id}"><i class="material-icons">timeline</i></button> &nbsp;&nbsp;
@@ -164,9 +169,30 @@ let Story = {
             <div id="modal${id}" class="modal modal-me modal-story">
                 <div class="modal-content">
                     <div class="row">
-                        <div class="col s12 m12 l7 offset-l2 card-info-story">
-                            <b>Nombre: </b> ${name} <br>
+                        <div class="col s12 m12 l3" style="text-align: center;">`
+
+        if (difficulty_id != null) {
+            dificultad_detalle = dificultad_detalle +  `<img class="radius-img" style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=1"/> `
+        }else{
+            dificultad_detalle = dificultad_detalle +  `<img class="radius-img" style="width: 110px; height: 110px;" src="/images/pokemon.png"/> `
+        }
+
+        finalizada = dificultad_detalle + `
                         </div>
+
+                        <div class="col s12 m12 l7 offset-l2 card-info-user">
+                            <b>Nombre: </b> ${name} <br>
+                            <b>Fecha Inicio: </b> ${date_start} <br>
+                            <b>Fecha Fin: </b> ${date_start} <br> `
+
+        if (complete) {
+            finalizada = finalizada +  ` <b>Finalizada: </b> SI <br> `
+        }else{
+            finalizada = finalizada +  `  <b>Finalizada: </b> NO <br> `
+        }                    
+                           
+        template.innerHTML = finalizada + `
+                         </div>
                     </div>
                 </div>
                 <div class="modal-footer modal-footer-me">

@@ -37,7 +37,23 @@ defmodule Dscrum.StoryHandler do
     story_list =
       StoryQuery.paged_list(number_size, number_size * number_index, socket.assigns.team_id)
       |> Repo.all
-      |> Enum.map(fn(res) -> StoryStruct.new(res) end)
+      |> Repo.preload(:difficulty)
+      |> Enum.map(fn(res) ->
+
+
+
+          if not is_nil(res.date_end) do
+            StoryStruct.new(res)
+            |> Map.put(:date_start, DateTime.to_date(res.date_start))
+            |> Map.put(:date_end, DateTime.to_date(res.date_end))
+          else
+            StoryStruct.new(res)
+            |> Map.put(:date_start, DateTime.to_date(res.date_start))
+            |> Map.put(:date_end, "")
+          end
+
+
+      end)
 
     total_records =
       StoryQuery.total_list(socket.assigns.team_id)
