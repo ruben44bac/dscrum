@@ -39,7 +39,6 @@ let Story = {
             records.forEach(
                 historia => {
                     tableContainer.appendChild(this.templateStory(historia))
-                    
                     if(document.getElementById(`button-modal-${historia.id}`)){
                         let modal = document.getElementById(`button-modal-${historia.id}`)
                         modal.addEventListener("click", e => {
@@ -119,17 +118,10 @@ let Story = {
 
                                             contenidoModal.appendChild(templateModalFooter)
                                             
-                                            // modal
-                                            $(document).ready(function(){
-                                                $('.modal').modal();
-                                            });
-
-
                                             $("#close-modal").click(function(){
                                                 $('.modal').modal('close');
                                             });
 
-                                            // fin modal
                                         })
                                         .receive("error", e => console.log(e))
                                 })
@@ -222,15 +214,6 @@ let Story = {
                 
             })
 
-            if(document.getElementById("button-modal")){
-                let modal = document.getElementById("button-modal")
-                modal.addEventListener("click", e => {
-                    console.log("llego button modal");
-                    
-                })
-            }
-            
-
         }else{
             tableContainer.innerHTML = '<h3>No existen registros<h3>'
         }
@@ -241,7 +224,7 @@ let Story = {
         });
 
 
-        $("#send-button").click(function(){
+        $("#cerrar-modal-delete").click(function(){
             $('.modal').modal('close');
         });
 
@@ -297,7 +280,7 @@ let Story = {
                             </a>
                         </div>
                         <div class="col s2 offset-s2">
-                            <a id="send-button" class="modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal">
+                            <a id="cerrar-modal-delete" class="modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal">
                                 <i class="material-icons">clear</i>
                             </a> 
                         </div>
