@@ -150,7 +150,7 @@ let Story = {
                 
 
         if (difficulty_id != null) {
-            dificultad_listado = dificultad_listado +  `<img class="difficulty-img" src="http://localhost:4000/api/difficulty-image?id=1"/> `
+            dificultad_listado = dificultad_listado +  `<img class="difficulty-img tooltipped" data-position="bottom" data-tooltip="${difficulty.name}" src="http://localhost:4000/api/difficulty-image?id=1"/>`
         }
                     
         dificultad_detalle = dificultad_listado +  ` 
@@ -172,7 +172,7 @@ let Story = {
                         <div class="col s12 m12 l3" style="text-align: center;">`
 
         if (difficulty_id != null) {
-            dificultad_detalle = dificultad_detalle +  `<img class="radius-img" style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=1"/> `
+            dificultad_detalle = dificultad_detalle +  `<img class="radius-img" style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=1"/> <br> ${difficulty.name}`
         }else{
             dificultad_detalle = dificultad_detalle +  `<img class="radius-img" style="width: 110px; height: 110px;" src="/images/pokemon.png"/> `
         }
