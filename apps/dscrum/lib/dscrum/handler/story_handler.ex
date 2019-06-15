@@ -6,6 +6,7 @@ defmodule Dscrum.StoryHandler do
     StoryCommand
   }
   alias Dscrum.StoryQuery
+  alias Dscrum.StoryIterationQuery
   alias Dscrum.{
     StoryStruct,
     StoryPagedStruct,
@@ -97,6 +98,29 @@ defmodule Dscrum.StoryHandler do
       {:ok, res} -> res
         |> StoryStruct.new
       {:error, res} -> %{error: res}
+    end
+  end
+
+  def terminar(%StorySchema{} = story) do
+    StoryIterationQuery.last_iteration_story_detail(story.id)
+    |> Repo.one()
+    |> case  do
+      nil ->
+        {:error, %{"terminar" => ["La historia debe tener al menos una iteración."]}}
+      _ ->
+        attrs_change = %{complete: true}
+
+        story
+        |> StorySchema.changeset(attrs_change)
+        |> Repo.update()
+        |> case do
+          {:ok, result} ->
+            {:ok, StoryStruct.new(result)}
+
+          {:error, changeset} ->
+            {:error, changeset}
+        end
+
     end
   end
 

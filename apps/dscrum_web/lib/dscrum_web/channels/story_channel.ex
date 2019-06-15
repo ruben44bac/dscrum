@@ -75,4 +75,16 @@ defmodule DscrumWeb.StoryChannel do
     {:reply, {:ok, %{data: "Registro exitoso de " <> respuesta.name }}, socket}
   end
 
+  def handle_in("end",  %{"id" => id}, socket) do
+    story = StoryHandler.get_story!(id)
+    IO.inspect(story)
+    with {:ok, story} <- StoryHandler.terminar(story) do
+      # broadcast!(socket, "end_story", story)
+      {:reply, {:ok, story}, socket}
+    else
+      {:error, changeset} ->
+        {:reply, {:error, %{errors: changeset}}, socket}
+    end
+  end
+
 end

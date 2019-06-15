@@ -39,94 +39,115 @@ let Story = {
             records.forEach(
                 historia => {
                     tableContainer.appendChild(this.templateStory(historia))
-                    if(document.getElementById(`button-modal-${historia.id}`)){
-                        let modal = document.getElementById(`button-modal-${historia.id}`)
+
+                    let detail_channel = socket.channel(`story_detail:${historia.id}`, {})
+                        detail_channel.join()
+                            .receive("ok", resp => {console.log("Joined Channel Story Detail");})
+                            .receive("error", resp => { console.log("Unable to Joined Channel Story Detail", resp) })
+
+                    if(document.getElementById(`button-show-modal-${historia.id}`)){
+                        let modal = document.getElementById(`button-show-modal-${historia.id}`)
                         modal.addEventListener("click", e => {
-
-                            let detail_channel = socket.channel(`story_detail:${historia.id}`, {})
-                            detail_channel.join()
-                                .receive("ok", resp => { 
-                                    detail_channel.push("index", {})
-                                        .receive("ok", e => {
-                                            
-                                            let story_detail = e.data
-                                            let contenidoModal = document.getElementById("modalstory")
                         
-                                            contenidoModal.innerHTML = ``
+                            detail_channel.push("index", {})
+                                .receive("ok", e => {
+                                    
+                                    let story_detail = e.data
+                                    let contenidoModal = document.getElementById("modalstory")
+                
+                                    contenidoModal.innerHTML = ``
 
-                                            let templateModalContent = document.createElement("div")
-                                            templateModalContent.id = "modalcontent"
-                                            templateModalContent.className = "modal-content"
+                                    let templateModalContent = document.createElement("div")
+                                    templateModalContent.id = "modalcontent"
+                                    templateModalContent.className = "modal-content"
 
-                                                                                    
-                                            let dificultad_detalle = ``
-                                            let finalizada = ``
-                                            let detalle_historia = ``
-                                            let list_users = ``
+                                                                            
+                                    let dificultad_detalle = ``
+                                    let finalizada = ``
+                                    let detalle_historia = ``
+                                    let list_users = ``
 
-                                            dificultad_detalle = `
-                                            
-                                            <div class="row">
-                                                <div class="col s12 m12 l3" style="text-align: center;">`
+                                    dificultad_detalle = `
+                                    
+                                    <div class="row">
+                                        <div class="col s12 m12 l3" style="text-align: center;">`
 
-                                                if (story_detail.difficulty_id != null) {
-                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=${story_detail.difficulty_id}"/>`
-                                                }else{
-                                                    dificultad_detalle = dificultad_detalle +  `<img style="width: 130px; height: 130px;" src="/images/pokemon.png"/> `
-                                                }
+                                        if (story_detail.difficulty_id != null) {
+                                            dificultad_detalle = dificultad_detalle +  `<img style="width: 110px; height: 110px;" src="http://localhost:4000/api/difficulty-image?id=${story_detail.difficulty_id}"/>`
+                                        }else{
+                                            dificultad_detalle = dificultad_detalle +  `<img style="width: 130px; height: 130px;" src="/images/pokemon.png"/> `
+                                        }
 
-                                                finalizada = dificultad_detalle + `
-                                                </div>
+                                        finalizada = dificultad_detalle + `
+                                        </div>
 
-                                                <div class="col s12 m12 l7 offset-l2 card-info-user">
-                                                    <b style="font-size: 20px;">${story_detail.name}</b> <br>
-                                                    Dificultad: <b>${story_detail.difficulty_name}</b> <br>
-                                                    Inicio: <b>${story_detail.date_start.substring(10,0)}</b>  <br>
-                                                    `
+                                        <div class="col s12 m12 l7 offset-l2 card-info-user">
+                                            <b style="font-size: 20px;">${story_detail.name}</b> <br>
+                                            Dificultad: <b>${story_detail.difficulty_name}</b> <br>
+                                            Inicio: <b>${story_detail.date_start.substring(10,0)}</b>  <br>
+                                            `
+                                        
+                                        if (story_detail.status) {
+                                            finalizada = finalizada +  ` Fin: <b>${story_detail.date_start.substring(10,0)} </b><br> 
+                                                                        Finalizada: <b>SI </b> <br> `
+                                        }else{
+                                            finalizada = finalizada +  `  Finalizada: <b>NO </b> <br>`
+                                        }                    
+                                                        
+                                        detalle_historia = finalizada + `
+                                        </div>
+                                    </div> <br>`
 
-                                                if (e.status) {
-                                                    finalizada = finalizada +  ` Fin: <b>${story_detail.date_start.substring(10,0)} </b><br> 
-                                                                                Finalizada: <b>SI </b> <br> `
-                                                }else{
-                                                    finalizada = finalizada +  `  Finalizada: <b>NO </b> <br>`
-                                                }                    
-                                                                
-                                                detalle_historia = finalizada + `
-                                                </div>
-                                            </div> <br>`
 
+                                        story_detail.users.forEach(
+                                            usuario => {
+                                                    list_users = list_users +  this.templateUser(usuario)
+                                            })
 
-                                                story_detail.users.forEach(
-                                                    usuario => {
-                                                         list_users = list_users +  this.templateUser(usuario)
-                                                    })
+                                        templateModalContent.innerHTML = detalle_historia + `<div class="row ">` + list_users + `</div>`
 
-                                                templateModalContent.innerHTML = detalle_historia + `<div class="row ">` + list_users + `</div>`
+                                    contenidoModal.appendChild(templateModalContent)
 
-                                            contenidoModal.appendChild(templateModalContent)
+                                    let templateModalFooter = document.createElement("div")
+                                    templateModalFooter.id = "modalfooter"
+                                    templateModalFooter.className = "modal-footer modal-footer-me"
 
-                                            let templateModalFooter = document.createElement("div")
-                                            templateModalFooter.id = "modalfooter"
-                                            templateModalFooter.className = "modal-footer modal-footer-me"
+                                    let aClear = document.createElement("a")
+                                    aClear.id = "close-modal"
+                                    aClear.className = "modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal"
 
-                                            let aClear = document.createElement("a")
-                                            aClear.id = "close-modal"
-                                            aClear.className = "modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal"
+                                    aClear.innerHTML = `<i class="material-icons">clear</i>`
+                                    templateModalFooter.appendChild(aClear)
 
-                                            aClear.innerHTML = `<i class="material-icons">clear</i>`
-                                            templateModalFooter.appendChild(aClear)
+                                    contenidoModal.appendChild(templateModalFooter)
+                                    
+                                    $("#close-modal").click(function(){
+                                        $('.modal').modal('close');
+                                    });
 
-                                            contenidoModal.appendChild(templateModalFooter)
-                                            
-                                            $("#close-modal").click(function(){
-                                                $('.modal').modal('close');
-                                            });
-
-                                        })
-                                        .receive("error", e => console.log(e))
                                 })
-                                .receive("error", resp => { console.log("Unable to Joined Channel Story", resp) })
+                                .receive("error", e => console.log(e))
 
+                        })
+                    }
+
+                    
+                    if(document.getElementById(`button-terminar-modal-${historia.id}`)){
+                        let modalTerminar = document.getElementById(`button-terminar-modal-${historia.id}`)
+                        modalTerminar.addEventListener("click", e => {
+                            let payload = {id: historia.id}
+                            story_channel.push("end", payload)
+                                .receive("ok", e => {
+                                    $.growl.notice({ title:"Exito" ,message: "Historia terminada" });
+                                })
+                                .receive("error", e => {
+                                    if(e.errors.terminar != null){
+                                        $.growl.error({ title:"Error",message: e.errors.terminar });
+                                    }else{
+                                        $.growl.error({ title:"Error",message: "Erro al terminar Historia" });
+                                    }
+                                    
+                                })
                         })
                     }
                 })
@@ -224,7 +245,7 @@ let Story = {
         });
 
 
-        $("#cerrar-modal-delete").click(function(){
+        $("#cerrar-show-modal-delete").click(function(){
             $('.modal').modal('close');
         });
 
@@ -254,14 +275,38 @@ let Story = {
         template.innerHTML = dificultad_listado +  ` 
                 </div>
                 <div class="col s12 m4 l4" style="text-align: end;">
-                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" id="button-modal-${id}" data-target="modalstory"><i class="material-icons">visibility</i></button> &nbsp;&nbsp;
+                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" id="button-show-modal-${id}" data-target="modalstory"><i class="material-icons">timeline</i></button> &nbsp;&nbsp;
                     
-                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Cerrar" data-target="modal${id}"><i class="material-icons">timeline</i></button> &nbsp;&nbsp;
+                    <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Cerrar" data-target="modalterminar${id}"><i class="material-icons">gavel</i></button> &nbsp;&nbsp;
 
                     <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Eliminar" data-target="modaldelete${id}"><i class="material-icons">delete</i></button> &nbsp;&nbsp;
                     
                 </div>
             </div>
+            <!-- Terminar Delete -->
+            <div id="modalterminar${id}" class="modal modal-me modal-story">
+                <div class="modal-content">
+                    <div class="row">
+                        <div class="col s12" style="text-align: center; font-size: 20px;">
+                            ¿Realmente deseas terminar la historia: ${name} ? 
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer modal-footer-me">
+                        <div class="col s2 offset-s3">
+                            <button class="modal-close btn-floating btn-small waves-effect waves-light purple btn-confirmar-modal space-top-icon" id="button-terminar-modal-${id}">
+                                <i class="material-icons">check</i>
+                            </button>
+                        </div>
+                        <div class="col s2 offset-s2">
+                            <a class="modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal">
+                                <i class="material-icons">clear</i>
+                            </a> 
+                        </div>
+                    
+                </div>
+            </div>
+            <!-- Fin Modal -->
             <!-- Modal Delete -->
             <div id="modaldelete${id}" class="modal modal-me modal-story">
                 <div class="modal-content">
@@ -280,7 +325,7 @@ let Story = {
                             </a>
                         </div>
                         <div class="col s2 offset-s2">
-                            <a id="cerrar-modal-delete" class="modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal">
+                            <a id="cerrar-show-modal-delete" class="modal-close btn-floating btn-small waves-effect waves-light purple space-top-icon btn-cancelar-modal">
                                 <i class="material-icons">clear</i>
                             </a> 
                         </div>
