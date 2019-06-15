@@ -404,7 +404,11 @@ let Story = {
 
                     <b>${name} </b> <br>`
                     if(difficulty_id != null){
-                        templateUser = templateUser + `<b>${difficulty_name}</b>  <br>`
+                        templateUser = templateUser + ` 
+                        <img style="width: 40px; height: 40px;" src="http://localhost:4000/api/difficulty-image?id=${difficulty_id}"/> <br>`
+                    }else{
+                        templateUser = templateUser + ` 
+                        <img style="width: 40px; height: 40px;" src="/images/pokemon.png"/> <br>`
                     }
                     if(online){
                         templateUser = templateUser + `<b class="online-status">Online</b><br>`
@@ -417,6 +421,6 @@ let Story = {
         `
 
         return templateUser
-    },
+    }
 }
 export default Story

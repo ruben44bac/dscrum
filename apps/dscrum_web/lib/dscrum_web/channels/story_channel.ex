@@ -79,7 +79,7 @@ defmodule DscrumWeb.StoryChannel do
     story = StoryHandler.get_story!(id)
     IO.inspect(story)
     with {:ok, story} <- StoryHandler.terminar(story) do
-      # broadcast!(socket, "end_story", story)
+      broadcast!(socket, "end_story", story)
       {:reply, {:ok, story}, socket}
     else
       {:error, changeset} ->

@@ -34,9 +34,6 @@
           <span><i class="material-icons">account_circle</i> <br>Usuarios</span>
         <% end %>
 
-        <a class="item">
-          <span><i class="material-icons">file_copy</i> <br>Historias</span>
-        </a>
         <a class="item" href="<%= Routes.session_path(@conn, :delete) %>">
           <span><i class="material-icons">exit_to_app</i> <br>Cerrar Sesión</span>
         </a>
