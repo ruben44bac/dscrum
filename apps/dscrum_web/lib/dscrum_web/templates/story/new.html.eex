@@ -61,4 +61,4 @@
 </div>
 
 
-<span><%= link "Back", to: Routes.story_path(@conn, :index, %{"team_id" => @team.id}) %></span>
+<!--<span><%= link "Back", to: Routes.story_path(@conn, :index, %{"team_id" => @team.id}) %></span>!-->

@@ -15,4 +15,4 @@
 </div>
 
 
-<span><%= link "Back", to: Routes.team_path(@conn, :index) %></span>
+<!--<span><%= link "Back", to: Routes.team_path(@conn, :index) %></span>!-->
