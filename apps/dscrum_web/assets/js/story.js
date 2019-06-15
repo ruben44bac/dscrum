@@ -139,6 +139,14 @@ let Story = {
                             story_channel.push("end", payload)
                                 .receive("ok", e => {
                                     $.growl.notice({ title:"Exito" ,message: "Historia terminada" });
+
+                                    story_channel.push("list_paginado", {})
+                                        .receive("ok", e => 
+                                            this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
+                                        )
+                                        .receive("error", e => console.log(e))
+
+
                                 })
                                 .receive("error", e => {
                                     if(e.errors.terminar != null){
