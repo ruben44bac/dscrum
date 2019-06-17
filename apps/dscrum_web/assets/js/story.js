@@ -10,28 +10,63 @@ let Story = {
         let team = document.getElementById("team-id")
         let tableContainer    =   document.getElementById("records-story")
         let paginationContainer    =   document.getElementById("pagination-story")
+        let listDifficultyContainer    =   document.getElementById("list-difficulty")
+
+        let filterName    =   document.getElementById("filter-name")
+        let filterStartStart    =   document.getElementById("filter-start-start")
+        let filterEndStart    =   document.getElementById("filter-end-start")
+        let filterStartEnd    =   document.getElementById("filter-start-end")
+        let filterEndEnd    =   document.getElementById("filter-end-end")
+
+
+        let clearFilter = document.getElementById("clear-button")
 
         let story_channel = socket.channel(`history:${team.value}`, {})
         
 
-        story_channel.on("new_story", (resp) => {
-            // console.log("creada nueva historia new_story");
-            // $.growl.notice({ message: "prueba" });
-            // this.listaStory(tableContainer, paginationContainer, resp)
-        })
+        // story_channel.on("new_story", (resp) => {
+        //     // console.log("creada nueva historia new_story");
+        //     // $.growl.notice({ message: "prueba" });
+        //     // this.listaStory(tableContainer, paginationContainer, resp)
+        // })
 
         story_channel.join()
           .receive("ok", resp => { 
-                story_channel.push("list_paginado", {})
-                    .receive("ok", e => 
-                        this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
-                    )
-                    .receive("error", e => console.log(e))
+                this.pushListDifficulty(socket, story_channel, listDifficultyContainer)
+                this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, 0, 5)
            })
           .receive("error", resp => { console.log("Unable to Joined Channel Story", resp) })
+
+        filterName.addEventListener("keyup", e => {
+            this.applyFilter(socket, story_channel, tableContainer, paginationContainer)
+        })
+        // filterStartStart.addEventListener("change", e => {
+        //     this.applyFilter(socket, story_channel, tableContainer, paginationContainer)
+        // })
+        filterEndStart.addEventListener("change", e => {
+            this.applyFilter(socket, story_channel, tableContainer, paginationContainer)
+        })
+        // filterStartEnd.addEventListener("change", e => {
+        //     this.applyFilter(socket, story_channel, tableContainer, paginationContainer)
+        // })
+        filterEndEnd.addEventListener("change", e => {
+            this.applyFilter(socket, story_channel, tableContainer, paginationContainer)
+        })
+        clearFilter.addEventListener("click", e => {
+            filterName.value = ""
+            filterStartStart.value = null
+            filterEndStart.value = null
+            filterStartEnd.value = null
+            filterEndEnd.value = null
+            listDifficultyContainer.value = 0
+            this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, 0, 5)
+        })
+        listDifficultyContainer.addEventListener("change", e => {
+            this.applyFilter(socket, story_channel, tableContainer, paginationContainer)
+        })
+
     },
     listaStory(socket, story_channel, tableContainer, paginationContainer, {page_number, page_size, paginado, records, total_pages, total_records}){
-        
         tableContainer.innerHTML = ''
         paginationContainer.innerHTML = ''
 
@@ -140,13 +175,7 @@ let Story = {
                                 .receive("ok", e => {
                                     $.growl.notice({ title:"Exito" ,message: "Historia terminada" });
 
-                                    let payload = {index: "" + page_number, size: "" + 5}
-                                    story_channel.push("list_paginado", {})
-                                        .receive("ok", e => 
-                                            this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
-                                        )
-                                        .receive("error", e => console.log(e))
-
+                                    this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, page_number, 5)
 
                                 })
                                 .receive("error", e => {
@@ -218,28 +247,14 @@ let Story = {
     
             templateChevronLeft.addEventListener("click", e => {
                 if (templateChevronLeft.value >= 0) {
-                    let payload = {index: "" + (templateChevronLeft.value - 1), size: "" + 5}
-                    story_channel.push("list_paginado", payload)
-                        .receive("ok", e => 
-                            this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
-                            // templateChevronRight.value = templateChevronRight.value - 1
-                            // templateChevronLeft.value = templateChevronLeft.value - 1
-                        )
-                        .receive("error", e => console.log(e))
+                    this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, (templateChevronLeft.value - 1), 5)
                 }
                 
             })
     
             templateChevronRight.addEventListener("click", e => {
                 if (templateChevronRight.value >= 0) {
-                    let payload = {index: "" + (templateChevronRight.value + 1), size: "" + 5}
-                    story_channel.push("list_paginado", payload)
-                        .receive("ok", e => 
-                            this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
-                            // templateChevronRight.value = templateChevronRight.value + 1
-                            // templateChevronLeft.value = templateChevronLeft.value + 1
-                        )
-                        .receive("error", e => console.log(e))
+                    this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, (templateChevronRight.value + 1), 5)
                 }
                 
             })
@@ -259,6 +274,21 @@ let Story = {
         });
 
         // fin modal
+    },
+    listDifficulty(listDifficultyContainer, records){
+        listDifficultyContainer.innerHTML = ''
+
+        let first = `<option value="0" selected>Todos</option>`
+        // listDifficultyContainer.appendChild(first)
+
+        let options = ``
+        records.data.forEach(
+            difficulty => {
+                let difficultyItem = `<option value="${difficulty.id}">${difficulty.name}</option>`
+                options =  options + difficultyItem
+            })
+
+        listDifficultyContainer.innerHTML = first + options
     },
     templateStory({id, name, date_start, date_end, difficulty, difficulty_id, team_id, complete}){
 
@@ -380,14 +410,7 @@ let Story = {
 
         templatePageNumber.addEventListener("click", e => {
             if (templatePageNumber.value >= 0){
-                let payload = {index: "" + templatePageNumber.value, size: "" + 5}
-                story_channel.push("list_paginado", payload)
-                    .receive("ok", e => 
-                        this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
-                        // templateChevronRight.value = templateChevronRight.value + 1
-                        // templateChevronLeft.value = templateChevronLeft.value + 1
-                    )
-                    .receive("error", e => console.log(e))
+                this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, templatePageNumber.value, 5)
             }
         })
         
@@ -422,6 +445,95 @@ let Story = {
         `
 
         return templateUser
+    },
+    applyFilter(socket, story_channel, tableContainer, paginationContainer){
+        setTimeout( () => { 
+            this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, 0, 5)
+        }, 600);
+    },
+    pushListPaginado(socket, story_channel, tableContainer, paginationContainer, index, size){
+        
+        let filterName    =   document.getElementById("filter-name")
+        let filterDifficulty = document.getElementById("list-difficulty")
+        let filterStartStart    =   document.getElementById("filter-start-start")
+        let filterEndStart    =   document.getElementById("filter-end-start")
+        let filterStartEnd    =   document.getElementById("filter-start-end")
+        let filterEndEnd    =   document.getElementById("filter-end-end")
+
+        let nombre;
+        let dificultad;
+        let inicio_start;
+        let fin_start;
+        let inicio_end;
+        let fin_end;
+
+        if (filterEndStart.value < filterStartStart.value) {
+            $.growl.error({ title:"Error",message: "Filtro Fecha Inicio, rangos incorrectos" });
+        }else{
+            if(filterName.value == null || filterName.value == undefined){
+                nombre = ""
+            }else{
+                nombre = filterName.value
+            }
+    
+            if(filterDifficulty.value == "" || filterDifficulty.value == null || filterDifficulty.value == undefined){
+                dificultad = 0
+            }else{
+                dificultad = Number(filterDifficulty.value)
+            }
+    
+            if(filterStartStart.value == "" || filterStartStart.value == null || filterStartStart.value == undefined){
+                inicio_start = null
+            }else{
+                inicio_start = new Date(filterStartStart.value)
+            }
+    
+            if(filterEndStart.value == "" || filterEndStart.value == null || filterEndStart.value == undefined){
+                fin_start = null
+            }else{
+                fin_start = new Date(filterEndStart.value)
+            }
+    
+            if(filterStartEnd.value == "" || filterStartEnd.value == null || filterStartEnd.value == undefined){
+                inicio_end = null
+            }else{
+                inicio_end = new Date(filterStartEnd.value)
+            }
+    
+            if(filterEndEnd.value == "" || filterEndEnd.value == null || filterEndEnd.value == undefined){
+                fin_end = null
+            }else{
+                fin_end = new Date(filterEndEnd.value)
+            }
+    
+            let payload = {
+                filter_name: nombre, 
+                filter_difficulty: dificultad, 
+                filter_start_start: inicio_start, 
+                filter_end_start: fin_start, 
+                filter_start_end: inicio_end, 
+                filter_end_end: fin_end, 
+                index: "" + index, 
+                size: "" + size
+            }
+            
+            story_channel.push("list_paginado", payload)
+                .receive("ok", e => {
+                    console.log(e)
+                    this.listaStory(socket, story_channel, tableContainer, paginationContainer, e)
+                })
+                .receive("error", e => console.log(e))
+        }
+
+        
+    },
+    pushListDifficulty(socket, story_channel, listDifficultyContainer){
+        story_channel.push("difficulty_list", {})
+        .receive("ok", e => 
+            // console.log(e)
+            this.listDifficulty(listDifficultyContainer, e)
+        )
+        .receive("error", e => console.log(e))
     }
 }
 export default Story

@@ -23,7 +23,77 @@
 
 <input type="hidden" value="<%= @team_id %>" id="team-id"/>
 <div class="row">
-	<div class="col s12 m8 offset-m2 l6 offset-l3 listado color-text-input" style="margin-top: -20px;">
+
+	<div class="col s12 m4 offset-m1 listado color-text-input" style="margin-top: -20px;">
+
+		<div class="row filtros">
+			<div class="col s10">
+				FILTROS
+			</div>
+			<div class="col s1">
+				<i class="material-icons button-clear tooltipped" id="clear-button" data-position="bottom" data-tooltip="Limpiar">clear_all</i>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col s12">
+
+				<div class="row">
+					<div class="col s6">
+						<div class="form-group input-field color-text-input">
+							<label class="control-label label-input" for="story_schema_name">Nombre</label>
+							<input autocomplete="{+}" autofocus="on" class="form-control" id="filter-name" placeholder="Nombre" type="text">
+						</div>
+					</div>
+					<div class="col s6">
+						<div class="input-field color-text-input" style="margin-top: -6px">
+							<label style="font-size: 12px;">Dificultad</label><br>
+							<select class="icons" id="list-difficulty">
+							
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col s6">
+						<div class="form-group input-field color-text-input">
+							<label class="control-label label-input" for="story_schema_date_start_start">Fecha Inicio (Rango)</label><br>
+							<input autocomplete="off" autofocus="on" class="form-control" id="filter-start-start"  type="date">
+						</div>
+					</div>
+					<div class="col s6">
+						<div class="form-group input-field color-text-input">
+							<label class="control-label label-input" for="story_schema_date_end_start"></label><br>
+							<input autocomplete="off" autofocus="on" class="form-control" id="filter-end-start" type="date">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col s6">
+						<div class="form-group input-field color-text-input">
+							<label class="control-label label-input" for="story_schema_date_start_end">Fecha Fin (Rango)</label><br>
+							<input autocomplete="off" autofocus="on" class="form-control" id="filter-start-end"  type="date">
+						</div>
+					</div>
+					<div class="col s6">
+						<div class="form-group input-field color-text-input">
+							<label class="control-label label-input" for="story_schema_date_end_end"></label><br>
+							<input autocomplete="off" autofocus="on" class="form-control" id="filter-end-end"  type="date">
+						</div>
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
+
+		
+		
+	</div>
+
+	<div class="col s12 m5 offset-m1 listado color-text-input" style="margin-top: -20px;">
 		
 		<table id="records-story">
 

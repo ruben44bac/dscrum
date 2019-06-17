@@ -5,10 +5,12 @@ defmodule DscrumWeb.StoryChannel do
   alias Dscrum.UserSchema
   alias Dscrum.{
     PagedCommand,
-    StoryCommand
+    StoryCommand,
+    FilterStoryCommand
   }
   alias Dscrum.StoryHandler
   alias DscrumWeb.Helpers.PageList
+  alias Dscrum.StoryDetailHandler
 
   def join("history:" <> team_id, _params, socket) do
     send(self(), :after_join)
@@ -38,19 +40,27 @@ defmodule DscrumWeb.StoryChannel do
   def handle_in("list_paginado", params, socket) do
     params =
       if Map.get(params, "index") == nil or Map.get(params, "size") == nil do
-        %{"index" => "0", "size" => "5"}
+        params
+        |> Map.put(:index, "0")
+        |> Map.put(:size, "5")
       else
         params
       end
 
-    params =
+
+
+    params_paginado =
       params
       |> PagedCommand.new
 
-    respuesta = StoryHandler.list_story(params, socket)
+    params_filter =
+      params
+      |> FilterStoryCommand.new
 
-    {number_size, _} = Integer.parse(params.size)
-    {number_index, _} = Integer.parse(params.index)
+    respuesta = StoryHandler.list_story(params_paginado, params_filter, socket)
+
+    {number_size, _} = Integer.parse(params_paginado.size)
+    {number_index, _} = Integer.parse(params_paginado.index)
 
     paginado = PageList.get_page_list(respuesta.total_pages, number_index, 7)
 
@@ -64,6 +74,10 @@ defmodule DscrumWeb.StoryChannel do
     }
 
     {:reply, {:ok, result}, socket}
+  end
+
+  def handle_in("difficulty_list", _params, socket) do
+    {:reply, {:ok, %{data: StoryDetailHandler.difficulty_list }}, socket}
   end
 
   def handle_in("add", params, socket) do

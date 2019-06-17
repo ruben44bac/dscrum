@@ -14,12 +14,114 @@ defmodule Dscrum.StoryQuery do
     offset: ^index
   end
 
+  def paged_list_filter(size, index, team_id, params_filter) do
+    name = "%" <> params_filter.filter_name <>"%"
+
+    query =
+      from s in StorySchema,
+      where: s.team_id == ^team_id and ilike(s.name, ^name),
+      order_by: [desc: s.id],
+      limit: ^size,
+      offset: ^index
+
+    query =
+      if params_filter.filter_difficulty > 0 do
+        from s in query,
+          where: s.difficulty_id == ^params_filter.filter_difficulty
+      else
+        query
+      end
+
+
+    query =
+      if not is_nil(params_filter.filter_start_start) and not is_nil(params_filter.filter_end_start) do
+
+        if params_filter.filter_start_start == params_filter.filter_end_start do
+          from s in query,
+          where: s.date_start == ^params_filter.filter_start_start
+        else
+          from s in query,
+          where: s.date_start >= ^params_filter.filter_start_start,
+          where: s.date_start <= ^params_filter.filter_end_start
+        end
+      else
+        query
+      end
+
+
+    if not is_nil(params_filter.filter_start_end) and not is_nil(params_filter.filter_end_end) do
+
+      if params_filter.filter_start_end == params_filter.filter_end_end do
+        from s in query,
+        where: s.date_end == ^params_filter.filter_start_end
+      else
+        from s in query,
+        where: s.date_end >= ^params_filter.filter_start_end,
+        where: s.date_end <= ^params_filter.filter_end_end
+      end
+    else
+      query
+    end
+
+  end
+
   def total_list(team_id) do
     from s in StorySchema,
     select: %{
       total: count(s.id)
     },
     where: s.team_id == ^team_id
+  end
+
+  def total_list_filter(team_id, params_filter) do
+    name = "%" <> params_filter.filter_name <>"%"
+
+    query =
+      from s in StorySchema,
+      select: %{
+        total: count(s.id)
+      },
+      where: s.team_id == ^team_id and ilike(s.name, ^name)
+
+    query =
+      if params_filter.filter_difficulty > 0 do
+        from s in query,
+          where: s.difficulty_id == ^params_filter.filter_difficulty
+      else
+        query
+      end
+
+    query =
+      if not is_nil(params_filter.filter_start_start) and not is_nil(params_filter.filter_end_start) do
+
+        if params_filter.filter_start_start == params_filter.filter_end_start do
+          from s in query,
+          where: s.date_start == ^params_filter.filter_start_start
+        else
+          from s in query,
+          where: s.date_start >= ^params_filter.filter_start_start,
+          where: s.date_start <= ^params_filter.filter_end_start
+        end
+      else
+        query
+      end
+
+
+
+    if not is_nil(params_filter.filter_start_end) and not is_nil(params_filter.filter_end_end) do
+
+      if params_filter.filter_start_end == params_filter.filter_end_end do
+        from s in query,
+        where: s.date_end == ^params_filter.filter_start_end
+      else
+        from s in query,
+        where: s.date_end >= ^params_filter.filter_start_end,
+        where: s.date_end <= ^params_filter.filter_end_end
+      end
+    else
+      query
+    end
+
   end
 
   def detail(story_id) do

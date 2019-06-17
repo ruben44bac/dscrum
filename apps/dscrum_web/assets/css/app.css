@@ -179,6 +179,11 @@ mat-form-field {
  border-bottom: 1px solid #FF9800 !important;
  box-shadow: 0 1px 0 0 #FF9800 !important;
 }
+/* label underline focus color */
+.input-field input[type=date]:focus {
+ border-bottom: 1px solid #FF9800 !important;
+ box-shadow: 0 1px 0 0 #FF9800 !important;
+}
 
 .btn-acceso {
     background-color: #FF9800 !important;
@@ -641,3 +646,28 @@ input[type="file"] {
   border-radius: 10%;
   padding: 2px;
 }
+
+/* index story */
+.filtros{
+  /* background: #033E97; */
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+.button-clear{
+  cursor: pointer;
+}
+/* fin index story */
+
+/* select input */
+
+select{
+  display: block !important;
+  background: #212121;
+  border: none;
+  border-bottom: 1px solid #9e9e9e;
+}
+select:focus {
+  outline: none;
+}
+/* fin select input */

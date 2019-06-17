@@ -3,7 +3,8 @@ defmodule Dscrum.StoryHandler do
   alias Dscrum.StorySchema
   alias Dscrum.{
     PagedCommand,
-    StoryCommand
+    StoryCommand,
+    FilterStoryCommand
   }
   alias Dscrum.StoryQuery
   alias Dscrum.StoryIterationQuery
@@ -70,6 +71,47 @@ defmodule Dscrum.StoryHandler do
     |> PagedStruct.new()
     # %{attributes: result}
   end
+
+  def list_story(%PagedCommand{} = params_paginado, %FilterStoryCommand{} = params_filter, socket) do
+    {number_size, _} = Integer.parse(params_paginado.size)
+    {number_index, _} = Integer.parse(params_paginado.index)
+
+    story_list =
+      StoryQuery.paged_list_filter(number_size, number_size * number_index, socket.assigns.team_id, params_filter)
+      |> Repo.all
+      |> Repo.preload(:difficulty)
+      |> Enum.map(fn(res) ->
+
+
+
+          if not is_nil(res.date_end) do
+            StoryStruct.new(res)
+            |> Map.put(:date_start, DateTime.to_date(res.date_start))
+            |> Map.put(:date_end, DateTime.to_date(res.date_end))
+          else
+            StoryStruct.new(res)
+            |> Map.put(:date_start, DateTime.to_date(res.date_start))
+            |> Map.put(:date_end, "")
+          end
+
+
+      end)
+
+    total_records =
+      StoryQuery.total_list_filter(socket.assigns.team_id, params_filter)
+      |> Repo.one
+      |> Map.get(:total)
+
+    total_pages = TotalPaginas.total_paginas(total_records, 5)
+
+    %{}
+    |> Map.put(:records, story_list)
+    |> Map.put(:total_pages, total_pages)
+    |> Map.put(:total_records, total_records)
+    |> PagedStruct.new()
+    # %{attributes: result}
+  end
+
 
   def get_story!(id) do
     Repo.get!(StorySchema, id)
