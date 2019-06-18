@@ -29,10 +29,12 @@
 				<div class="form-group input-field color-text-input">
 					<label class="control-label label-input" for="story_schema_name">Nombre</label><br>
 					<input autocomplete="{+}" autofocus="on" class="form-control" id="story_name"  placeholder="Nombre" type="text">
+					<span class="help-block" id="error-name"></span>
 				</div>
 				<div class="form-group input-field color-text-input">
 					<label class="control-label label-input" for="story_schema_date_start">Fecha Inicio</label><br>
 					<input autocomplete="off" autofocus="on" class="form-control" id="story_date_start"  placeholder="Fecha Inicio" type="date">
+					<span class="help-block" id="error-date-start"></span>
 				</div>
 				</div>
 			</div>
@@ -43,7 +45,7 @@
 				<div class="col s4 offset-s4" style="text-align: center;">
 				<div class="form-group color-text-input">
 					<%# <div class="col s4 offset-s4"> %>
-					<button id="msg-submit-story" onclick="window.location.href='/story?team_id=<%= @team.id %>'" class="btn btn-acceso waves-effect waves-light"><b>Aceptar</b></button>
+					<button id="msg-submit-story"  class="btn btn-acceso waves-effect waves-light"><b>Aceptar</b></button>
 					<%# </div> %>
 				</div>
 				</div>

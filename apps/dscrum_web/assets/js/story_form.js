@@ -13,15 +13,28 @@ let StoryForm = {
         let story_name = document.getElementById("story_name")
         let story_date_start = document.getElementById("story_date_start")
 
+        let error_name = document.getElementById("error-name")
+        let error_date_start = document.getElementById("error-date-start")
+
         let story_channel = socket.channel(`history:${team_id.value}`, {})
         
 
         submit.addEventListener("click", e => {
             let payload = {name: story_name.value, date_start: new Date(story_date_start.value), team_id: team_id.value}
-            console.log(payload);
-            story_channel.push("add", payload)
+            story_channel.push("create", payload)
                 .receive("ok", e => console.log(e))
-                .receive("error", e => console.log(e))
+                .receive("error", e => {
+                    if(e.errors.name){
+                        error_name.innerHTML = `El valor es requerido`
+                    }else{
+                        error_name.innerHTML = ``
+                    }
+                    if(e.errors.date_start){
+                        error_date_start.innerHTML = `El valor es requerido`
+                    }else{
+                        error_date_start.innerHTML = ``
+                    }
+                })
             
         })
 

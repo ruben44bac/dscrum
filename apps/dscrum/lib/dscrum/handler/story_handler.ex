@@ -143,6 +143,15 @@ defmodule Dscrum.StoryHandler do
     end
   end
 
+  def create(%StoryCommand{} = command) do
+    %StorySchema{}
+      |> StorySchema.changeset(Map.from_struct(
+        command
+          |> Map.put(:complete, false)))
+      |> Repo.insert
+
+  end
+
   def terminar(%StorySchema{} = story) do
     StoryIterationQuery.last_iteration_story_detail(story.id)
     |> Repo.one()

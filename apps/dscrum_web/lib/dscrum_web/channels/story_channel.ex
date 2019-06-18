@@ -12,6 +12,10 @@ defmodule DscrumWeb.StoryChannel do
   alias DscrumWeb.Helpers.PageList
   alias Dscrum.StoryDetailHandler
 
+  alias Ecto.Changeset
+
+
+
   def join("history:" <> team_id, _params, socket) do
     send(self(), :after_join)
     {:ok, %{channel: "history:#{team_id}"}, assign(socket, :team_id, team_id)}
@@ -89,6 +93,23 @@ defmodule DscrumWeb.StoryChannel do
     {:reply, {:ok, %{data: "Registro exitoso de " <> respuesta.name }}, socket}
   end
 
+  def handle_in("create", params, socket) do
+    respuesta = params
+      |> StoryCommand.new
+      |> StoryHandler.create
+
+    case respuesta do
+      {:ok, _res} ->
+        broadcast!(socket, "new_story", respuesta)
+        {:reply, {:ok, %{data: "Registro exitoso de " <> respuesta.name }}, socket}
+      {:error, changeset} ->
+        errors = errors(changeset)
+
+        {:reply, {:error, %{errors: errors}}, socket}
+    end
+
+  end
+
   def handle_in("end",  %{"id" => id}, socket) do
     story = StoryHandler.get_story!(id)
     IO.inspect(story)
@@ -99,6 +120,21 @@ defmodule DscrumWeb.StoryChannel do
       {:error, changeset} ->
         {:reply, {:error, %{errors: changeset}}, socket}
     end
+  end
+
+  defp errors(%Ecto.Changeset{} = changeset) do
+    Changeset.traverse_errors(changeset, fn {msg, opts} ->
+      if Enum.count(opts) == 0 do
+        mensaje = Enum.reduce(opts, msg, fn {key, value}, acc ->
+          Gettext.dgettext(DscrumWeb.Gettext, "errors",String.replace(acc, "%{#{key}}", to_string(value)))
+        end)
+        Gettext.dgettext(DscrumWeb.Gettext, "errors", mensaje)
+      else
+        Enum.reduce(opts, msg, fn {key, value}, acc ->
+          Gettext.dgettext(DscrumWeb.Gettext, "errors",String.replace(acc, "%{#{key}}", to_string(value)))
+        end)
+      end
+    end)
   end
 
 end
