@@ -103,7 +103,7 @@ defmodule DscrumWeb.UserController do
         |> Map.put("image", nil)
       end
 
-    case UserHandler.create_validate(user_schema) do
+    case UserHandler.create_validate_phoenix(user_schema) do
       {:ok, _} ->
         conn
         # |> put_flash(:info, "Picture created successfully.")

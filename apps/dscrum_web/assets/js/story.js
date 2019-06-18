@@ -300,11 +300,11 @@ let Story = {
         <td>
             <div class="row " style="margin-bottom: 5px !important;">
 
-                <div class="col s12 m6 l6">
+                <div class="col s12 m5">
                     <div class="list-story-name"> ${name}</div>
                     <div> ${date_start} <br> ${date_end}</div>
                 </div>
-                <div class="col s12 m2 l2 div-img" style="text-align: end; margin-top: 10px;">`
+                <div class="col s12 m2 div-img" style="text-align: end; margin-top: 10px;">`
                 
 
         if (difficulty_id != null) {
@@ -313,7 +313,7 @@ let Story = {
                     
         template.innerHTML = dificultad_listado +  ` 
                 </div>
-                <div class="col s12 m4 l4" style="text-align: end;">
+                <div class="col s12 m5" style="text-align: end;">
                     <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Detalle" id="button-show-modal-${id}" data-target="modalstory"><i class="material-icons">timeline</i></button> &nbsp;&nbsp;
                     
                     <button class="btn-floating btn-small waves-effect waves-light purple space-top-icon tooltipped" data-tooltip="Cerrar" data-target="modalterminar${id}"><i class="material-icons">gavel</i></button> &nbsp;&nbsp;
@@ -469,6 +469,8 @@ let Story = {
 
         if (filterEndStart.value < filterStartStart.value) {
             $.growl.error({ title:"Error",message: "Filtro Fecha Inicio, rangos incorrectos" });
+        }else if(filterEndEnd.value < filterStartEnd.value){
+            $.growl.error({ title:"Error",message: "Filtro Fecha Fin, rangos incorrectos" });
         }else{
             if(filterName.value == null || filterName.value == undefined){
                 nombre = ""

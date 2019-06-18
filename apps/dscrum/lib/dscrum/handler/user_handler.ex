@@ -132,6 +132,49 @@ defmodule Dscrum.UserHandler do
     end
   end
 
+  def create_validate_phoenix(attrs) do
+    user = %UserSchema{}
+      |> UserSchema.changeset(attrs)
+
+    if user.valid? do
+      user =
+        user
+        |> Ecto.Changeset.put_change(:password, Pbkdf2.hash_pwd_salt(Map.get(attrs, "password")))
+
+      match = UserQuery.validate(user.params["username"], user.params["mail"])
+        |> Repo.all()
+
+      case (match == []) do
+        true -> add_phoenix(user)
+        false -> {:error, "El usuario ya existe"}
+      end
+    else
+      user
+      |> Repo.insert()
+    end
+
+  end
+
+  def add_phoenix(user) do
+
+    image_path =
+      if Enum.member?(user.changes, :image) do
+        {:ok, data} = Base.decode64(user.changes.image)
+        image_path = "C:/Users/luis.moreno/Desktop/"<>user.changes.username<>".jpg"
+        File.write(image_path, data, [:binary])
+        "C:/Users/luis.moreno/Desktop/"<>user.changes.username<>".jpg"
+      else
+        "C:/Users/luis.moreno/Desktop/account.png"
+      end
+
+    user
+    |> Ecto.Changeset.put_change(:image, image_path)
+    |> Repo.insert()
+
+  end
+
+
+
   def add(user) do
     {:ok, data} = Base.decode64(user.changes.image)
     image_path = "C:/Users/luis.moreno/Desktop/"<>user.changes.username<>".jpg"

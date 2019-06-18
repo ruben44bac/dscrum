@@ -671,3 +671,9 @@ select:focus {
   outline: none;
 }
 /* fin select input */
+
+/* error input */
+.help-block {
+  position: fixed;
+}
+/* fin error input */
