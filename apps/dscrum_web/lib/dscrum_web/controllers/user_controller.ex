@@ -121,6 +121,7 @@ defmodule DscrumWeb.UserController do
   end
 
   def show(conn, _attrs) do
+    IO.inspect("llegggggggggggggggggggooooooooooo")
     user = Guardian.Plug.current_resource(conn)
     conn |> render("user.json", user: user)
   end
@@ -169,6 +170,7 @@ defmodule DscrumWeb.UserController do
   end
 
   def delete(conn, %{"id" => id}) do
+    IO.inspect("Delleettttttee")
     user = user = UserHandler.get_user!(id)
     {:ok, _user} = UserHandler.delete_user(user)
 

@@ -110,16 +110,19 @@ defmodule Dscrum.TeamHandler do
       %TeamSchema{}
       |> TeamSchema.changeset(attrs)
 
+    if team.valid? do
+      match =
+        TeamQuery.validate(team.params["name"])
+        |> Repo.all()
 
-    match =
-      TeamQuery.validate(team.params["name"])
-      |> Repo.all()
-
-    case (match == []) do
-      true -> save_image(team)
-      false -> {:error, "El equipo ya existe"}
+      case (match == []) do
+        true -> save_image(team)
+        false -> {:error, "El equipo ya existe"}
+      end
+    else
+      team
+      |> Repo.insert()
     end
-
   end
 
   @doc """
@@ -184,7 +187,7 @@ defmodule Dscrum.TeamHandler do
 
   def save_image(team_changeset) do
     team_changeset =
-      if not is_nil(team_changeset.changes.logotype) do
+      if Enum.member?(team_changeset.changes, :logotype) do
         {:ok, data} = Base.decode64(team_changeset.changes.logotype)
         image_path = "C:/Users/luis.moreno/Desktop/"<>team_changeset.params["name"]<>".jpg"
         File.write(image_path, data, [:binary])
@@ -192,8 +195,10 @@ defmodule Dscrum.TeamHandler do
         team_changeset
         |> Ecto.Changeset.put_change(:logotype, image_path)
       else
+        image_path = "C:/Users/luis.moreno/Desktop/team.png"
+
         team_changeset
-        |> Ecto.Changeset.delete_change(:logotype)
+        |> Ecto.Changeset.put_change(:logotype, image_path)
       end
 
     id = get_field(team_changeset, :id)

@@ -101,6 +101,37 @@ defmodule DscrumWeb.TeamController do
     end
   end
 
+  def create(conn, %{"team_schema" => team_params}) do
+    IO.inspect(team_params)
+
+    team_params =
+      if upload = team_params["foto"] do
+
+        with File.exists?(upload.path) do
+          file = File.read!(upload.path)
+          conve_base64 = Base.encode64(file)
+
+          team_params
+          |> Map.put("logotype", conve_base64)
+        end
+
+      else
+
+        team_params
+        |> Map.put("logotype", nil)
+      end
+
+    case TeamHandler.create_team(team_params) do
+      {:ok, _team} ->
+        conn
+        # |> put_flash(:info, "Team created successfully.")
+        |> redirect(to: Routes.team_path(conn, :index))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     team = TeamHandler.get_team!(id)
     render(conn, "show.html", team: team)
