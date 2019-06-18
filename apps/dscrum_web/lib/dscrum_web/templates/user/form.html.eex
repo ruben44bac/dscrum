@@ -71,6 +71,7 @@
             
             <%= if assigns[:user] do %>
               <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "password", value: "***********" %>
+              <%= error_tag f, :password %>
             <% else %>
               <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "password" %>
               <%= error_tag f, :password %>
