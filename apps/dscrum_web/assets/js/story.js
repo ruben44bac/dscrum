@@ -173,7 +173,7 @@ let Story = {
                             let payload = {id: historia.id}
                             story_channel.push("end", payload)
                                 .receive("ok", e => {
-                                    $.growl.notice({ title:"Exito" ,message: "Historia terminada" });
+                                    $.growl.notice({ title:"Exito" ,message: "Historia terminada, se notificó al team" });
 
                                     this.pushListPaginado(socket, story_channel, tableContainer, paginationContainer, page_number, 5)
 
