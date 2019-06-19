@@ -1,0 +1,23 @@
+
+
+<div class="titulo col s12" align="center">
+  <h1>Teams</h1>
+</div>
+<input type="hidden" value="<%= @csrf_token %>" id="csrf-token"/>
+<div class="row">
+	<div class="col s12 m8 offset-m2 l6 offset-l3 listado color-text-input">
+		
+		<table id="records-team">
+
+		</table>
+		
+		<ul class="pagination" id="pagination-team">
+		
+		</ul>
+		
+	</div>
+	
+</div>
+<div class="btn-nuevo">
+	<%= link "+", to: Routes.team_path(@conn, :new), class: "waves-effect btn-floating btn-large waves-effect waves-light btn-add" %>
+</div>

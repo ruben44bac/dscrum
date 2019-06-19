@@ -61,6 +61,9 @@ defmodule Dscrum.UserHandler do
     |> where([u], u.team_id == ^team_id)
     |> order_by([u], asc: u.inserted_at)
     |> Repo.all()
+    |> Enum.map(fn(res) ->
+      UserStruct.new(res)
+     end)
   end
 
   def get_user(id) do

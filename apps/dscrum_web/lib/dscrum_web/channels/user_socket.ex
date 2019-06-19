@@ -6,6 +6,7 @@ defmodule DscrumWeb.UserSocket do
   channel "story_detail:*", DscrumWeb.StoryDetailChannel
   channel "mind_state:*", DscrumWeb.MindStateChannel
   channel "user:*", DscrumWeb.UserChannel
+  channel "team:*", DscrumWeb.TeamChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

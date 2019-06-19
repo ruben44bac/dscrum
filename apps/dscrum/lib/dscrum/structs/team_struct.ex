@@ -3,7 +3,8 @@ defmodule Dscrum.TeamStruct do
   defstruct [
     :id,
     :name,
-    :logotype
+    :logotype,
+    :users
   ]
   use ExConstructor
 end
