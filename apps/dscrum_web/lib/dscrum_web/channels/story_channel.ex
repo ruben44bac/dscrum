@@ -122,6 +122,19 @@ defmodule DscrumWeb.StoryChannel do
     end
   end
 
+  def handle_in("delete", %{"id" => id}, socket) do
+    team = StoryHandler.get_story!(id)
+
+    with {:ok, _team} <- StoryHandler.delete_story(team) do
+      {:reply, {:ok, {}}, socket}
+    else
+      {:error, changeset} ->
+        errors = errors(changeset)
+
+        {:reply, {:error, %{errors: errors}}, socket}
+    end
+  end
+
   defp errors(%Ecto.Changeset{} = changeset) do
     Changeset.traverse_errors(changeset, fn {msg, opts} ->
       if Enum.count(opts) == 0 do

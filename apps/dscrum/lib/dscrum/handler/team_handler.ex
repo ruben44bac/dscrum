@@ -168,7 +168,9 @@ defmodule Dscrum.TeamHandler do
 
   """
   def delete_team(%TeamSchema{} = team) do
-    Repo.delete(team)
+    team
+    |> change_team()
+    |> Repo.delete()
   end
 
   @doc """

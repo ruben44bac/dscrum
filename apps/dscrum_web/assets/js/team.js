@@ -56,7 +56,13 @@ let Team = {
 
                                 })
                                 .receive("error", e => {
-                                    console.log(e)
+                                    if(e.errors.user != null){
+                                        $.growl.error({ title:"Error" ,message: "No se permite eliminar porque tiene usuarios asociados." });
+                                    }
+                                    if(e.errors.story != null){
+                                        $.growl.error({ title:"Error" ,message: "No se permite eliminar porque tiene historias asociadas." });
+                                    }
+                                    
                                 })
                         })
                     }

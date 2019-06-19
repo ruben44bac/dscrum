@@ -174,9 +174,23 @@ defmodule Dscrum.StoryHandler do
 
     end
   end
-
   def delete_story(%StorySchema{} = story) do
-    Repo.delete(story)
+    story
+    |> change_story()
+    |> Repo.delete()
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking story changes.
+
+  ## Examples
+
+      iex> change_story(story)
+      %Ecto.Changeset{source: %StorySchema{}}
+
+  """
+  def change_story(%StorySchema{} = story) do
+    StorySchema.changeset(story, %{})
   end
 
 end
