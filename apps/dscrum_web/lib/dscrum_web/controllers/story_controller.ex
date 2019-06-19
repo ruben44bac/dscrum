@@ -57,5 +57,13 @@ defmodule DscrumWeb.StoryController do
     render(conn, "edit.html", story: story,  team: team)
   end
 
+  def delete(conn, %{"id" => id}) do
+    story = StoryHandler.get_story!(id)
+    {:ok, _story} = StoryHandler.delete_story(story)
+    team = TeamHandler.get_team!(story.team_id)
+
+    render(conn, "index_socket.html", csrf_token: get_csrf_token(), team_id: story.team_id, team: team)
+  end
+
 
 end

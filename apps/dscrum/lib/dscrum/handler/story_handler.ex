@@ -175,4 +175,8 @@ defmodule Dscrum.StoryHandler do
     end
   end
 
+  def delete_story(%StorySchema{} = story) do
+    Repo.delete(story)
+  end
+
 end

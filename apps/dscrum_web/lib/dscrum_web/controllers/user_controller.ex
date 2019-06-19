@@ -170,8 +170,7 @@ defmodule DscrumWeb.UserController do
   end
 
   def delete(conn, %{"id" => id}) do
-    IO.inspect("Delleettttttee")
-    user = user = UserHandler.get_user!(id)
+    user = UserHandler.get_user!(id)
     {:ok, _user} = UserHandler.delete_user(user)
 
     conn
