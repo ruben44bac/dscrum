@@ -116,7 +116,7 @@ defmodule Dscrum.TeamHandler do
         |> Repo.all()
 
       case (match == []) do
-        true -> save_image(team)
+        true -> save_image_new(team)
         false -> {:error, "El equipo ya existe"}
       end
     else
@@ -149,7 +149,7 @@ defmodule Dscrum.TeamHandler do
       |> Repo.all()
 
     case (match == []) do
-      true -> save_image(team)
+      true -> save_image_edit(team)
       false -> {:error, "El equipo ya existe"}
     end
 
@@ -187,7 +187,7 @@ defmodule Dscrum.TeamHandler do
   end
 
 
-  def save_image(team_changeset) do
+  def save_image_new(team_changeset) do
     team_changeset =
       if Enum.member?(team_changeset.changes, :logotype) do
         {:ok, data} = Base.decode64(team_changeset.changes.logotype)
@@ -203,14 +203,27 @@ defmodule Dscrum.TeamHandler do
         |> Ecto.Changeset.put_change(:logotype, image_path)
       end
 
-    id = get_field(team_changeset, :id)
+    Repo.insert(team_changeset)
 
-    if not is_nil(id) do
-      Repo.update(team_changeset)
-    else
-      Repo.insert(team_changeset)
-    end
+  end
 
+
+  def save_image_edit(team_changeset) do
+    IO.inspect(team_changeset)
+    team_changeset =
+      if not is_nil(team_changeset.changes.logotype) do
+        {:ok, data} = Base.decode64(team_changeset.changes.logotype)
+        image_path = "C:/Users/luis.moreno/Desktop/"<>team_changeset.params["name"]<>".jpg"
+        File.write(image_path, data, [:binary])
+
+        team_changeset
+        |> Ecto.Changeset.put_change(:logotype, image_path)
+      else
+        team_changeset
+        |> Ecto.Changeset.delete_change(:logotype)
+      end
+
+    Repo.update(team_changeset)
   end
 
   def add_user_team(team, users) do
