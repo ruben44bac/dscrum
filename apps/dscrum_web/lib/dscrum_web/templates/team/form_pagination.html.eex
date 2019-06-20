@@ -23,7 +23,7 @@
         <div class="row">
           <div class="col s11 form-group input-field color-text-input">
               <%= label f, :Nombre, class: "control-label" %>
-              <%= text_input f, :name, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Nombre" %>
+              <%= text_input f, :name, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Nombre", required: true, minlength: 1, maxlength: 99 %>
               <%= error_tag f, :name %>
           </div>
         </div>

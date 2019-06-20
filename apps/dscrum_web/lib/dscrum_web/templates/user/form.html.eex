@@ -26,7 +26,7 @@
       <div class="form-group input-field color-text-input">
           <%# <div class="input-field col s10 offset-s1 color-text-input"> %>
             <%= label f, :username, class: "control-label" %>
-            <%= text_input f, :username, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Username" %>
+            <%= text_input f, :username, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Username", required: true, minlength: 1, maxlength: 149 %>
             <%= error_tag f, :username %>
           <%# </div> %>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group input-field color-text-input">
           <%# <div class="input-field col s10 offset-s1 color-text-input"> %>
             <%= label f, :nombre, class: "control-label" %>
-            <%= text_input f, :name, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Nombre" %>
+            <%= text_input f, :name, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Nombre", required: true, minlength: 1, maxlength: 99 %>
             <%= error_tag f, :name %>
           <%# </div> %>
         </div>
@@ -42,7 +42,7 @@
         <div class="form-group input-field color-text-input">
           <%# <div class="input-field col s10 offset-s1 color-text-input"> %>
             <%= label f, :Apellido, class: "control-label" %>
-            <%= text_input f, :surname, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Apellido" %>
+            <%= text_input f, :surname, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Apellido", required: true, minlength: 1, maxlength: 99 %>
             <%= error_tag f, :surname %>
           <%# </div> %>
         </div>
@@ -52,7 +52,7 @@
       <div class="form-group input-field color-text-input">
           <%# <div class="input-field col s10 offset-s1 color-text-input"> %>
             <%= label f, :Teléfono, class: "control-label" %>
-            <%= text_input f, :phone, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Teléfono" %>
+            <%= text_input f, :phone, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Teléfono", required: true, minlength: 7, maxlength: 20 %>
             <%= error_tag f, :phone %>
           <%# </div> %>
         </div>
@@ -60,7 +60,7 @@
         <div class="form-group input-field color-text-input">
           <%# <div class="input-field col s10 offset-s1 color-text-input"> %>
             <%= label f, :email, class: "control-label" %>
-            <%= email_input f, :mail, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Email" %>
+            <%= email_input f, :mail, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "Email", required: true %>
             <%= error_tag f, :mail %>
           <%# </div> %>
         </div>
@@ -73,7 +73,7 @@
               <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "password", value: "***********" %>
               <%= error_tag f, :password %>
             <% else %>
-              <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "password" %>
+              <%= password_input f, :password, class: "form-control", autocomplete: "off", autofocus: "on", placeholder: "password", required: true %>
               <%= error_tag f, :password %>
             <% end %>
           <%# </div> %>

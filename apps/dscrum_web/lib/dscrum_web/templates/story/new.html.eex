@@ -28,7 +28,7 @@
 				<div class="col s12">
 				<div class="form-group input-field color-text-input">
 					<label class="control-label label-input" for="story_schema_name">Nombre</label><br>
-					<input autocomplete="{+}" autofocus="on" class="form-control" id="story_name"  placeholder="Nombre" type="text">
+					<input autocomplete="{+}" autofocus="on" class="form-control" id="story_name"  placeholder="Nombre" type="text" minlength="1" maxlength="99" >
 					<span class="help-block" id="error-name"></span>
 				</div>
 				<div class="form-group input-field color-text-input">

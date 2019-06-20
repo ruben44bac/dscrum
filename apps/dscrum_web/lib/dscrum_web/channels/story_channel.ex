@@ -13,7 +13,9 @@ defmodule DscrumWeb.StoryChannel do
   alias Dscrum.StoryDetailHandler
 
   alias Ecto.Changeset
-
+  alias Dscrum.{
+    StoryStruct
+  }
 
 
   def join("history:" <> team_id, _params, socket) do
@@ -99,9 +101,9 @@ defmodule DscrumWeb.StoryChannel do
       |> StoryHandler.create
 
     case respuesta do
-      {:ok, _res} ->
-        broadcast!(socket, "new_story", respuesta)
-        {:reply, {:ok, %{data: "Registro exitoso de " <> respuesta.name }}, socket}
+      {:ok, res} ->
+        broadcast!(socket, "new_story", StoryStruct.new(res))
+        {:reply, {:ok, %{data: "Registro exitoso"}}, socket}
       {:error, changeset} ->
         errors = errors(changeset)
 
