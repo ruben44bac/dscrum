@@ -161,7 +161,7 @@ defmodule Dscrum.UserHandler do
   def add_phoenix(user) do
 
     image_path =
-      if Enum.member?(user.changes, :image) do
+      if not is_nil(user.changes.image) do
         {:ok, data} = Base.decode64(user.changes.image)
         image_path = "C:/Users/luis.moreno/Desktop/"<>user.changes.username<>".jpg"
         File.write(image_path, data, [:binary])

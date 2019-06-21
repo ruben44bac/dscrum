@@ -75,15 +75,17 @@ let Story = {
                 historia => {
                     tableContainer.appendChild(this.templateStory(historia))
 
-                    let detail_channel = socket.channel(`story_detail:${historia.id}`, {})
-                        detail_channel.join()
-                            .receive("ok", resp => {console.log("Joined Channel Story Detail");})
-                            .receive("error", resp => { console.log("Unable to Joined Channel Story Detail", resp) })
+                   
 
                     if(document.getElementById(`button-show-modal-${historia.id}`)){
                         let modal = document.getElementById(`button-show-modal-${historia.id}`)
                         modal.addEventListener("click", e => {
                         
+                        let detail_channel = socket.channel(`story_detail:${historia.id}`, {})
+                        detail_channel.join()
+                            .receive("ok", resp => {console.log("Joined Channel Story Detail");})
+                            .receive("error", resp => { console.log("Unable to Joined Channel Story Detail", resp) })
+                            
                             detail_channel.push("index", {})
                                 .receive("ok", e => {
                                     
