@@ -13,6 +13,7 @@ module.exports = (env, options) => ({
     ]
   },
   entry: [
+      './js/firebase_config.js',
       './js/app.js',
       './js/jquery.growl.js'
   ],
@@ -37,6 +38,7 @@ module.exports = (env, options) => ({
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: '../css/app.css' }),
-    new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
+    new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
+    new CopyWebpackPlugin([{ from: './js/firebase-messaging-sw.js', to: '../' }])
   ]
 });
