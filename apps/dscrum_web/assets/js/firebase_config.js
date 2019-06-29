@@ -18,7 +18,6 @@ var firebaseConfig = {
 
   messaging.requestPermission()
   .then(function() {
-    console.log('Notification permission granted.');
     return messaging.getToken();
   })
   .then(function(token) {
@@ -27,13 +26,12 @@ var firebaseConfig = {
     console.log('Unable to get permission to notify.', err);
   });
 
-  messaging.onMessage(function(payload) {
-    console.log("Hola")
-    console.log(payload);
-  });
+  // messaging.onMessage(function(payload) {
+  //   console.log("Hola")
+  // });
 
-  if ('image' in Notification.prototype) {
-    console.log("Image is supported.");
-  } else {
-    console.log("Image is NOT supported.");
-  }
+  // if ('image' in Notification.prototype) {
+  //   console.log("Image is supported.");
+  // } else {
+  //   console.log("Image is NOT supported.");
+  // }
