@@ -31,3 +31,9 @@ var firebaseConfig = {
     console.log("Hola")
     console.log(payload);
   });
+
+  if ('image' in Notification.prototype) {
+    console.log("Image is supported.");
+  } else {
+    console.log("Image is NOT supported.");
+  }
