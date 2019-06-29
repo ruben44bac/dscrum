@@ -17,37 +17,38 @@ firebase.initializeApp(firebaseConfig);
 
 var messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler(function(payload) {
-    console.log('[firebase-messaging-sw.js] Received background message ', payload);
-    // Customize notification here
-    var notificationTitle = 'Background Message Title';
-    var notificationOptions = {
-      body: 'Background Message body.',
-      icon: '/firebase-logo.png'
-    };
-  
-    return self.registration.showNotification(notificationTitle,
-      notificationOptions);
-  });
-
-// var action = "";
-
-// self.addEventListener('push', function(event) {
-//     var json = JSON.parse(event.data.text())
-//     const title = json.notification.title;
-
-//     action = json.notification.click_action
-//     const options = {
-//         body: json.notification.body,
-//         icon: '/images/notdsa.png',
-//         badge: '/images/notdsa.png',
-//         image: json.data["gcm.notification.image"],
-//         onclick: json.notification.click_action,
-//         click_action: json.notification.click_action
+// messaging.setBackgroundMessageHandler(function(payload) {
+//     console.log('[firebase-messaging-sw.js] Received background message ', payload);
+//     // Customize notification here
+//     var notificationTitle = payload.notification.title;
+//     var notificationOptions = {
+//       body: payload.notification.body,
+//       image: payload.notification.image,
+//       icon: payload.notification.image
 //     };
+  
+//     console.log(notificationOptions);
+//     return self.registration.showNotification(notificationTitle,
+//       notificationOptions);
+//   });
 
-//     event.waitUntil(self.registration.showNotification(title, options));
-// });
+var action = "";
+
+ self.addEventListener('push', function(event) {
+  
+  var json = JSON.parse(event.data.text())
+     const title = json.notification.title;
+     console.log(json);
+     action = json.notification.click_action
+     const options = {
+         body: json.notification.body,
+         icon: json.data["gcm.notification.image"],
+         badge: json.data["gcm.notification.image"],
+         image: json.data["gcm.notification.image"]
+     };
+
+     event.waitUntil(self.registration.showNotification(title, options));
+ });
 
 // self.addEventListener('notificationclick', function(event) {
 //     console.log('[Service Worker] Notification click Received.');
